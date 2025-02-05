@@ -1,0 +1,14 @@
+commit (re-deploys) an already checked out folder
+
+##) SYNOPSIS:
+```sh commit <folder>```
+
+commits (re-deploys) an already checked out folder
+
+
+##) EXAMPLES:
+
+```sh commit /my/checkeout/folder```
+   commits and ##:danger:DELETES## the checked out folder
+
+

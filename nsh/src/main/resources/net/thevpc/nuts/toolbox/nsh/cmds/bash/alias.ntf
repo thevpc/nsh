@@ -1,0 +1,16 @@
+define or display aliases
+
+##) SYNOPSIS:
+
+```sh alias [<alias-name>[=string]...]```
+
+define or display aliases
+
+##) EXAMPLES:
+
+```sh alias```
+
+   display all aliases
+
+
+
