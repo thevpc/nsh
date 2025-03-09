@@ -11,7 +11,7 @@ import net.thevpc.nuts.toolbox.nsh.nshell.NShellConfiguration;
 public class CustomShell implements NApplication {
 
     public static void main(String[] args) {
-        new CustomShell().runAndExit(args);
+        new CustomShell().run(NAppRunOptions.ofExit(args));
     }
 
     @Override
