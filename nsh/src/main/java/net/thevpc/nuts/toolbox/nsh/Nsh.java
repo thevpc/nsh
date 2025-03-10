@@ -34,7 +34,7 @@ public class Nsh implements NApplication {
     ));
 
     public static void main(String[] args) {
-        new Nsh().run(NAppRunOptions.of(args));
+        new Nsh().main(NMainArgs.of(args));
     }
 
     @Override
