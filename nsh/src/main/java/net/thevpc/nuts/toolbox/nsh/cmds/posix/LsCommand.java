@@ -281,7 +281,7 @@ public class LsCommand extends NShellBuiltinDefault {
         r.created = path.getCreationInstant();
         r.accessed = path.getLastAccessInstant();
         other = path.isOther();
-        r.length = path.getContentLength();
+        r.length = path.contentLength();
         char[] perms = new char[9];
         perms[0] = permissions.contains(NPathPermission.OWNER_READ) ? 'r' : '-';
         perms[1] = permissions.contains(NPathPermission.OWNER_WRITE) ? 'w' : '-';

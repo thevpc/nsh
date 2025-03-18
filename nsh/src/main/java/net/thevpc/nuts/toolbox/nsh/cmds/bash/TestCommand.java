@@ -406,7 +406,7 @@ public class TestCommand extends NShellBuiltinDefault {
                 case "-s": {
                     try {
                         NPath pp = evalPath(arg, context);
-                        return pp.isRegularFile() && pp.getContentLength() > 0 ? 0 : 1;
+                        return pp.isRegularFile() && pp.contentLength() > 0 ? 0 : 1;
                     } catch (Exception ex) {
                         return 1;
                     }
