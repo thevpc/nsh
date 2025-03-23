@@ -12,7 +12,7 @@
         <properties>
             <exec.args>"-Dnuts.export.debug=true" "-Dnuts.boot.args=-t -y" "-Dnuts.export.debug=true"
                 "-Dmonitor.enabled=false" "-Dexport.monitor.enabled=false"
-                -classpath %classpath net.thevpc.nuts.toolbox.nsh.Nsh -c ssh --nuts eniso.info
+                -classpath %classpath net.thevpc.nsh.NshMain -c ssh --nuts eniso.info
                 net.thevpc.nuts.toolbox:nmysql backup --name enisoinfo@default ""</exec.args>
             <exec.executable>java</exec.executable>
             <exec.workingdir></exec.workingdir>
@@ -31,7 +31,7 @@
             <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} "-Dnuts.export.debug=true"
                 "-Dnuts.boot.args=-t -y" "-Dnuts.export.debug=true"
                 "-Dmonitor.enabled=false" "-Dexport.monitor.enabled=false" -classpath %classpath
-                net.thevpc.nuts.toolbox.nsh.Nsh -c ssh --nuts eniso.info net.thevpc.nuts.toolbox:nmysql backup
+                net.thevpc.nsh.NshMain -c ssh --nuts eniso.info net.thevpc.nuts.toolbox:nmysql backup
                 --name enisoinfo@default ""</exec.args>
             <exec.executable>java</exec.executable>
             <jpda.listen>true</jpda.listen>
@@ -50,7 +50,7 @@
         <properties>
             <exec.args>"-Dnuts.export.debug=true" "-Dnuts.boot.args=-t -y" "-Dnuts.export.debug=true"
                 "-Dmonitor.enabled=false" "-Dexport.monitor.enabled=false"
-                -classpath %classpath net.thevpc.nuts.toolbox.nsh.Nsh -c ssh --nuts eniso.info
+                -classpath %classpath net.thevpc.nsh.NshMain -c ssh --nuts eniso.info
                 net.thevpc.nuts.toolbox:nmysql backup --name enisoinfo@default ""</exec.args>
             <exec.executable>java</exec.executable>
             <exec.workingdir></exec.workingdir>

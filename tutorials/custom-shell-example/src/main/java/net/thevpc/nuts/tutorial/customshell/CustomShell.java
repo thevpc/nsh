@@ -2,8 +2,8 @@ package net.thevpc.nuts.tutorial.customshell;
 
 import net.thevpc.nuts.NApplication;
 import net.thevpc.nuts.NSession;
-import net.thevpc.nuts.toolbox.nsh.nshell.NShell;
-import net.thevpc.nuts.toolbox.nsh.nshell.NShellConfiguration;
+import net.thevpc.nsh.NShell;
+import net.thevpc.nsh.NShellConfiguration;
 
 /**
  * @author vpc

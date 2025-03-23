@@ -9,21 +9,21 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
-import net.thevpc.nuts.toolbox.nsh.cmds.NShellBuiltinBase;
-import net.thevpc.nuts.toolbox.nsh.eval.NShellExecutionContext;
+import net.thevpc.nsh.cmd.NshBuiltinBase;
+import net.thevpc.nsh.eval.NshExecutionContext;
 
 /**
  * any command you want to support. The simplest way is to extend
  * NShellBuiltinBase. Don't you forget to add the fully qualified class name
  * to the file
  * <pre>
- * src/main/resources/META-INF/services/net.thevpc.nuts.toolbox.nsh.jshell.JShellBuildtin
+ * src/main/resources/META-INF/services/net.thevpc.nsh.NshBuiltinBase
  * </pre>
  *
  * @author vpc
  */
 @NComponentScope(NScopeType.WORKSPACE)
-public class Hello extends NShellBuiltinBase {
+public class Hello extends NshBuiltinBase {
 
     /**
      * simple constructor, it defines mainly what is the command name (here
@@ -58,7 +58,7 @@ public class Hello extends NShellBuiltinBase {
      * @return true if the option is processed
      */
     @Override
-    protected boolean nextOption(NArg arg, NCmdLine cmdLine, NShellExecutionContext ctx) {
+    protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext ctx) {
         //get an instance of the current options object we are filling.
         Options o = ctx.getOptions();
         //get the next option (without consuming it)
@@ -94,12 +94,12 @@ public class Hello extends NShellBuiltinBase {
     }
 
     @Override
-    protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NShellExecutionContext context) {
+    protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         return false;
     }
 
     @Override
-    protected void main(NCmdLine cmdLine, NShellExecutionContext ctx) {
+    protected void main(NCmdLine cmdLine, NshExecutionContext ctx) {
         Options o = ctx.getOptions();
         if (o.complex) {
             // print any object (it can be a simple string of course)
