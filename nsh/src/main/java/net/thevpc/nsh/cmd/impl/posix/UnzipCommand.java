@@ -57,7 +57,6 @@ public class UnzipCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         NArg a;
         String mode = "zip";
         while (cmdLine.hasNext()) {
@@ -67,6 +66,8 @@ public class UnzipCommand extends NshBuiltinDefault {
                         options.l = a.getBooleanValue().get();
                     } else if ((a = cmdLine.nextEntry("-d").orNull()) != null) {
                         options.dir = a.getStringValue().get();
+                    } else if ((a = cmdLine.nextFlag("--skip-root").orNull()) != null) {
+                        options.skipRoot = a.getBooleanValue().get();
                     } else if (!cmdLine.isNextOption()) {
                         String s = cmdLine.next().get().toString();
                         if (options.zfiles.isEmpty() || s.toLowerCase().endsWith(".zip")) {
