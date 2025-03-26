@@ -57,17 +57,17 @@ public class TailCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         if (a.isOption()) {
-            if (ShellHelper.isInt(a.asString()
+            if (ShellHelper.isInt(a.asStringValue()
                     .get().substring(1))) {
                 options.max = Integer.parseInt(cmdLine.next()
-                        .get().asString()
+                        .get().asStringValue()
                         .get().substring(1));
                 return true;
             } else {
                 return false;
             }
         } else {
-            String path = a.asString().get();
+            String path = a.asStringValue().get();
             NPath file = NPath.of(path).toAbsolute(context.getDirectory());
             options.files.add(file);
             return true;

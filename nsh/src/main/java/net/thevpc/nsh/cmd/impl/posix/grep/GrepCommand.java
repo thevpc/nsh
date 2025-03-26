@@ -62,13 +62,13 @@ public class GrepCommand extends NshBuiltinDefault {
         if (!options.withNutsOptions && options.expressions.isEmpty()) {
             options.expressions.add(
                     new ExpressionInfo()
-                            .setPattern(cmdLine.next().flatMap(NLiteral::asString).get())
+                            .setPattern(cmdLine.next().flatMap(NLiteral::asStringValue).get())
                             .setIgnoreCase(options.ignoreCase)
                             .setInvertMatch(options.invertMatch)
                             .setWord(options.word)
             );
         } else {
-            String path = cmdLine.next().flatMap(NLiteral::asString).get();
+            String path = cmdLine.next().flatMap(NLiteral::asStringValue).get();
             options.files.add(new FileInfo(NPath.of(path), options.highlighter));
         }
         return true;
@@ -197,15 +197,15 @@ public class GrepCommand extends NshBuiltinDefault {
             return true;
         } else if ((a = cmdLine.next("--from").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
-            options.from = NLiteral.of(a).asLong().orElse(null);
+            options.from = NLiteral.of(a).asLongValue().orElse(null);
             return true;
         } else if ((a = cmdLine.next("--to").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
-            options.to = NLiteral.of(a).asLong().orElse(null);
+            options.to = NLiteral.of(a).asLongValue().orElse(null);
             return true;
         } else if ((a = cmdLine.next("--@include").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
-            for (String s : NPath.of(NLiteral.of(a).asString().get()).getLines().collect(Collectors.toList())) {
+            for (String s : NPath.of(NLiteral.of(a).asStringValue().get()).getLines().collect(Collectors.toList())) {
                 s = s.trim();
                 if (!s.isEmpty()) {
                     if (!s.startsWith("#")) {
@@ -255,7 +255,7 @@ public class GrepCommand extends NshBuiltinDefault {
         } else if ((a = cmdLine.nextEntry("--jex-rows").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
             if (options.lastJavaExceptionWindowFilter != null) {
-                options.lastJavaExceptionWindowFilter.setRows(a.getValue().asInt().get());
+                options.lastJavaExceptionWindowFilter.setRows(a.getValue().asIntValue().get());
             } else {
                 cmdLine.throwError(NMsg.ofPlain("expected --jex first"));
             }
@@ -263,7 +263,7 @@ public class GrepCommand extends NshBuiltinDefault {
         } else if ((a = cmdLine.nextEntry("--jex-include").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
             if (options.lastJavaExceptionWindowFilter != null) {
-                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.getValue().asString().get(), true));
+                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.getValue().asStringValue().get(), true));
             } else {
                 cmdLine.throwError(NMsg.ofPlain("expected --jex first"));
             }
@@ -271,7 +271,7 @@ public class GrepCommand extends NshBuiltinDefault {
         } else if ((a = cmdLine.nextEntry("--jex-exclude").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
             if (options.lastJavaExceptionWindowFilter != null) {
-                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.getValue().asString().get(), true));
+                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.getValue().asStringValue().get(), true));
             } else {
                 cmdLine.throwError(NMsg.ofPlain("expected --jex first"));
             }

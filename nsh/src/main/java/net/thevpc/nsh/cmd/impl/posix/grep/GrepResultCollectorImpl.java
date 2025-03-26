@@ -93,7 +93,7 @@ class GrepResultCollectorImpl implements GrepResultCollector {
                                         .forString(NMsg.ofPlain("continue"))
                                         .setDefaultValue("y")
                                         .getValue();
-                                if (!NLiteral.of(v).asBoolean().orElse(false)) {
+                                if (!NLiteral.of(v).asBooleanValue().orElse(false)) {
                                     stopped = true;
                                     return false;
                                 }

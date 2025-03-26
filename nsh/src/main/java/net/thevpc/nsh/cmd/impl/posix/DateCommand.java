@@ -156,11 +156,11 @@ public class DateCommand extends NshBuiltinDefault {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.next().get();
                     if (a.isActive()) {
-                        options.rfc8601 = a.asString().get().substring(2);
+                        options.rfc8601 = a.asStringValue().get().substring(2);
                     }
                 } else {
                     a = cmdLine.next().get();
-                    options.rfc8601 = a.asString().get().substring(2);
+                    options.rfc8601 = a.asStringValue().get().substring(2);
                 }
                 return true;
             }

@@ -53,7 +53,7 @@ public class TestCommand extends NshBuiltinDefault {
     private static String evalStr(Eval a, NshExecutionContext context) {
         NSession session = context.getSession();
         if (a instanceof EvalArg) {
-            return ((EvalArg) a).arg.asString().get();
+            return ((EvalArg) a).arg.asStringValue().get();
         }
         return String.valueOf(a.eval(context));
     }
@@ -61,7 +61,7 @@ public class TestCommand extends NshBuiltinDefault {
     private static int evalInt(Eval a, NshExecutionContext context) {
         NSession session = context.getSession();
         if (a instanceof EvalArg) {
-            return ((EvalArg) a).arg.asInt().get();
+            return ((EvalArg) a).arg.asIntValue().get();
         }
         return a.eval(context);
     }
@@ -193,9 +193,9 @@ public class TestCommand extends NshBuiltinDefault {
         cmdLine.setExpandSimpleOptions(false);
         Options options=context.getOptions();
         NArg a = cmdLine.next().get();
-        switch (a.asString().get()) {
+        switch (a.asStringValue().get()) {
             case "(": {
-                options.operators.add(a.asString().get());
+                options.operators.add(a.asStringValue().get());
                 return true;
             }
             case ")": {
@@ -217,9 +217,9 @@ public class TestCommand extends NshBuiltinDefault {
                 return true;
             }
             default: {
-                if (getArgsCount(a.asString().get()) > 0) {
-                    reduce(options.operators, options.operands, getArgsPrio(a.asString().get()));
-                    options.operators.add(a.asString().get());
+                if (getArgsCount(a.asStringValue().get()) > 0) {
+                    reduce(options.operators, options.operands, getArgsPrio(a.asStringValue().get()));
+                    options.operators.add(a.asStringValue().get());
                 } else {
                     options.operands.add(new EvalArg(a));
                 }
@@ -292,7 +292,7 @@ public class TestCommand extends NshBuiltinDefault {
         @Override
         public int eval(NshExecutionContext context) {
             NSession session = context.getSession();
-            return arg.asString().get().length() > 0 ? 0 : 1;
+            return arg.asStringValue().get().length() > 0 ? 0 : 1;
         }
 
     }
@@ -379,7 +379,7 @@ public class TestCommand extends NshBuiltinDefault {
                 }
                 case "-r": {
                     EvalArg a = (EvalArg) arg;
-                    String path = a.arg.asString().get();
+                    String path = a.arg.asStringValue().get();
                     try {
                         NPath pp = evalPath(arg, context);
                         return pp.exists() && pp.getPermissions().contains(NPathPermission.CAN_READ) ? 0 : 1;

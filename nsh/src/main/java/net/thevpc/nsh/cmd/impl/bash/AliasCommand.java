@@ -65,7 +65,7 @@ public class AliasCommand extends NshBuiltinDefault {
             return true;
         } else {
             cmdLine.skip();
-            options.show.add(a.asString().get());
+            options.show.add(a.asStringValue().get());
             return true;
         }
         return false;

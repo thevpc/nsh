@@ -57,13 +57,13 @@ public class PropsCommand extends NshBuiltinDefault {
         Options o = context.getOptions();
         NSession session = context.getSession();
         if (cmdLine.next("get").isPresent()) {
-            o.property = cmdLine.next().flatMap(NLiteral::asString).get();
+            o.property = cmdLine.next().flatMap(NLiteral::asStringValue).get();
             o.action = "get";
             while (cmdLine.hasNext()) {
                 if (cmdLine.next("--xml").isPresent()) {
                     o.sourceFormat = Format.XML;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--system").isPresent()) {
                     o.sourceFormat = Format.PROPS;
@@ -73,12 +73,12 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--props").isPresent()) {
                     o.sourceFormat = Format.PROPS;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--file").isPresent()) {
                     o.sourceFormat = Format.AUTO;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
                 } else {
                     cmdLine.setCommandName(getName()).throwUnexpectedArgument();
                 }
@@ -86,8 +86,8 @@ public class PropsCommand extends NshBuiltinDefault {
             }
             return true;
         } else if (cmdLine.next("set").isPresent()) {
-            String k = cmdLine.next().flatMap(NLiteral::asString).get();
-            String v = cmdLine.next().flatMap(NLiteral::asString).get();
+            String k = cmdLine.next().flatMap(NLiteral::asStringValue).get();
+            String v = cmdLine.next().flatMap(NLiteral::asStringValue).get();
             o.updates.put(k, v);
             o.action = "set";
             while (cmdLine.hasNext()) {
@@ -96,16 +96,16 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--to-props-file").isPresent()) {
                     o.targetFormat = Format.PROPS;
                     o.targetType = TargetType.FILE;
-                    o.targetFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.targetFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--to-xml-file").isPresent()) {
                     o.targetFormat = Format.XML;
                     o.targetType = TargetType.FILE;
-                    o.targetFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.targetFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
                 } else if (cmdLine.next("--to-file").isPresent()) {
                     o.targetFormat = Format.AUTO;
                     o.targetType = TargetType.FILE;
-                    o.targetFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.targetFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--print-props").isPresent()) {
                     o.targetFormat = Format.PROPS;
@@ -127,7 +127,7 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--xml").isPresent()) {
                     o.sourceFormat = Format.XML;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--system").isPresent()) {
                     o.sourceFormat = Format.PROPS;
@@ -137,11 +137,11 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--props").isPresent()) {
                     o.sourceFormat = Format.PROPS;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
                 } else if (cmdLine.next("--file").isPresent()) {
                     o.sourceFormat = Format.AUTO;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
                 } else {
                     cmdLine.setCommandName(getName()).throwUnexpectedArgument();
                 }
@@ -153,7 +153,7 @@ public class PropsCommand extends NshBuiltinDefault {
                 if (cmdLine.next("--xml").isPresent()) {
                     o.sourceFormat = Format.XML;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--system").isPresent()) {
                     o.sourceFormat = Format.PROPS;
@@ -163,12 +163,12 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--props").isPresent()) {
                     o.sourceFormat = Format.PROPS;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
 
                 } else if (cmdLine.next("--file").isPresent()) {
                     o.sourceFormat = Format.AUTO;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NLiteral::asStringValue).get();
                 } else if (cmdLine.next("--sort").isPresent()) {
                     o.sort = true;
                     session.addOutputFormatOptions("--sort");

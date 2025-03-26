@@ -55,11 +55,11 @@ public class LoginCommand extends NshBuiltinDefault {
         if (!a.isOption()) {
             if (options.login == null) {
                 options.login = cmdLine.next(NArgName.of("username"))
-                        .flatMap(NLiteral::asString).get();
+                        .flatMap(NLiteral::asStringValue).get();
                 return true;
             } else if (options.password == null) {
                 options.password = cmdLine.next(NArgName.of("password"))
-                        .flatMap(NLiteral::asString).get().toCharArray();
+                        .flatMap(NLiteral::asStringValue).get().toCharArray();
                 return true;
             }
         }

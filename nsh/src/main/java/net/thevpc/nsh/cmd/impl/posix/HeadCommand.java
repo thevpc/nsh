@@ -58,11 +58,11 @@ public class HeadCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         if (a.isOption() && a.getKey().isInt()) {
-            options.max = a.getKey().asInt().get();
+            options.max = a.getKey().asIntValue().get();
             cmdLine.skip();
             return true;
         } else if (!a.isOption()) {
-            String path = cmdLine.next().flatMap(NLiteral::asString).get();
+            String path = cmdLine.next().flatMap(NLiteral::asStringValue).get();
             String file = NPath.of(path).toAbsolute(context.getDirectory()).toString();
             options.files.add(file);
             return true;

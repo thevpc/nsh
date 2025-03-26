@@ -63,7 +63,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             return true;
         } else if ((a = cmdLine.nextEntry("-d", "--delete").orNull()) != null) {
             options.action = Action.DELETE;
-            options.ival = a.getValue().asInt().get();
+            options.ival = a.getValue().asIntValue().get();
             cmdLine.setCommandName(getName()).throwUnexpectedArgument();
             return true;
         } else if ((a = cmdLine.next("-D", "--remove-duplicates").orNull()) != null) {
@@ -75,7 +75,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             if (a.isKeyValue()) {
                 options.sval = a.getStringValue().get();
             } else if (!cmdLine.isEmpty()) {
-                options.sval = cmdLine.next().flatMap(NLiteral::asString).get();
+                options.sval = cmdLine.next().flatMap(NLiteral::asStringValue).get();
             }
             cmdLine.setCommandName(getName()).throwUnexpectedArgument();
             return true;
@@ -84,14 +84,14 @@ public class HistoryCommand extends NshBuiltinDefault {
             if (a.isKeyValue()) {
                 options.sval = a.getStringValue().get();
             } else if (!cmdLine.isEmpty()) {
-                options.sval = cmdLine.next().flatMap(NLiteral::asString).get();
+                options.sval = cmdLine.next().flatMap(NLiteral::asStringValue).get();
             }
             cmdLine.setCommandName(getName()).throwUnexpectedArgument();
             return true;
         } else {
-            if (cmdLine.peek().get().asInt().orElse(0) != 0) {
+            if (cmdLine.peek().get().asIntValue().orElse(0) != 0) {
                 options.action = Action.PRINT;
-                options.ival = Math.abs(cmdLine.next().get().asInt().get());
+                options.ival = Math.abs(cmdLine.next().get().asIntValue().get());
                 return true;
             }
         }

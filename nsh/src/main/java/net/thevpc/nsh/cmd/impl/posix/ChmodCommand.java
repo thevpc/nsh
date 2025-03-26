@@ -63,7 +63,7 @@ public class ChmodCommand extends NshBuiltinDefault {
             return true;
         }
         NArg a = cmdLine.peek().get();
-        String s = a.asString().get();
+        String s = a.asStringValue().get();
         if (s.equals("-R") || s.equals("--recursive")) {
             cmdLine.skip();
             options.m.recursive = true;

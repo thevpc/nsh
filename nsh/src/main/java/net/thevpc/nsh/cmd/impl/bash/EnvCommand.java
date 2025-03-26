@@ -119,7 +119,7 @@ public class EnvCommand extends NshBuiltinDefault {
                         } else if (a.isOption()) {
                             return false;
                         } else {
-                            options.command.add(a.asString().get());
+                            options.command.add(a.asStringValue().get());
                             cmdLine.skip();
                             options.readStatus = 2;
                             return true;
@@ -131,14 +131,14 @@ public class EnvCommand extends NshBuiltinDefault {
                 if (a.isKeyValue()) {
                     options.newEnv.put(a.key(), a.getStringValue().get());
                 } else {
-                    options.command.add(a.asString().get());
+                    options.command.add(a.asStringValue().get());
                     options.readStatus = 2;
                 }
                 cmdLine.skip();
                 return true;
             }
             case 2: {
-                options.command.add(a.asString().get());
+                options.command.add(a.asStringValue().get());
                 cmdLine.skip();
                 return true;
             }
