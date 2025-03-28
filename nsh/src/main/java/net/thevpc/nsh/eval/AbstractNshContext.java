@@ -155,7 +155,7 @@ public abstract class AbstractNshContext implements NshContext {
                         .addId(selectedId).setEffective(true)
                         .getResultDefinitions().findFirst().get();
                 NDescriptor d = def.getDescriptor();
-                String nuts_autocomplete_support = NStringUtils.trim(d.getPropertyValue("nuts.autocomplete").flatMap(NLiteral::asStringValue).get());
+                String nuts_autocomplete_support = NStringUtils.trim(d.getPropertyValue("nuts.autocomplete").flatMap(NLiteral::asString).get());
                 if (d.isApplication()
                         || "true".equalsIgnoreCase(nuts_autocomplete_support)
                         || "supported".equalsIgnoreCase(nuts_autocomplete_support)) {
@@ -179,9 +179,9 @@ public abstract class AbstractNshContext implements NshContext {
                                     String value = null;
                                     String display = null;
                                     if (args.hasNext()) {
-                                        value = args.next().flatMap(NLiteral::asStringValue).get();
+                                        value = args.next().flatMap(NLiteral::asString).get();
                                         if (args.hasNext()) {
-                                            display = args.next().flatMap(NLiteral::asStringValue).get();
+                                            display = args.next().flatMap(NLiteral::asString).get();
                                         }
                                     }
                                     if (value != null) {

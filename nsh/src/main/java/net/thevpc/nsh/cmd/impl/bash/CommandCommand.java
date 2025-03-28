@@ -62,7 +62,7 @@ public class CommandCommand extends NshBuiltinDefault {
             options.p = a.getBooleanValue().get();
         } else if (!cmdLine.isNextOption()) {
             if (options.commandName == null) {
-                options.commandName = cmdLine.next().flatMap(NLiteral::asStringValue).get();
+                options.commandName = cmdLine.next().flatMap(NLiteral::asString).get();
             }
             options.args.addAll(Arrays.asList(cmdLine.toStringArray()));
             cmdLine.skipAll();

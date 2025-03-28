@@ -57,32 +57,32 @@ public class SshCommand extends NshBuiltinDefault {
         NArg a;
         NSession session = context.getSession();
         if (!o.cmd.isEmpty()) {
-            o.cmd.add(cmdLine.next().flatMap(NLiteral::asStringValue).get());
+            o.cmd.add(cmdLine.next().flatMap(NLiteral::asString).get());
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
             if (o.address == null) {
-                o.address = cmdLine.next().flatMap(NLiteral::asStringValue).get();
+                o.address = cmdLine.next().flatMap(NLiteral::asString).get();
             } else {
-                o.cmd.add(cmdLine.next().flatMap(NLiteral::asStringValue).get());
+                o.cmd.add(cmdLine.next().flatMap(NLiteral::asString).get());
             }
             return true;
         } else if ((a = cmdLine.next("--nuts").orNull()) != null) {
             if (o.acceptDashNuts) {
                 o.invokeNuts = true;
             } else {
-                o.cmd.add(a.asStringValue().get());
+                o.cmd.add(a.asString().get());
             }
             return true;
         } else if ((a = cmdLine.next("--nuts-jre").orNull()) != null) {
             if (o.acceptDashNuts) {
                 o.nutsJre = a.getStringValue().get();
             } else {
-                o.cmd.add(a.asStringValue().get());
+                o.cmd.add(a.asString().get());
             }
             return true;
         } else if (o.address == null || cmdLine.peek().get().isNonOption()) {
             o.acceptDashNuts = false;
-            o.cmd.add(cmdLine.next().flatMap(NLiteral::asStringValue).get());
+            o.cmd.add(cmdLine.next().flatMap(NLiteral::asString).get());
             return true;
         }
 
@@ -110,7 +110,7 @@ public class SshCommand extends NshBuiltinDefault {
                 NArg arg = null;
                 while (c.hasNext()) {
                     if ((arg = c.next("--workspace").orNull()) != null) {
-                        workspace = c.nextNonOption().get().asStringValue().get();
+                        workspace = c.nextNonOption().get().asString().get();
                     } else if (c.peek().isPresent() && c.peek().get().isNonOption()) {
                         break;
                     } else {

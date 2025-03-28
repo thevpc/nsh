@@ -59,7 +59,7 @@ public class RmCommand extends NshBuiltinDefault {
             options.R = a.getBooleanValue().get();
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
-            options.files.add(ShellHelper.xfileOf(cmdLine.next().flatMap(NLiteral::asStringValue).get(),
+            options.files.add(ShellHelper.xfileOf(cmdLine.next().flatMap(NLiteral::asString).get(),
                     context.getDirectory(), session));
             return true;
         }

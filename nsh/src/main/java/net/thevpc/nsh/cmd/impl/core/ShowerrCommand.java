@@ -55,11 +55,11 @@ public class ShowerrCommand extends NshBuiltinCore {
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
-                options.login = cmdLine.next(NArgName.of("username")).flatMap(NLiteral::asStringValue).get();
+                options.login = cmdLine.next(NArgName.of("username")).flatMap(NLiteral::asString).get();
                 return true;
             } else if (options.password == null) {
                 options.password = cmdLine.next(NArgName.of("password"))
-                        .flatMap(NLiteral::asStringValue).get().toCharArray();
+                        .flatMap(NLiteral::asString).get().toCharArray();
                 return true;
             }
         }
@@ -73,11 +73,11 @@ public class ShowerrCommand extends NshBuiltinCore {
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
-                options.login = cmdLine.next(NArgName.of("username")).flatMap(NLiteral::asStringValue).get();
+                options.login = cmdLine.next(NArgName.of("username")).flatMap(NLiteral::asString).get();
                 return true;
             } else if (options.password == null) {
                 options.password = cmdLine.next(NArgName.of("password"))
-                        .flatMap(NLiteral::asStringValue).get().toCharArray();
+                        .flatMap(NLiteral::asString).get().toCharArray();
                 return true;
             }
         }

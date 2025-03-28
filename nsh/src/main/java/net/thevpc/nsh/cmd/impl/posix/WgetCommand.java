@@ -57,11 +57,11 @@ public class WgetCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         NSession session = context.getSession();
         if (cmdLine.next("-O", "--output-document").isPresent()) {
-            options.outputDocument = cmdLine.nextNonOption().get().asStringValue().orNull();
+            options.outputDocument = cmdLine.nextNonOption().get().asString().orNull();
             return true;
         } else if (!cmdLine.isNextOption()) {
             while (cmdLine.hasNext()) {
-                options.files.add(cmdLine.next().flatMap(NLiteral::asStringValue).get());
+                options.files.add(cmdLine.next().flatMap(NLiteral::asString).get());
             }
             return true;
         }

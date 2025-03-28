@@ -64,7 +64,7 @@ public class HelpCommand extends NshBuiltinCore {
         } else if (cmdLine.peek().get().isNonOption()) {
             options.commandNames.add(
                     cmdLine.nextNonOption(new CommandNonOption("command", context.getShellContext()))
-                            .get().asStringValue().get());
+                            .get().asString().get());
             return true;
         } else {
             return false;
@@ -81,7 +81,7 @@ public class HelpCommand extends NshBuiltinCore {
         } else if (cmdLine.peek().get().isNonOption()) {
             options.commandNames.add(
                     cmdLine.nextNonOption(new CommandNonOption("command", context.getShellContext()))
-                            .get().asStringValue().get());
+                            .get().asString().get());
             return true;
         } else {
             return false;
