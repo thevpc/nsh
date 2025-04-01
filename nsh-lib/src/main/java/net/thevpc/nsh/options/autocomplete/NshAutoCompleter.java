@@ -15,16 +15,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
-    private NWorkspace workspace;
-
-    public NshAutoCompleter(NWorkspace workspace) {
-        this.workspace = workspace;
+    public NshAutoCompleter() {
     }
 
     @Override
     public List<NArgCandidate> resolveCandidates(NCmdLine cmdLine, int wordIndex) {
         List<NArgCandidate> candidates = new ArrayList<>();
-        NSession session=workspace.currentSession();
         NshContext fileContext = (NshContext) NWorkspace.of().getProperties().get(NshContext.class.getName());
 
         if (wordIndex == 0) {

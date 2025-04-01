@@ -721,7 +721,7 @@ public class Nsh {
                     , NStoreType.VAR);
         }
         NIO.of().getSystemTerminal()
-                .setCommandAutoCompleteResolver(new NshAutoCompleter(context.getWorkspace()))
+                .setCommandAutoCompleteResolver(new NshAutoCompleter())
                 .setCommandHistory(
                         NCmdLineHistory.of()
                                 .setPath(appVarFolder.resolve("nsh-history.hist"))
