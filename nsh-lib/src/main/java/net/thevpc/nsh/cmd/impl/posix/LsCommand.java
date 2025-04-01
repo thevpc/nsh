@@ -277,9 +277,9 @@ public class LsCommand extends NshBuiltinDefault {
         r.jperms = (permissions.contains(NPathPermission.CAN_READ) ? "r" : "-") + (permissions.contains(NPathPermission.CAN_WRITE) ? "w" : "-") + (permissions.contains(NPathPermission.CAN_EXECUTE) ? "x" : "-");
         r.owner = path.owner();
         r.group = path.group();
-        r.modified = path.getLastModifiedInstant();
+        r.modified = path.lastModifiedInstant();
         r.created = path.getCreationInstant();
-        r.accessed = path.getLastAccessInstant();
+        r.accessed = path.lastAccessInstant();
         other = path.isOther();
         r.length = path.contentLength();
         char[] perms = new char[9];

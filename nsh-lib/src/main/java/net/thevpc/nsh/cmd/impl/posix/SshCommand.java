@@ -100,8 +100,8 @@ public class SshCommand extends NshBuiltinDefault {
         try (SShConnection sshSession = new SShConnection(o.address,
                 session.in(),
                 NOut.asOutputStream(),
-                session.err().asOutputStream(),
-                session)
+                session.err().asOutputStream()
+        )
                 .addListener(listener)) {
             List<String> cmd = new ArrayList<>();
             if (o.invokeNuts) {

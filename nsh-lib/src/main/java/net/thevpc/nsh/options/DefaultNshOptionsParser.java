@@ -32,7 +32,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
     protected void postParse(NshOptions options) {
         if (options.isInteractive() ||
                 (options.getFiles().isEmpty()
-                        && !options.isStdInAndPos()
+                        && !options.isReadCommandsFromStdIn()
                         && !options.isCommand())
         ) {
             options.setEffectiveInteractive(true);
@@ -71,7 +71,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             }
             case "-s": {
                 args.remove(0);
-                options.setStdInAndPos(true);
+                options.setReadCommandsFromStdIn(true);
                 break;
             }
             case "-r": {
@@ -160,7 +160,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             }
             case "--": {
                 args.remove(0);
-                if (options.isStdInAndPos()) {
+                if (options.isReadCommandsFromStdIn()) {
                     options.getCommandArgs().addAll(Arrays.asList(args.toArray(new String[0])));
                     args.clear();
                 } else {
@@ -172,7 +172,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             case "-": {
                 args.remove(0);
                 options.setLogin(true);
-                if (options.isStdInAndPos()) {
+                if (options.isReadCommandsFromStdIn()) {
                     options.getCommandArgs().addAll(Arrays.asList(args.toArray(new String[0])));
                     args.clear();
                 } else {

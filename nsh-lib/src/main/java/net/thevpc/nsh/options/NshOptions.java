@@ -27,7 +27,7 @@ public class NshOptions {
     /**
      * -s option
      */
-    public boolean stdInAndPos = false;
+    public boolean readCommandsFromStdIn = false;
     public String rcFile;
     public boolean command;
     public List<String> commandArgs=new ArrayList<>();
@@ -155,12 +155,12 @@ public class NshOptions {
         return this;
     }
 
-    public boolean isStdInAndPos() {
-        return stdInAndPos;
+    public boolean isReadCommandsFromStdIn() {
+        return readCommandsFromStdIn;
     }
 
-    public NshOptions setStdInAndPos(boolean stdInAndPos) {
-        this.stdInAndPos = stdInAndPos;
+    public NshOptions setReadCommandsFromStdIn(boolean readCommandsFromStdIn) {
+        this.readCommandsFromStdIn = readCommandsFromStdIn;
         return this;
     }
 

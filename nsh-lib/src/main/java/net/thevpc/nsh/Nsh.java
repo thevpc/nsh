@@ -599,7 +599,7 @@ public class Nsh {
                 executeVersion(rootContext);
                 return;
             }
-            if (getOptions().isStdInAndPos()) {
+            if (getOptions().isReadCommandsFromStdIn()) {
                 if (getOptions().getCommandArgs().isEmpty()) {
                     //ok
                     executeInteractive(rootContext);

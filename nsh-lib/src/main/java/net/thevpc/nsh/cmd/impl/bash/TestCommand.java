@@ -360,8 +360,8 @@ public class TestCommand extends NshBuiltinDefault {
                 case "-N": {
                     try {
                         NPath pp = evalPath(arg, context);
-                        Instant lastAccessTime = pp.getLastAccessInstant();
-                        Instant lastModifedTime = pp.getLastModifiedInstant();
+                        Instant lastAccessTime = pp.lastAccessInstant();
+                        Instant lastModifedTime = pp.lastModifiedInstant();
 //                            FileTime createTime = attributes.creationTime();
                         return lastModifedTime!=null && lastAccessTime!=null && (lastModifedTime.compareTo(lastAccessTime) >= 0) ? 0 : 1;
                     } catch (Exception ex) {
@@ -502,8 +502,8 @@ public class TestCommand extends NshBuiltinDefault {
                     NPath s1 = evalPath(arg1, context);
                     NPath s2 = evalPath(arg2, context);
                     try {
-                        Instant at1 = s1.getLastModifiedInstant();
-                        Instant at2 = s2.getLastModifiedInstant();
+                        Instant at1 = s1.lastModifiedInstant();
+                        Instant at2 = s2.lastModifiedInstant();
                         return (at1!=null && at1.compareTo(at2) > 0) ? 0 : 1;
                     } catch (Exception ex) {
                         return 1;
@@ -513,8 +513,8 @@ public class TestCommand extends NshBuiltinDefault {
                     NPath s1 = evalPath(arg1, context);
                     NPath s2 = evalPath(arg2, context);
                     try {
-                        Instant at1 = s1.getLastModifiedInstant();
-                        Instant at2 = s2.getLastModifiedInstant();
+                        Instant at1 = s1.lastModifiedInstant();
+                        Instant at2 = s2.lastModifiedInstant();
                         return (at1!=null && at1.compareTo(at2) < 0) ? 0 : 1;
                     } catch (Exception ex) {
                         return 1;
