@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.thevpc.xprojects.builders</groupId>
-    <artifactId>nuts-shell-builder</artifactId>
-    <name>Nuts Community Companions Build Project</name>
+    <artifactId>nsh-builder</artifactId>
+    <name>Nuts Community NSH Build Project</name>
     <version>0.8.5.0</version>
     <packaging>pom</packaging>
     <properties>
