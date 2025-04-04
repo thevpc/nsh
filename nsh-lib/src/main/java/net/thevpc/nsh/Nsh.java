@@ -34,6 +34,7 @@ import net.thevpc.nsh.eval.*;
 import net.thevpc.nsh.options.NshOptions;
 import net.thevpc.nsh.parser.nodes.*;
 import net.thevpc.nuts.*;
+import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineHistory;
 import net.thevpc.nuts.elem.NEDesc;
 
@@ -200,7 +201,7 @@ public class Nsh {
 
             Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
             for (NshBuiltin command : NWorkspace.get().get().extensions()
-                            .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
+                    .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
                     .loadAll(this)) {
                 NshBuiltin old = _rootContext.builtins().find(command.getName());
                 if (old != null && old.getSupportLevel(constraints) >= command.getSupportLevel(constraints)) {
@@ -562,22 +563,22 @@ public class Nsh {
     }
 
     private boolean isScriptFile(NPath cmdPath) {
-        if(cmdPath.getName().endsWith(".nsh")){
+        if (cmdPath.getName().endsWith(".nsh")) {
             return true;
         }
-        if(cmdPath.getName().endsWith(".sh")){
+        if (cmdPath.getName().endsWith(".sh")) {
             return true;
         }
-        if(cmdPath.exists()){
+        if (cmdPath.exists()) {
             String firstLine = cmdPath.getLines().findFirst().orElse(null);
-            if(firstLine!=null){
-                if(firstLine.startsWith("#!/bin/sh")){
+            if (firstLine != null) {
+                if (firstLine.startsWith("#!/bin/sh")) {
                     return true;
                 }
-                if(firstLine.startsWith("#!/bin/bash")){
+                if (firstLine.startsWith("#!/bin/bash")) {
                     return true;
                 }
-                if(firstLine.startsWith("#!/bin/nsh")){
+                if (firstLine.startsWith("#!/bin/nsh")) {
                     return true;
                 }
             }
@@ -599,38 +600,36 @@ public class Nsh {
                 executeVersion(rootContext);
                 return;
             }
-            if (getOptions().isReadCommandsFromStdIn()) {
-                if (getOptions().getCommandArgs().isEmpty()) {
-                    //ok
-                    executeInteractive(rootContext);
-                } else {
-                    rootContext.err().println("-s option not supported yet. ignored");
-                    executeInteractive(rootContext);
-                }
-                if (getOptions().isInteractive()) {
-                    executeInteractive(rootContext);
-                }
-                return;
-            }
-
+            String[] commandArgs = getOptions().getCommandArgs().toArray(new String[0]);
             if (getOptions().isCommand()) {
-                executeCommand(getOptions().getCommandArgs().toArray(new String[0]), rootContext);
-                if (getOptions().isInteractive()) {
-                    executeInteractive(rootContext);
+                if(commandArgs.length == 0) {
+                    //
+                }else if(commandArgs.length == 1) {
+                    executeServiceStream(rootContext,"command",new ByteArrayInputStream(commandArgs[0].getBytes()));
+                }else{
+                    executeServiceStream(rootContext,"command",new ByteArrayInputStream(
+                            NCmdLine.of(commandArgs).toString().getBytes()
+                    ));
                 }
+                //executeCommand(commandArgs, rootContext);
+            }
+            if (getOptions().isReadCommandsFromStdIn()) {
+                int r=executeServiceStream(rootContext,"in", rootContext.in());
+                if (r == NExecutionException.SUCCESS) {
+                    return;
+                }
+                onQuit(new NshQuitException(r));
                 return;
             }
 
             if (!getOptions().getFiles().isEmpty()) {
                 for (String file : getOptions().getFiles()) {
-                    executeServiceFile(createNewContext(rootContext, file, getOptions().getCommandArgs().toArray(new String[0])), false);
+                    executeServiceFile(createNewContext(rootContext, file, commandArgs), false);
                 }
-                if (getOptions().isInteractive()) {
-                    executeInteractive(rootContext);
-                }
-                return;
             }
-            executeInteractive(rootContext);
+            if (getOptions().isInteractive() || (commandArgs.length == 0 && getOptions().getFiles().isEmpty())) {
+                executeInteractive(rootContext);
+            }
         } catch (NExecutionException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -823,25 +822,21 @@ public class Nsh {
             }
             throw new NshException(NMsg.ofC("nsh file not found : %s", file), 1);
         }
-        context.setServiceName(file);
-        InputStream stream = null;
-        try {
-            stream = NPath.of(file).getInputStream();
-            NshCommandNode ii = parseScript(stream);
-            if (ii == null) {
-                return 0;
-            }
-            NshContext c = context.setRootNode(ii);//.setParent(null);
-            return context.nsh().evalNode(ii, c);
-        } finally {
-            try {
-                if (stream != null) {
-                    stream.close();
-                }
-            } catch (IOException ex) {
-                throw new NshException(ex, 1);
-            }
+        try (InputStream stream = NPath.of(file).getInputStream()) {
+            return executeServiceStream(context, file, stream);
+        } catch (IOException ex) {
+            throw new NshException(ex, 1);
         }
+    }
+
+    public int executeServiceStream(NshContext context, String serviceName, InputStream stream) {
+        context.setServiceName(serviceName);
+        NshCommandNode ii = parseScript(stream);
+        if (ii == null) {
+            return 0;
+        }
+        NshContext c = context.setRootNode(ii);//.setParent(null);
+        return context.nsh().evalNode(ii, c);
     }
 
     public int executeScript(String text, NshContext context) {
