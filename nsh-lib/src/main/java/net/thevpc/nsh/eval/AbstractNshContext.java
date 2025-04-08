@@ -226,7 +226,7 @@ public abstract class AbstractNshContext implements NshContext {
     }
 
     @Override
-    public void setAll(NshContext other) {
+    public void copyFrom(NshContext other) {
         if (other != null) {
             setSession(other.getSession() == null ? null : other.getSession().copy());
             setAliases(other.aliases());

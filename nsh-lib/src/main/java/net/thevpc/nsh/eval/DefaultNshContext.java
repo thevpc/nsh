@@ -111,7 +111,7 @@ public class DefaultNshContext extends AbstractNshContext {
 //    }
     public DefaultNshContext(NshContext other) {
         this.parentContext = other;
-        setAll(other);
+        copyFrom(other);
     }
 
     @Override
@@ -251,9 +251,9 @@ public class DefaultNshContext extends AbstractNshContext {
         this.aliasManager = aliasManager == null ? new DefaultNshAliasManager() : aliasManager;
     }
 
-    public void setAll(NshContext other) {
+    public void copyFrom(NshContext other) {
         if (other != null) {
-            super.setAll(other);
+            super.copyFrom(other);
             this.shell = other.nsh();
             this.vars = other.vars();
             this.userProperties = new HashMap<>();

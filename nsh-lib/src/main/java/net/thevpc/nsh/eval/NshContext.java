@@ -91,7 +91,7 @@ public interface NshContext {
 
     void setAliases(NshAliasManager aliasManager);
 
-    void setAll(NshContext other);
+    void copyFrom(NshContext other);
 
     String getServiceName();
 
