@@ -140,19 +140,16 @@ public abstract class AbstractNshContext implements NshContext {
         if (command != null) {
             command.autoComplete(new DefaultNshExecutionContext(this, command), autoComplete);
         } else {
-            NSession session = this.getSession();
             List<NId> nutsIds = NSearchCmd.of()
                     .setFetchStrategy(NFetchStrategy.OFFLINE)
                     .addId(commandName)
                     .setLatest(true)
-                    .addScope(NDependencyScopePattern.RUN)
-                    .setOptional(false)
                     .getResultIds().toList();
             if (nutsIds.size() == 1) {
                 NId selectedId = nutsIds.get(0);
                 NDefinition def = NSearchCmd.of()
                         .setFetchStrategy(NFetchStrategy.OFFLINE)
-                        .addId(selectedId).setEffective(true)
+                        .addId(selectedId)
                         .getResultDefinitions().findFirst().get();
                 NDescriptor d = def.getDescriptor();
                 String nuts_autocomplete_support = NStringUtils.trim(d.getPropertyValue("nuts.autocomplete").flatMap(NLiteral::asString).get());
