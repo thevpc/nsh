@@ -128,7 +128,7 @@ public class CatCommand extends NshBuiltinDefault {
                     if (f.getHighlighter() == null) {
                         f.setHighlighter("plain");
                     } else if (f.getHighlighter().isEmpty()) {
-                        f.setHighlighter(f.getPath().contentType());
+                        f.setHighlighter(f.getPath().getContentType());
                         if (f.getHighlighter() == null) {
                             f.setHighlighter("plain");
                         }
