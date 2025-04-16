@@ -62,7 +62,7 @@ public class HeadCommand extends NshBuiltinDefault {
             cmdLine.skip();
             return true;
         } else if (!a.isOption()) {
-            String path = cmdLine.next().flatMap(NLiteral::asString).get();
+            String path = cmdLine.next().get().getImage();
             String file = NPath.of(path).toAbsolute(context.getDirectory()).toString();
             options.files.add(file);
             return true;

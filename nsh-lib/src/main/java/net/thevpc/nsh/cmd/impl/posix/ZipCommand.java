@@ -59,7 +59,7 @@ public class ZipCommand extends NshBuiltinDefault {
             return false;
         } else if (cmdLine.peek().get().isNonOption()) {
             String path = cmdLine.nextNonOption(NArgName.of("file"))
-                    .flatMap(NLiteral::asString).get();
+                    .flatMap(NArg::asString).get();
             NPath file = NPath.of(path).toAbsolute(context.getDirectory());
             if (options.outZip == null) {
                 options.outZip = file;

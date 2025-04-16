@@ -176,9 +176,9 @@ public abstract class AbstractNshContext implements NshContext {
                                     String value = null;
                                     String display = null;
                                     if (args.hasNext()) {
-                                        value = args.next().flatMap(NLiteral::asString).get();
+                                        value = args.next().get().getImage();
                                         if (args.hasNext()) {
-                                            display = args.next().flatMap(NLiteral::asString).get();
+                                            display = args.next().get().getImage();
                                         }
                                     }
                                     if (value != null) {

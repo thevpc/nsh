@@ -57,7 +57,7 @@ public class TypeCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         if (a.isNonOption()) {
-            config.commands.add(cmdLine.next().flatMap(NLiteral::asString).get());
+            config.commands.add(cmdLine.next().get().getImage());
             return true;
         }
         return false;

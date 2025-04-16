@@ -61,7 +61,7 @@ public class WgetCommand extends NshBuiltinDefault {
             return true;
         } else if (!cmdLine.isNextOption()) {
             while (cmdLine.hasNext()) {
-                options.files.add(cmdLine.next().flatMap(NLiteral::asString).get());
+                options.files.add(cmdLine.next().get().getImage());
             }
             return true;
         }

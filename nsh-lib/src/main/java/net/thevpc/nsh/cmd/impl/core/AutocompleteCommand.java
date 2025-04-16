@@ -56,7 +56,7 @@ public class AutocompleteCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         if (!cmdLine.isNextOption()) {
             while (cmdLine.hasNext()) {
-                String s = cmdLine.next().flatMap(NLiteral::asString).get();
+                String s = cmdLine.next().get().getImage();
                 if (options.cmd == null) {
                     options.cmd = s;
                 } else {

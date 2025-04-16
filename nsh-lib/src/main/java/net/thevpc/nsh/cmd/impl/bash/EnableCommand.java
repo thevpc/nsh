@@ -87,7 +87,7 @@ public class EnableCommand extends NshBuiltinDefault {
                 }
             }
         } else {
-            options.names.add(cmdLine.next().flatMap(NLiteral::asString).get());
+            options.names.add(cmdLine.next().get().getImage());
             return true;
         }
         return false;

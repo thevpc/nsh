@@ -57,13 +57,13 @@ public class SshCommand extends NshBuiltinDefault {
         NArg a;
         NSession session = context.getSession();
         if (!o.cmd.isEmpty()) {
-            o.cmd.add(cmdLine.next().flatMap(NLiteral::asString).get());
+            o.cmd.add(cmdLine.next().get().getImage());
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
             if (o.address == null) {
-                o.address = cmdLine.next().flatMap(NLiteral::asString).get();
+                o.address = cmdLine.next().get().getImage();
             } else {
-                o.cmd.add(cmdLine.next().flatMap(NLiteral::asString).get());
+                o.cmd.add(cmdLine.next().get().getImage());
             }
             return true;
         } else if ((a = cmdLine.next("--nuts").orNull()) != null) {
@@ -82,7 +82,7 @@ public class SshCommand extends NshBuiltinDefault {
             return true;
         } else if (o.address == null || cmdLine.peek().get().isNonOption()) {
             o.acceptDashNuts = false;
-            o.cmd.add(cmdLine.next().flatMap(NLiteral::asString).get());
+            o.cmd.add(cmdLine.next().get().getImage());
             return true;
         }
 

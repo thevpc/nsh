@@ -62,13 +62,13 @@ public class GrepCommand extends NshBuiltinDefault {
         if (!options.withNutsOptions && options.expressions.isEmpty()) {
             options.expressions.add(
                     new ExpressionInfo()
-                            .setPattern(cmdLine.next().flatMap(NLiteral::asString).get())
+                            .setPattern(cmdLine.next().get().getImage())
                             .setIgnoreCase(options.ignoreCase)
                             .setInvertMatch(options.invertMatch)
                             .setWord(options.word)
             );
         } else {
-            String path = cmdLine.next().flatMap(NLiteral::asString).get();
+            String path = cmdLine.next().get().getImage();
             options.files.add(new FileInfo(NPath.of(path), options.highlighter));
         }
         return true;

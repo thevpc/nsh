@@ -52,7 +52,7 @@ public class CdCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         if (cmdLine.peek().get().isNonOption()) {
             if (options.dirname == null) {
-                options.dirname = cmdLine.next().flatMap(NLiteral::asString).get();
+                options.dirname = cmdLine.next().get().getImage();
                 return true;
             } else {
                 cmdLine.throwUnexpectedArgument();

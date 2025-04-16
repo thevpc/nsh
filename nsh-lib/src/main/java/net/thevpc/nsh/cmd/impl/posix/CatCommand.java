@@ -89,7 +89,7 @@ public class CatCommand extends NshBuiltinDefault {
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         NSession session = context.getSession();
         Options options = context.getOptions();
-        String path = cmdLine.next().flatMap(NLiteral::asString).get();
+        String path = cmdLine.next().get().getImage();
         options.files.add(new FileInfo(NPath.of(path), options.highlighter));
         return true;
     }
