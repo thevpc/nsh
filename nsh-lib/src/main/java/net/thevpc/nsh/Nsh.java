@@ -654,7 +654,9 @@ public class Nsh {
             NDescriptor resultDescriptor = null;
             if (appId != null) {
                 try {
-                    resultDescriptor = NFetchCmd.of(appId).getResultDescriptor();
+                    resultDescriptor = NFetchCmd.of(appId)
+                            .setDependencyFilter(NDependencyFilters.of().byRunnable())
+                            .getResultDescriptor();
                 } catch (Exception ex) {
                     //just ignore
                 }
