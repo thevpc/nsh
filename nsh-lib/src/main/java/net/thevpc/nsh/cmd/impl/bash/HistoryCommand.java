@@ -35,10 +35,8 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.history.NshHistory;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -128,28 +126,20 @@ public class HistoryCommand extends NshBuiltinDefault {
                 return;
             }
             case WRITE: {
-                try {
-                    if (options.sval == null) {
+                if (options.sval == null) {
 
-                        shistory.save();
-                    } else {
-                        shistory.save(NPath.of(options.sval).toAbsolute(NWorkspace.of().getWorkspaceLocation()));
-                    }
-                } catch (IOException ex) {
-                    throw new NExecutionException(NMsg.ofC("%s", ex), ex, NExecutionException.ERROR_2);
+                    shistory.save();
+                } else {
+                    shistory.save(NPath.of(options.sval).toAbsolute(NWorkspace.of().getWorkspaceLocation()));
                 }
                 return;
             }
             case READ: {
-                try {
-                    if (options.sval == null) {
-                        shistory.clear();
-                        shistory.load();
-                    } else {
-                        shistory.load(NPath.of(options.sval).toAbsolute(NWorkspace.of().getWorkspaceLocation()));
-                    }
-                } catch (IOException ex) {
-                    throw new NExecutionException(NMsg.ofC("%s", ex), ex, NExecutionException.ERROR_2);
+                if (options.sval == null) {
+                    shistory.clear();
+                    shistory.load();
+                } else {
+                    shistory.load(NPath.of(options.sval).toAbsolute(NWorkspace.of().getWorkspaceLocation()));
                 }
                 return;
             }

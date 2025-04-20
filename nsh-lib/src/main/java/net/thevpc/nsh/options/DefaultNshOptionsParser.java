@@ -45,12 +45,12 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             case "-?":
             case "--help": {
                 args.remove(0);
-                options.setVersion(true);
+                options.setHelp(true);
                 break;
             }
             case "--version": {
                 args.remove(0);
-                options.setHelp(true);
+                options.setVersion(true);
                 break;
             }
             case "-v":

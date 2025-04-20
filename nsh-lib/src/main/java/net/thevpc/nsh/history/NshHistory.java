@@ -28,19 +28,19 @@ public interface NshHistory {
 
     void remove(int index);
 
-    void load() throws IOException;
+    void load();
 
-    void load(NPath reader) throws IOException;
+    void load(NPath reader);
 
-    void load(Reader reader) throws IOException;
+    void load(Reader reader);
 
-    void save() throws IOException;
+    void save();
 
-    void save(NPath writer) throws IOException;
+    void save(NPath writer);
 
-    void save(PrintWriter writer) throws IOException;
+    void save(PrintWriter writer);
 
-    void save(PrintStream writer) throws IOException;
+    void save(PrintStream writer);
 
     void append(NshHistory other);
 

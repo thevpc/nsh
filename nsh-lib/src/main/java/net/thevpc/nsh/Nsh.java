@@ -31,6 +31,7 @@ package net.thevpc.nsh;
 
 import net.thevpc.nsh.err.*;
 import net.thevpc.nsh.eval.*;
+import net.thevpc.nsh.history.NoHistory;
 import net.thevpc.nsh.options.NshOptions;
 import net.thevpc.nsh.parser.nodes.*;
 import net.thevpc.nuts.*;
@@ -45,7 +46,6 @@ import net.thevpc.nuts.log.NLogVerb;
 import net.thevpc.nuts.spi.NDefaultSupportLevelContext;
 import net.thevpc.nuts.spi.NSupportLevelContext;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
-import net.thevpc.nsh.cmd.resolver.DefaultNshCommandTypeResolver;
 import net.thevpc.nsh.cmd.resolver.NCommandTypeResolver;
 import net.thevpc.nsh.cmd.resolver.NshCommandTypeResolver;
 import net.thevpc.nsh.cmd.NshBuiltin;
@@ -58,7 +58,6 @@ import net.thevpc.nsh.options.NshOptionsParser;
 import net.thevpc.nsh.parser.NshParser;
 import net.thevpc.nsh.sys.NshToNutsExternalExecutor;
 import net.thevpc.nsh.sys.NshExternalExecutor;
-import net.thevpc.nsh.sys.NshNoExternalExecutor;
 import net.thevpc.nsh.util.ByteArrayPrintStream;
 import net.thevpc.nsh.util.MemResult;
 import net.thevpc.nuts.text.NTextStyle;
@@ -98,10 +97,10 @@ public class Nsh {
     private NshErrorHandler errorHandler;
     private NshExternalExecutor externalExecutor;
     private NshCommandTypeResolver commandTypeResolver;
-    private NSession session;
     private NId appId = null;
     private String serviceName = null;
     private Supplier<NMsg> headerMessageSupplier = null;
+    private NshConfig configuration;
 
     public Nsh() {
         this(new NshConfig());
@@ -109,23 +108,22 @@ public class Nsh {
 
     public Nsh(NshConfig configuration) {
         if (configuration == null) {
-            configuration = new NshConfig();
+            this.configuration = configuration = new NshConfig();
+        } else {
+            this.configuration = configuration = configuration.copy();
         }
         headerMessageSupplier = configuration.getHeaderMessageSupplier();
         serviceName = configuration.getServiceName();
-        String[] args = configuration.getArgs();
+        String[] args = resolveArgs(configuration.getArgs());
         NshOptionsParser nshOptionsParser = configuration.getOptionsParser();
         NshEvaluator evaluator = configuration.getEvaluator();
         NshCommandTypeResolver commandTypeResolver = configuration.getCommandTypeResolver();
         NshErrorHandler errorHandler = configuration.getErrorHandler();
         NshExternalExecutor externalExecutor = configuration.getExternalExecutor();
         NId appId = configuration.getAppId();
-        NSession session = NSession.of();
 
-        args = resolveArgs(session, args);
         this.appId = appId;
         this.bootStartMillis = NApp.of().getStartTime();
-        this.session = session;
         //super.setCwd(workspace.getConfigManager().getCwd());
         if (this.appId == null) {
             this.appId = NApp.of().getId().orNull();
@@ -133,20 +131,17 @@ public class Nsh {
                 this.appId = NId.getForClass(Nsh.class).orNull();
             }
         }
-        if (this.appId == null && session != null) {
+        if (this.appId == null) {
             throw new IllegalArgumentException("unable to resolve application id");
         }
-        if (this.appId != null && serviceName == null) {
+        if (serviceName == null) {
             serviceName = this.appId.getArtifactId();
         }
 
-        serviceName = resolveServiceName(session, serviceName, appId);
+        serviceName = resolveServiceName(serviceName, appId);
         if (commandTypeResolver == null) {
-            if (session != null) {
-                this.commandTypeResolver = new NCommandTypeResolver();
-            } else {
-                this.commandTypeResolver = new DefaultNshCommandTypeResolver();
-            }
+            this.commandTypeResolver = new NCommandTypeResolver();
+//            this.commandTypeResolver = new DefaultNshCommandTypeResolver();
         } else {
             this.commandTypeResolver = commandTypeResolver;
         }
@@ -156,19 +151,24 @@ public class Nsh {
             this.errorHandler = errorHandler;
         }
         if (evaluator == null) {
-            if (session != null) {
-                this.evaluator = new DefaultNshEvaluator();
-            } else {
-                this.evaluator = new NshEvaluatorBase();
-            }
+            this.evaluator = new DefaultNshEvaluator();
+//            this.evaluator = new NshEvaluatorBase();
         } else {
             this.evaluator = evaluator;
         }
-        NshHistory history = configuration.getHistory();
-        if (history == null) {
-            this.history = new DefaultNshHistory();
-        } else {
-            this.history = history;
+        Boolean includeHistory = configuration.getIncludeHistory();
+        if (includeHistory == null) {
+            includeHistory = true;
+        }
+        if(includeHistory) {
+            NshHistory history = configuration.getHistory();
+            if (history == null) {
+                this.history = new DefaultNshHistory();
+            } else {
+                this.history = history;
+            }
+        }else{
+            this.history = new NoHistory();
         }
         if (nshOptionsParser == null) {
             nshOptionsParser = new DefaultNshOptionsParser();
@@ -177,11 +177,8 @@ public class Nsh {
         if (externalExecutor == null) {
             boolean includeExternalExecutor = configuration.getIncludeExternalExecutor() != null && configuration.getIncludeExternalExecutor();
             if (includeExternalExecutor) {
-                if (session != null) {
-                    this.externalExecutor = new NshToNutsExternalExecutor();
-                } else {
-                    this.externalExecutor = new NshNoExternalExecutor();
-                }
+                this.externalExecutor = new NshToNutsExternalExecutor();
+//                this.externalExecutor = new NshNoExternalExecutor();
             }
         } else {
             this.externalExecutor = externalExecutor;
@@ -190,57 +187,56 @@ public class Nsh {
             options.setServiceName(serviceName == null ? "nsh" : serviceName);
         }
 
-        if (session != null) {
-            NshContext _rootContext = getRootContext();
+        NshContext _rootContext = getRootContext();
 
-            NWorkspace.of().setProperty(NshContext.class.getName(), _rootContext);
-            _rootContext.setSession(session);
-            //add default commands
-            List<NshBuiltin> allCommand = new ArrayList<>();
-            NSupportLevelContext constraints = new NDefaultSupportLevelContext(this);
+        NWorkspace.of().setProperty(NshContext.class.getName(), _rootContext);
+        _rootContext.setSession(NSession.of());
+        //add default commands
+        List<NshBuiltin> allCommand = new ArrayList<>();
+        NSupportLevelContext constraints = new NDefaultSupportLevelContext(this);
 
-            Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
-            for (NshBuiltin command : NWorkspace.get().get().extensions()
-                    .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
-                    .loadAll(this)) {
-                NshBuiltin old = _rootContext.builtins().find(command.getName());
-                if (old != null && old.getSupportLevel(constraints) >= command.getSupportLevel(constraints)) {
-                    continue;
-                }
-                if (filter.test(command)) {
-                    allCommand.add(command);
-                }
+        Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
+        for (NshBuiltin command : NWorkspace.get().get().extensions()
+                .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
+                .loadAll(this)) {
+            NshBuiltin old = _rootContext.builtins().find(command.getName());
+            if (old != null && old.getSupportLevel(constraints) >= command.getSupportLevel(constraints)) {
+                continue;
             }
-            _rootContext.builtins().set(allCommand.toArray(new NshBuiltin[0]));
-            _rootContext.getUserProperties().put(NshContext.class.getName(), _rootContext);
-
-            try {
-                NPath histFile = this.history.getHistoryFile();
-                if (histFile == null) {
-                    histFile = NWorkspace.of().getStoreLocation(this.appId, NStoreType.VAR).resolve((serviceName == null ? "" : serviceName) + ".history");
-                    this.history.setHistoryFile(histFile);
-                    if (histFile.exists()) {
-                        this.history.load(histFile);
-                    }
-                }
-            } catch (Exception ex) {
-                NLog.of(Nsh.class)
-                        .with().level(Level.SEVERE)
-                        .error(ex)
-                        .log(NMsg.ofC("error resolving history file %s", this.history.getHistoryFile()));
+            if (filter.test(command)) {
+                allCommand.add(command);
             }
-            NWorkspace.of().setProperty(NshHistory.class.getName(), this.history);
         }
+        _rootContext.builtins().set(allCommand.toArray(new NshBuiltin[0]));
+        _rootContext.getUserProperties().put(NshContext.class.getName(), _rootContext);
+
+        try {
+            NPath histFile = this.history.getHistoryFile();
+            if (histFile == null) {
+                histFile = NWorkspace.of().getStoreLocation(this.appId, NStoreType.VAR).resolve((serviceName == null ? "" : serviceName) + ".history");
+                this.history.setHistoryFile(histFile);
+                if (histFile.exists()) {
+                    this.history.load(histFile);
+                }
+            }
+        } catch (Exception ex) {
+            NLog.of(Nsh.class)
+                    .with().level(Level.SEVERE)
+                    .error(ex)
+                    .log(NMsg.ofC("error resolving history file %s", this.history.getHistoryFile()));
+        }
+        NWorkspace.of().setProperty(NshHistory.class.getName(), this.history);
+
     }
 
-    private static String[] resolveArgs(NSession session, String[] args) {
+    private static String[] resolveArgs(String[] args) {
         if (args != null) {
             return args;
         }
         return NApp.of().getArguments().toArray(new String[0]);
     }
 
-    private static String resolveServiceName(NSession session, String serviceName, NId appId) {
+    private static String resolveServiceName(String serviceName, NId appId) {
         if ((serviceName == null || serviceName.trim().isEmpty())) {
             if (appId == null) {
                 appId = NId.getForClass(Nsh.class).get();
@@ -326,7 +322,7 @@ public class Nsh {
         this.errorHandler = errorHandler;
     }
 
-    public List<String> findFiles(final String namePattern, boolean exact, String parent, NSession session) {
+    public List<String> findFiles(final String namePattern, boolean exact, String parent) {
         if (exact) {
             String[] all = NPath.of(parent).stream()
                     .filter(NPredicate.of((NPath x) -> namePattern.equals(x.getName())).withDesc(NEDesc.of("name='" + namePattern + "'")))
@@ -341,9 +337,6 @@ public class Nsh {
         }
     }
 
-    //    protected NshContext createRootContext() {
-//        return new DefaultNshContext(this);
-//    }
     protected NshContext createRootContext(String serviceName, String[] args) {
         return createContext(null, null, null, null, serviceName, args);
     }
@@ -602,19 +595,19 @@ public class Nsh {
             }
             String[] commandArgs = getOptions().getCommandArgs().toArray(new String[0]);
             if (getOptions().isCommand()) {
-                if(commandArgs.length == 0) {
+                if (commandArgs.length == 0) {
                     //
-                }else if(commandArgs.length == 1) {
-                    executeServiceStream(rootContext,"command",new ByteArrayInputStream(commandArgs[0].getBytes()));
-                }else{
-                    executeServiceStream(rootContext,"command",new ByteArrayInputStream(
+                } else if (commandArgs.length == 1) {
+                    executeServiceStream(rootContext, "command", new ByteArrayInputStream(commandArgs[0].getBytes()));
+                } else {
+                    executeServiceStream(rootContext, "command", new ByteArrayInputStream(
                             NCmdLine.of(commandArgs).toString().getBytes()
                     ));
                 }
                 //executeCommand(commandArgs, rootContext);
             }
             if (getOptions().isReadCommandsFromStdIn()) {
-                int r=executeServiceStream(rootContext,"in", rootContext.in());
+                int r = executeServiceStream(rootContext, "in", rootContext.in());
                 if (r == NExecutionException.SUCCESS) {
                     return;
                 }
@@ -710,7 +703,7 @@ public class Nsh {
     }
 
     protected void executeVersion(NshContext context) {
-        context.out().println(NMsg.ofC("v%s", NApp.of().getId().get().getVersion()));
+        context.out().println(NApp.of().getId().get().getVersion());
     }
 
     protected void executeInteractive(NshContext context) {
@@ -801,11 +794,7 @@ public class Nsh {
     }
 
     protected void onQuit(NshQuitException quitException) {
-        try {
-            getHistory().save();
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
+        getHistory().save();
         if (quitException.getExitCode() == 0) {
             return;
         }
@@ -1222,10 +1211,6 @@ public class Nsh {
         return nutsId.getVersion().getValue();
     }
 
-    public NSession getSession() {
-        return session;
-    }
-
     public MemResult executeCommand(String[] command) {
         return executeCommand(command, (String) null);
     }
@@ -1246,7 +1231,7 @@ public class Nsh {
     }
 
     public NshContext createContext(NshContext ctx, NshNode root, NshNode parent, NshVariables env, String serviceName, String[] args) {
-        return new DefaultNshContext(this, root, parent, ctx, session.getWorkspace(), session, env, serviceName, args);
+        return new DefaultNshContext(this, root, parent, ctx, env, serviceName, args);
     }
 
     public void installToNuts() {

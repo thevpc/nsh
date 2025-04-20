@@ -45,17 +45,11 @@ public class DefaultNshContext extends AbstractNshContext {
     private NCmdLineAutoComplete autoComplete;
 
     public DefaultNshContext(Nsh shell, NshNode rootNode, NshNode parentNode,
-                             NshContext parentContext, NWorkspace workspace, NSession session, NshVariables vars,
+                             NshContext parentContext, NshVariables vars,
                              String serviceName, String[] args
     ) {
         this(parentContext);
-        workspace = (workspace != null ? workspace : parentContext != null ? parentContext.getWorkspace() : null);
-        if (session == null) {
-            if (workspace != null) {
-                session = getWorkspace().createSession();
-            }
-        }
-        setSession(session);
+        setSession(NSession.of());
         setServiceName(serviceName);
         setArgs(args);
         this.vars = new NshVariables(this);

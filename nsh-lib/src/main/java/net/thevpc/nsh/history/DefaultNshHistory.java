@@ -1,8 +1,8 @@
 package net.thevpc.nsh.history;
 
 import net.thevpc.nuts.io.NPath;
+import net.thevpc.nuts.util.NBlankable;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -23,17 +23,17 @@ public class DefaultNshHistory extends AbstractNshHistory {
     }
 
     public void add(String e) {
-        if (e != null && e.trim().length() > 0) {
+        if (!NBlankable.isBlank(e)) {
             String l = getLast();
-            if(!e.equals(l)) {
+            if (!e.equals(l)) {
                 history.add(e);
             }
         }
     }
 
     @Override
-    public void removeDuplicates(){
-        LinkedHashSet<String> vals=new LinkedHashSet<>();
+    public void removeDuplicates() {
+        LinkedHashSet<String> vals = new LinkedHashSet<>();
         for (String s : history) {
             vals.add(s);
         }
@@ -48,7 +48,7 @@ public class DefaultNshHistory extends AbstractNshHistory {
 
     @Override
     public List<String> getElements(int maxElements) {
-        if(maxElements<0){
+        if (maxElements < 0) {
             return new ArrayList<>(history);
         }
         List<String> all = new ArrayList<>();
@@ -60,7 +60,6 @@ public class DefaultNshHistory extends AbstractNshHistory {
         }
         return all;
     }
-
 
 
     public int size() {
@@ -78,14 +77,13 @@ public class DefaultNshHistory extends AbstractNshHistory {
     }
 
     @Override
-    public void load() throws IOException {
+    public void load() {
         load(getHistoryFile());
     }
 
     @Override
-    public void save() throws IOException {
+    public void save() {
         save(getHistoryFile());
-
     }
 
     @Override
@@ -95,7 +93,7 @@ public class DefaultNshHistory extends AbstractNshHistory {
 
     @Override
     public String get(int index) {
-        if(index<0 || index>=history.size()){
+        if (index < 0 || index >= history.size()) {
             return null;
         }
         return history.get(index);
@@ -103,6 +101,6 @@ public class DefaultNshHistory extends AbstractNshHistory {
 
     @Override
     public String getLast() {
-        return get(size()-1);
+        return get(size() - 1);
     }
 }

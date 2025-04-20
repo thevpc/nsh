@@ -1,5 +1,6 @@
 package net.thevpc.nsh.history;
 
+import net.thevpc.nuts.io.NIOException;
 import net.thevpc.nuts.io.NPath;
 
 import java.io.*;
@@ -7,43 +8,51 @@ import java.io.*;
 public abstract class AbstractNshHistory implements NshHistory {
 
     @Override
-    public void load(NPath reader) throws IOException {
-        BufferedReader bufferedReader = null;
+    public void load(NPath reader) {
         try {
-            bufferedReader = new BufferedReader(new InputStreamReader(reader.getInputStream()));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                add(line);
+            BufferedReader bufferedReader = null;
+            try {
+                bufferedReader = new BufferedReader(new InputStreamReader(reader.getInputStream()));
+                String line = null;
+                while ((line = bufferedReader.readLine()) != null) {
+                    add(line);
+                }
+            } finally {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
             }
-        } finally {
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
+        } catch (IOException e) {
+            throw new NIOException(e);
         }
     }
 
     @Override
-    public void load(Reader reader) throws IOException {
-        BufferedReader bufferedReader = null;
+    public void load(Reader reader) {
         try {
-            if (reader instanceof BufferedReader) {
-                bufferedReader = (BufferedReader) reader;
-            } else {
-                bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = null;
+            try {
+                if (reader instanceof BufferedReader) {
+                    bufferedReader = (BufferedReader) reader;
+                } else {
+                    bufferedReader = new BufferedReader(reader);
+                }
+                String line = null;
+                while ((line = bufferedReader.readLine()) != null) {
+                    add(line);
+                }
+            } finally {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
             }
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                add(line);
-            }
-        } finally {
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void save(NPath file) throws IOException {
+    public void save(NPath file) {
         if (file == null) {
             return;
         }
@@ -62,14 +71,14 @@ public abstract class AbstractNshHistory implements NshHistory {
     }
 
     @Override
-    public void save(PrintWriter writer) throws IOException {
+    public void save(PrintWriter writer) {
         for (String element : getElements()) {
             writer.println(element);
         }
     }
 
     @Override
-    public void save(PrintStream writer) throws IOException {
+    public void save(PrintStream writer) {
         for (String element : getElements()) {
             writer.println(element);
         }
