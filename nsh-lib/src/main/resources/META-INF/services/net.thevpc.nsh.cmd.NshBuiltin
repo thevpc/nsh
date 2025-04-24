@@ -14,6 +14,8 @@ net.thevpc.nsh.cmd.impl.bash.HistoryCommand
 net.thevpc.nsh.cmd.impl.posix.WhoamiCommand
 net.thevpc.nsh.cmd.impl.bash.EchoCommand
 net.thevpc.nsh.cmd.impl.posix.LsCommand
+net.thevpc.nsh.cmd.impl.posix.PsCommand
+net.thevpc.nsh.cmd.impl.posix.KillCommand
 net.thevpc.nsh.cmd.impl.bash.CdCommand
 net.thevpc.nsh.cmd.impl.bash.PwdCommand
 net.thevpc.nsh.cmd.impl.bash.SourceCommand
