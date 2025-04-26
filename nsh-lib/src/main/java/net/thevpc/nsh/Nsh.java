@@ -811,7 +811,7 @@ public class Nsh {
             if (ignoreIfNotFound) {
                 return 0;
             }
-            throw new NshException(NMsg.ofC("nsh file not found : %s", file), 1);
+            throw new NshException(NMsg.ofC("file not found : %s", file), 1);
         }
         try (InputStream stream = NPath.of(file).getInputStream()) {
             return executeServiceStream(context, file, stream);
