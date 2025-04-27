@@ -217,7 +217,6 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                 boolean conf = false;
                 int maxLoops = 1000;
                 boolean robustMode = false;
-                NSession session = context.getSession();
                 NCmdLine cmdLine = NCmdLine.of(args).setCommandName(getName())
                         .setAutoComplete(context.getShellContext().getAutoComplete());
                 context.setOptions(optionsSupplier==null?null:optionsSupplier.get());

@@ -27,31 +27,21 @@ package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nsh.util.bundles.BytesSizeFormat;
 import net.thevpc.nuts.NConstants;
 import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.NSession;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.elem.NEDesc;
-import net.thevpc.nuts.elem.NElement;
-import net.thevpc.nuts.elem.NElements;
 import net.thevpc.nuts.format.NMutableTableModel;
 import net.thevpc.nuts.format.NTableModel;
 import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
-import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nuts.util.*;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by vpc on 1/7/17.
@@ -66,30 +56,53 @@ public class PsCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
-        NArg a;
-        if ((a = cmdLine.nextFlag(
-                "-e",
-                "-f",
-                "-F",
-                "-A",
-                "-d",
-                "-N",
-                "-T"
-        ).orNull()) != null) {
-            for (char c : a.key().toCharArray()) {
-                if (c == '-') {
-                    //ignore
-                } else {
-                    options.flags.add(String.valueOf(c));
-                }
-            }
-            return true;
+        if (cmdLine.withFirst(
+                cc -> cc.with("-e", "-A").consumeFlag((vv, a) -> {
+                    options.flags.add(a.key());
+                    options.associatedWithTerminal = null;
+                    options.running = null;
+                    options.sessionLeader = null;
+                    options.owned = null;
+                })
+                , cc -> cc.with("-N").consumeFlag((vv, a) -> {
+                    options.flags.add(a.key());
+                    options.negate = true;
+                })
+        )) {
+            //okkay
         } else if (cmdLine.peek().get().isNonOption()) {
             String path = cmdLine.next(NArgName.of("options"))
                     .flatMap(NArg::asString).get();
             for (char c : path.toCharArray()) {
-                options.flags.add(String.valueOf(c));
+                options.flags.add("+" + String.valueOf(c));
+                switch (c) {
+                    case 'a':
+                    case 'x': {
+                        options.owned = null;
+                        break;
+                    }
+                    case 'd': {
+                        options.sessionLeader = false;
+                        break;
+                    }
+                    case 'g': {
+                        options.sessionLeader = null;
+                        break;
+                    }
+                    case 'T':
+                    case 't': {
+                        options.associatedWithCurrentTerminal = true;
+                        break;
+                    }
+                    case 'r': {
+                        options.running = true;
+                        break;
+                    }
+                    case 'f': {
+                        //options.running = true;
+                        break;
+                    }
+                }
             }
             cmdLine.skip();
             return true;
@@ -97,49 +110,51 @@ public class PsCommand extends NshBuiltinDefault {
         return false;
     }
 
+    private boolean doAcceptNoNegate(NPsInfo x, Options options) {
+        if (options.owned != null) {
+            String u = x.getUser();
+            String userName = System.getProperty("user.name");
+            if (options.owned.booleanValue() != Objects.equals(u, userName)) {
+                return false;
+            }
+        }
+        if (options.associatedWithTerminal != null) {
+            String u = x.getTerminal();
+            if (options.associatedWithTerminal.booleanValue() != NBlankable.isNonBlank(u)) {
+                return false;
+            }
+        }
+        if (options.associatedWithCurrentTerminal != null) {
+            // just ignore
+        }
+        if (options.sessionLeader != null) {
+            if (options.sessionLeader.booleanValue() != x.getStatusFlags().contains("session-leader")) {
+                return false;
+            }
+        }
+        if (options.running != null) {
+            if (options.running.booleanValue() != (x.getStatus() == NpsStatus.RUNNING)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean doAccept(NPsInfo a, Options options) {
+        boolean u = doAcceptNoNegate(a, options);
+        return options.negate != u;
+    }
+
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        String userName = System.getProperty("user.name");
         List<NPsInfo> list = NPs.of().getResultList()
-                .filter(x -> {
-                    if (
-                            options.flags.contains("A")
-                                    || options.flags.contains("e")
-                    ) {
-
-                    } else if (options.flags.contains("a")) {
-                        if (x.getStatusFlags().contains("session-leader")) {
-                            return false;
-                        }
-                        String u = x.getTerminal();
-                        if (NBlankable.isBlank(u)) {
-                            return false;
-                        }
-                    } else {
-                        String u = x.getUser();
-                        if (!Objects.equals(u, userName)) {
-                            return false;
-                        }
-                    }
-                    if (!options.flags.contains("x")) {
-                        String u = x.getTerminal();
-                        if (NBlankable.isBlank(u)) {
-                            return false;
-                        }
-                    }
-                    if (options.flags.contains("r")) {
-                        if (x.getStatus() != NpsStatus.RUNNING) {
-                            return false;
-                        }
-                    }
-                    return true;
-                })
+                .filter(x -> doAccept(x, options))
                 .toList();
         String[] cols;
         if (
-                options.flags.contains("u")
-                        || options.flags.contains("f")
+                options.flags.contains("+u")
+                        || options.flags.contains("-f")
         ) {
             cols = new String[]{"user", "pid", "%cpu", "%mem", "vsz", "rss", "tty",
                     "stat", "start", "time", "command"};
@@ -160,13 +175,13 @@ public class PsCommand extends NshBuiltinDefault {
             }
             default: {
                 if (
-                        options.flags.contains("u")
-                                || options.flags.contains("f")
+                        options.flags.contains("+u")
+                                || options.flags.contains("+f")
                 ) {
                     NOut.println(list);
 
-                }else {
-                    NOut.println(list.stream().map(x->mapOf(x,cols)).collect(Collectors.toList()));
+                } else {
+                    NOut.println(list.stream().map(x -> mapOf(x, cols)).collect(Collectors.toList()));
                 }
                 break;
             }
@@ -234,6 +249,12 @@ public class PsCommand extends NshBuiltinDefault {
 
     private static class Options {
         Set<String> flags = new TreeSet<>();
+        Boolean sessionLeader;
+        Boolean associatedWithTerminal;
+        Boolean associatedWithCurrentTerminal;
+        Boolean owned = true;
+        Boolean running;
+        boolean negate;
     }
 
 
