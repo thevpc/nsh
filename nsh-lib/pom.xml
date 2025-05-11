@@ -4,7 +4,7 @@
     <artifactId>nsh-lib</artifactId>
     <version>0.8.5.0</version>
     <packaging>jar</packaging>
-    <name>Nuts Community Toolbox Shell</name>
+    <name>Nuts Community Toolbox Shell Lib</name>
     <url>https://github.com/thevpc/nuts</url>
     <description>Nuts bash shell companion</description>
     <properties>
