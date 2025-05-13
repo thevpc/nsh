@@ -163,10 +163,10 @@ public class EnvCommand extends NshBuiltinDefault {
         if (options.command.isEmpty()) {
             if (context.getSession().isPlainOut()) {
                 for (Map.Entry<String, String> e : env.entrySet()) {
-                    context.getSession().out().println(e.getKey() + "=" + e.getValue());
+                    NOut.println(e.getKey() + "=" + e.getValue());
                 }
             } else {
-                context.getSession().out().println(env);
+                NOut.println(env);
             }
         } else {
             final NExecCmd e = NExecCmd.of().addCommand(options.command)

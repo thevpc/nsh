@@ -27,6 +27,7 @@
 package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
@@ -220,26 +221,26 @@ public class DateCommand extends NshBuiltinDefault {
                 case "":
                 case "d":
                 case "date": {
-                    context.getSession().out().println(dateTimeInMyZone.toLocalDate());
+                    NOut.println(dateTimeInMyZone.toLocalDate());
                     break;
                 }
                 case "m":
                 case "minutes": {
-                    context.getSession().out().println(DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm").format(dateTimeInMyZone.toLocalDateTime()));
+                    NOut.println(DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm").format(dateTimeInMyZone.toLocalDateTime()));
                     break;
                 }
                 case "s":
                 case "seconds": {
-                    context.getSession().out().println(DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss").format(dateTimeInMyZone.toLocalDateTime()));
+                    NOut.println(DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss").format(dateTimeInMyZone.toLocalDateTime()));
                     break;
                 }
                 case "ns": {
-                    context.getSession().out().println(DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSSSSS").format(dateTimeInMyZone.toLocalDateTime()));
+                    NOut.println(DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSSSSS").format(dateTimeInMyZone.toLocalDateTime()));
                     break;
                 }
                 default: {
                     //error??
-                    context.getSession().out().println(dateTimeInMyZone.toLocalDate());
+                    NOut.println(dateTimeInMyZone.toLocalDate());
                     break;
                 }
             }
@@ -248,33 +249,33 @@ public class DateCommand extends NshBuiltinDefault {
                 case "":
                 case "d":
                 case "date": {
-                    context.getSession().out().println(dateTimeInMyZone.toLocalDate());
+                    NOut.println(dateTimeInMyZone.toLocalDate());
                     break;
                 }
                 case "m":
                 case "minutes": {
-                    context.getSession().out().println(DateTimeFormatter.ofPattern("uuuu-MM-dd' 'HH:mmXXX").format(dateTimeInMyZone.toLocalDate()));
+                    NOut.println(DateTimeFormatter.ofPattern("uuuu-MM-dd' 'HH:mmXXX").format(dateTimeInMyZone.toLocalDate()));
                     break;
                 }
                 case "s":
                 case "seconds": {
-                    context.getSession().out().println(DateTimeFormatter.ofPattern("uuuu-MM-dd' 'HH:mm:ssXXX").format(dateTimeInMyZone.toLocalDateTime()));
+                    NOut.println(DateTimeFormatter.ofPattern("uuuu-MM-dd' 'HH:mm:ssXXX").format(dateTimeInMyZone.toLocalDateTime()));
                     break;
                 }
                 case "ns": {
-                    context.getSession().out().println(DateTimeFormatter.ofPattern("uuuu-MM-dd' 'HH:mm:ss.SSSSSSSSSXXX").format(dateTimeInMyZone.toLocalDateTime()));
+                    NOut.println(DateTimeFormatter.ofPattern("uuuu-MM-dd' 'HH:mm:ss.SSSSSSSSSXXX").format(dateTimeInMyZone.toLocalDateTime()));
                     break;
                 }
                 default: {
                     //error??
-                    context.getSession().out().println(dateTimeInMyZone.toLocalDate());
+                    NOut.println(dateTimeInMyZone.toLocalDate());
                     break;
                 }
             }
         } else if (options.rfcMail) {
-            context.getSession().out().println(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss Z").format(dateTimeInMyZone));
+            NOut.println(DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss Z").format(dateTimeInMyZone));
         } else {
-            context.getSession().out().println(DateTimeFormatter.ofPattern("EEE MMM d hh:mm:ss a Z yyyy").format(dateTimeInMyZone));
+            NOut.println(DateTimeFormatter.ofPattern("EEE MMM d hh:mm:ss a Z yyyy").format(dateTimeInMyZone));
         }
     }
 

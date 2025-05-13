@@ -113,11 +113,11 @@ public class UnameCommand extends NshBuiltinDefault {
                 if (sb.isEmpty()) {
                     sb.add("UNKNOWN");
                 }
-                context.getSession().out().println(String.join(" ", sb));
+                NOut.println(String.join(" ", sb));
                 break;
             }
             default: {
-                context.getSession().out().println(rr);
+                NOut.println(rr);
             }
         }
     }

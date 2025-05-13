@@ -27,6 +27,7 @@
 package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
@@ -104,7 +105,7 @@ public class EnableCommand extends NshBuiltinDefault {
             switch (context.getSession().getOutputFormat().orDefault()) {
                 case PLAIN: {
                     for (Map.Entry<String, String> entry : result.entrySet()) {
-                        context.getSession().out().println(entry.getValue() + " " + entry.getKey());
+                        NOut.println(entry.getValue() + " " + entry.getKey());
                     }
                     //if list
 //                    for (String s : ((List<String>) context.getResult())) {
@@ -118,7 +119,7 @@ public class EnableCommand extends NshBuiltinDefault {
                     break;
                 }
                 default: {
-                    context.getSession().out().println(result);
+                    NOut.println(result);
                 }
             }
         } else if (options.n) {

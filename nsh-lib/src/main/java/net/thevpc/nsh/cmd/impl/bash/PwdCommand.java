@@ -26,6 +26,7 @@
 package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -51,7 +52,7 @@ public class PwdCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         //Options options=context.getOptions();
-        context.getSession().out().println(context.getDirectory());
+        NOut.println(context.getDirectory());
     }
 
     private static class Options {

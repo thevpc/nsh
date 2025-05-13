@@ -26,6 +26,7 @@
 package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.util.NMsg;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
@@ -102,13 +103,13 @@ public class AliasCommand extends NshBuiltinDefault {
                     if (resultItem.value == null) {
                         context.getSession().err().println(NMsg.ofC("alias : %s ```error not found```", resultItem.name));
                     } else {
-                        context.getSession().out().println(NMsg.ofC("alias : %s ='%s'", resultItem.name, resultItem.value));
+                        NOut.println(NMsg.ofC("alias : %s ='%s'", resultItem.name, resultItem.value));
                     }
                 }
                 break;
             }
             default: {
-                context.getSession().out().println(outRes);
+                NOut.println(outRes);
             }
         }
         if (!errRes.isEmpty()) {

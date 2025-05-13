@@ -219,7 +219,7 @@ public class WhoamiCommand extends NshBuiltinDefault {
                 break;
             }
             default: {
-                context.getSession().out().println(result);
+                NOut.println(result);
             }
         }
     }

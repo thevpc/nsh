@@ -26,6 +26,7 @@
 package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
@@ -75,7 +76,7 @@ public class SetCommand extends NshBuiltinDefault {
             for (NshFunction function : context.functions().getAll()) {
                 results.add(function.getDefinition());
             }
-            context.getSession().out().println(results);
+            NOut.println(results);
         } else {
             for (Map.Entry<String, String> entry : options.vars.entrySet()) {
                 context.vars().set(entry.getKey(), entry.getValue());

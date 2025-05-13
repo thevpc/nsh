@@ -149,7 +149,7 @@ public class JpsCommand extends NshBuiltinDefault {
                 results.add(r);
             }
         }
-        context.getSession().out().println(results);
+        NOut.println(results);
     }
 
     private static class JpsRow {

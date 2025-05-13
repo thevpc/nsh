@@ -26,6 +26,7 @@
 package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
@@ -113,12 +114,12 @@ public class TypeCommand extends NshBuiltinDefault {
         switch (context.getSession().getOutputFormat().orDefault()) {
             case PLAIN: {
                 for (ResultItem resultItem : result) {
-                    context.getSession().out().println(resultItem.message);
+                    NOut.println(resultItem.message);
                 }
                 break;
             }
             default: {
-                context.getSession().out().println(result);
+                NOut.println(result);
             }
         }
     }
