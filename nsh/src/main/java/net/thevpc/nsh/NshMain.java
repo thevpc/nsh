@@ -24,7 +24,7 @@ public class NshMain implements NApplication {
     public void onInstallApplication() {
         NLogOp log = NLogOp.of(NshMain.class);
         log.level(Level.CONFIG).verb(NLogVerb.START).log(NMsg.ofPlain("[nsh] Installation..."));
-        NApp.of().processCmdLine(new NCmdLineRunner() {
+        NApp.of().runCmdLine(new NCmdLineRunner() {
             @Override
             public void init(NCmdLine cmdLine, NCmdLineContext context) {
                 cmdLine.setCommandName("nsh --nuts-exec-mode=install");

@@ -405,7 +405,7 @@ public class LsCommand extends NshBuiltinDefault {
 
         @Override
         public NElement describe() {
-            return NElements.of().ofString("foldersFirst");
+            return NElements.ofString("foldersFirst");
         }
     }
 
