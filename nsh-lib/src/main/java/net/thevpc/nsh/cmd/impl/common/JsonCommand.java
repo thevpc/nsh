@@ -29,6 +29,7 @@ import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.elem.NElement;
+import net.thevpc.nuts.elem.NElementParser;
 import net.thevpc.nuts.elem.NElements;
 import net.thevpc.nuts.format.NContentType;
 import net.thevpc.nuts.io.NPath;
@@ -156,13 +157,11 @@ public class JsonCommand extends NshBuiltinDefault {
     }
 
     private <T> T readJsonConvertAny(String path, Class<T> cls, NshContext context) {
-        NSession session = context.getSession();
-        NElements njson = NElements.of().json();
         T inputDocument = null;
         if (path != null) {
             NPath file = NPath.of(path).toAbsolute(context.getDirectory());
             if (file.exists()) {
-                inputDocument = njson.parse(file, cls);
+                inputDocument = NElementParser.ofJson().parse(file, cls);
             } else {
                 throw new NExecutionException(NMsg.ofC("invalid path %s", path), NExecutionException.ERROR_1);
             }
@@ -177,12 +176,12 @@ public class JsonCommand extends NshBuiltinDefault {
                     throw new NExecutionException(NMsg.ofPlain("broken Input"), NExecutionException.ERROR_2);
                 }
                 if (line == null) {
-                    inputDocument = njson.parse(new StringReader(sb.toString()), cls);
+                    inputDocument = NElementParser.ofJson().parse(new StringReader(sb.toString()), cls);
                     break;
                 } else {
                     sb.append(line);
                     try {
-                        inputDocument = njson.parse(new StringReader(sb.toString()), cls);
+                        inputDocument = NElementParser.ofJson().parse(new StringReader(sb.toString()), cls);
                         break;
                     } catch (Exception ex) {
                         //
