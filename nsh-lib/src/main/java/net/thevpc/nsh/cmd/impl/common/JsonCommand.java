@@ -30,6 +30,7 @@ import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.elem.NElement;
 import net.thevpc.nuts.elem.NElementParser;
+import net.thevpc.nuts.elem.NElementWriter;
 import net.thevpc.nuts.elem.NElements;
 import net.thevpc.nuts.format.NContentType;
 import net.thevpc.nuts.io.NPath;
@@ -95,7 +96,7 @@ public class JsonCommand extends NshBuiltinDefault {
         if (options.queries.isEmpty()) {
             NElement inputDocument = readJsonConvertElement(options.input, context.getShellContext());
             if (session.getOutputFormat().orDefault() == NContentType.PLAIN) {
-                session.out().println(NElements.of().json().setValue(inputDocument).format());
+                session.out().println(NElementWriter.ofJson().setNtf(true).toText(inputDocument));
             } else {
                 session.out().println(inputDocument);
             }
