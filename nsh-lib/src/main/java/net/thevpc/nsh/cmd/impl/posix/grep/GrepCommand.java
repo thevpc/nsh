@@ -86,7 +86,7 @@ public class GrepCommand extends NshBuiltinDefault {
             //options.regexp = true;
             return true;
         } else if ((a = cmdLine.next("-v", "--invert-match").orNull()) != null) {
-            if (a.isActive()) {
+            if (a.isNonCommented()) {
                 if (a.isNegated()) {
                     String v = a.getStringValue().orNull();
                     if (v == null) {

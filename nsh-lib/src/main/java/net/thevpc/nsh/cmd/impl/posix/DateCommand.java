@@ -62,7 +62,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--date": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.nextEntry().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         options.date = a.getStringValue().get();
                     }
                 } else {
@@ -75,7 +75,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--file": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.nextEntry().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         options.file = a.getStringValue().get();
                     }
                 } else {
@@ -87,7 +87,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--rfc-3339": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.next().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         String s = a.getStringValue().get();
                         if (s == null) {
                             s = "";
@@ -107,7 +107,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--iso-8601": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.next().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         String s = a.getStringValue().get();
                         if (s == null) {
                             s = "";
@@ -128,7 +128,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--set": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.next().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         String s = a.getStringValue().get();
                         if (s == null) {
                             s = "";
@@ -156,7 +156,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "-Ins": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.next().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         options.rfc8601 = a.asString().get().substring(2);
                     }
                 } else {
@@ -168,7 +168,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--debug": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.nextFlag().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         options.debug = a.getBooleanValue().get();
                     }
                 } else {
@@ -182,7 +182,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--universal": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.nextFlag().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         options.utc = a.getBooleanValue().get();
                     }
                 } else {
@@ -195,7 +195,7 @@ public class DateCommand extends NshBuiltinDefault {
             case "--rfc-email": {
                 if (context.getShell().getOptions().isNsh()) {
                     a = cmdLine.nextFlag().get();
-                    if (a.isActive()) {
+                    if (a.isNonCommented()) {
                         options.rfcMail = a.getBooleanValue().get();
                     }
                 } else {

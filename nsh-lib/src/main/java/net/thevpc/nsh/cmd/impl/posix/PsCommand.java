@@ -57,14 +57,14 @@ public class PsCommand extends NshBuiltinDefault {
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         if (cmdLine.withFirst(
-                cc -> cc.with("-e", "-A").consumeFlag((vv, a) -> {
+                cc -> cc.with("-e", "-A").nextFlag((vv, a) -> {
                     options.flags.add(a.key());
                     options.associatedWithTerminal = null;
                     options.running = null;
                     options.sessionLeader = null;
                     options.owned = null;
                 })
-                , cc -> cc.with("-N").consumeFlag((vv, a) -> {
+                , cc -> cc.with("-N").nextFlag((vv, a) -> {
                     options.flags.add(a.key());
                     options.negate = true;
                 })
