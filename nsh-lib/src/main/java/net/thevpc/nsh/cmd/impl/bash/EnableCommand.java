@@ -31,7 +31,6 @@ import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltin;
@@ -63,27 +62,27 @@ public class EnableCommand extends NshBuiltinDefault {
         } else if (a.isOption()) {
             switch(a.key()) {
                 case "-a": {
-                    cmdLine.withNextFlag((v, r) -> options.a = v);
+                    cmdLine.withNextFlag((v) -> options.a = v.booleanValue());
                     return true;
                 }
                 case "-d": {
-                    cmdLine.withNextFlag((v, r) -> options.d = v);
+                    cmdLine.withNextFlag((v) -> options.d = v.booleanValue());
                     return true;
                 }
                 case "-n": {
-                    cmdLine.withNextFlag((v, r) -> options.n = v);
+                    cmdLine.withNextFlag((v) -> options.n = v.booleanValue());
                     return true;
                 }
                 case "-p": {
-                    cmdLine.withNextFlag((v, r) -> options.p = v);
+                    cmdLine.withNextFlag((v) -> options.p = v.booleanValue());
                     return true;
                 }
                 case "-s": {
-                    cmdLine.withNextFlag((v, r) -> options.s = v);
+                    cmdLine.withNextFlag((v) -> options.s = v.booleanValue());
                     return true;
                 }
                 case "-f": {
-                    cmdLine.withNextEntry((v, r) -> options.file = v);
+                    cmdLine.withNextEntry((v) -> options.file = v.stringValue());
                     return true;
                 }
             }

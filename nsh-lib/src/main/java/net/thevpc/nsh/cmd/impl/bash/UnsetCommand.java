@@ -55,10 +55,10 @@ public class UnsetCommand extends NshBuiltinDefault {
         NArg aa = cmdLine.peek().get();
         if (aa.isOption()) {
             if (aa.key().equals("-v")) {
-                cmdLine.withNextFlag((v, a) -> options.fct= !v);
+                cmdLine.withNextFlag((v) -> options.fct= !v.booleanValue());
                 return true;
             } else if (aa.key().equals("-f")) {
-                cmdLine.withNextFlag((v, a) -> options.fct= v);
+                cmdLine.withNextFlag((v) -> options.fct= v.booleanValue());
                 return true;
             }
         } else {

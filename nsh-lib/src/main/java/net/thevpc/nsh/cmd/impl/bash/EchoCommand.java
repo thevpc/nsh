@@ -52,28 +52,28 @@ public class EchoCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         switch (cmdLine.peek().get().key()) {
             case "-n": {
-                cmdLine.withNextFlag((v, a) -> options.newLine = v);
+                cmdLine.withNextFlag((v) -> options.newLine = v.booleanValue());
                 return true;
             }
             case "-e":
             case "--escape":
             {
-                cmdLine.withNextFlag((v, a) -> options.escape = v);
+                cmdLine.withNextFlag((v) -> options.escape = v.booleanValue());
                 return true;
             }
             case "-E": {
-                cmdLine.withNextFlag((v, a) -> options.escape = !v);
+                cmdLine.withNextFlag((v) -> options.escape = !v.booleanValue());
                 return true;
             }
             case "-p":
             case "--plain": {
-                cmdLine.withNextTrueFlag((v, a) -> options.highlighter = null);
+                cmdLine.withNextTrueFlag((v) -> options.highlighter = null);
                 return true;
             }
             case "-H":
             case "--highlight":
             case "--highlighter": {
-                cmdLine.withNextEntry((v, a) -> options.highlighter = NStringUtils.trim(v));
+                cmdLine.withNextEntry((v) -> options.highlighter = NStringUtils.trim(v.stringValue()));
                 return true;
             }
             default: {

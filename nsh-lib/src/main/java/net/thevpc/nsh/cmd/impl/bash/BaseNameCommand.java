@@ -63,13 +63,13 @@ public class BaseNameCommand extends NshBuiltinDefault {
             case "-a":
             case "--all":
             case "--multi": {
-                cmdLine.withNextFlag((v, r) -> options.multi = v);
+                cmdLine.withNextFlag((v) -> options.multi = v.booleanValue());
                 return true;
             }
             case "-s":
             case "--suffix": {
-                cmdLine.withNextEntry((v, r) -> {
-                    options.suffix = v;
+                cmdLine.withNextEntry((v) -> {
+                    options.suffix = v.stringValue();
                     options.multi = true;
                 });
                 return true;

@@ -196,7 +196,7 @@ public class Nsh {
         NSupportLevelContext constraints = new NDefaultSupportLevelContext(this);
 
         Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
-        for (NshBuiltin command : NWorkspace.get().get().extensions()
+        for (NshBuiltin command : NWorkspace.of().extensions()
                 .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
                 .loadAll(this)) {
             NshBuiltin old = _rootContext.builtins().find(command.getName());
