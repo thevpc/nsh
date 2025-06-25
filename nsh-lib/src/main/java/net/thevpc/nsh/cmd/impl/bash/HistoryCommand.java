@@ -87,9 +87,9 @@ public class HistoryCommand extends NshBuiltinDefault {
             cmdLine.setCommandName(getName()).throwUnexpectedArgument();
             return true;
         } else {
-            if (cmdLine.peek().get().asInt().orElse(0) != 0) {
+            if (cmdLine.peek().get().getIntValue().orElse(0) != 0) {
                 options.action = Action.PRINT;
-                options.ival = Math.abs(cmdLine.next().get().asInt().get());
+                options.ival = Math.abs(cmdLine.next().get().intValue());
                 return true;
             }
         }

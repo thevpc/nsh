@@ -59,9 +59,8 @@ public class TestCommand extends NshBuiltinDefault {
     }
 
     private static int evalInt(Eval a, NshExecutionContext context) {
-        NSession session = context.getSession();
         if (a instanceof EvalArg) {
-            return ((EvalArg) a).arg.asInt().get();
+            return ((EvalArg) a).arg.intValue();
         }
         return a.eval(context);
     }
