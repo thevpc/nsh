@@ -20,6 +20,6 @@
         </contributor>
     </contributors>
     <dependencies>
-        <dependency><groupId>net.thevpc.nsh</groupId><artifactId>nsh</artifactId><version>0.8.5.0</version></dependency>
+        <dependency><groupId>net.thevpc.nsh</groupId><artifactId>nsh</artifactId><version>0.8.6.0</version></dependency>
     </dependencies>
 </project>

@@ -42,7 +42,6 @@ import net.thevpc.nsh.util.bundles._StringUtils;
 import net.thevpc.nsh.util.ColumnRuler;
 import net.thevpc.nsh.util.FileInfo;
 import net.thevpc.nsh.util.ShellHelper;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 import net.thevpc.nuts.util.NStringUtils;
 
@@ -286,7 +285,7 @@ public class CatCommand extends NshBuiltinDefault {
     private NText nextNode(NText t, NSession session, Tracker tracker, Options options) {
         switch (t.getType()) {
             case PLAIN: {
-                String text = ((NTextPlain) t).getText();
+                String text = ((NTextPlain) t).getValue();
                 NTextBuilder tb = NTextBuilder.of();
                 if (options.n && tracker.wasNewline) {
                     tb.append(tracker.ruler.nextNum(tracker.line, session));
@@ -319,7 +318,7 @@ public class CatCommand extends NshBuiltinDefault {
                 }
                 if(tt.getChild() instanceof NTextPlain) {
                     NTextPlain pt = (NTextPlain) tt.getChild();
-                    String text = pt.getText();
+                    String text = pt.getValue();
                     for (String s : ShellHelper.splitOn(text, '\t')) {
                         if (s.startsWith("\t")) {
                             tb.append("^I", NTextStyle.separator());
