@@ -563,7 +563,7 @@ public class Nsh {
             return true;
         }
         if (cmdPath.exists()) {
-            String firstLine = cmdPath.getLines().findFirst().orElse(null);
+            String firstLine = cmdPath.lines().findFirst().orElse(null);
             if (firstLine != null) {
                 if (firstLine.startsWith("#!/bin/sh")) {
                     return true;

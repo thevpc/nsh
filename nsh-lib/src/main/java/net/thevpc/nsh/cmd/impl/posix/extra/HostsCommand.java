@@ -179,7 +179,7 @@ public class HostsCommand extends NshBuiltinDefault {
             NPath nPath = NPath.of(hostsFile);
             NRef<HostLineComment> lastComment = NRef.ofNull();
             HostLines hosts = new HostLines();
-            nPath.getLines().forEach(s -> {
+            nPath.lines().forEach(s -> {
                 HostLine t = parseHostLine(s, lastComment.get());
                 if (t instanceof HostLineComment) {
                     lastComment.set((HostLineComment) t);

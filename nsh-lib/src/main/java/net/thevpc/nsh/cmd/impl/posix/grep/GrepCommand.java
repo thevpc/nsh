@@ -205,7 +205,7 @@ public class GrepCommand extends NshBuiltinDefault {
             return true;
         } else if ((a = cmdLine.next("--@include").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
-            for (String s : NPath.of(NLiteral.of(a).asString().get()).getLines().collect(Collectors.toList())) {
+            for (String s : NPath.of(NLiteral.of(a).asString().get()).lines().collect(Collectors.toList())) {
                 s = s.trim();
                 if (!s.isEmpty()) {
                     if (!s.startsWith("#")) {
