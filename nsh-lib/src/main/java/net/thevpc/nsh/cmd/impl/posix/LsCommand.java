@@ -29,7 +29,7 @@ import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.elem.NEDesc;
+import net.thevpc.nuts.elem.NDescribableElementSupplier;
 import net.thevpc.nuts.elem.NElement;
 import net.thevpc.nuts.elem.NElements;
 import net.thevpc.nuts.io.NPath;
@@ -156,9 +156,9 @@ public class LsCommand extends NshBuiltinDefault {
             ResultGroup g = e.getValue();
             g.children = file.stream()
                     .sorted(FILE_SORTER)
-                    .map(NFunction.of(this::build).withDesc(NEDesc.of("build")))
+                    .map(NFunction.of(this::build).redescribe(NDescribableElementSupplier.of("build")))
                     .filter(
-                            NPredicate.of((ResultItem b) -> options.a || !b.hidden).withDesc(NEDesc.of("all || !hidden"))
+                            NPredicate.of((ResultItem b) -> options.a || !b.hidden).redescribe(NDescribableElementSupplier.of("all || !hidden"))
                     )
                     .toList();
             success.result.add(g);

@@ -28,30 +28,17 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.err.NshException;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nsh.util.bundles.BytesSizeFormat;
 import net.thevpc.nuts.NConstants;
-import net.thevpc.nuts.NErr;
 import net.thevpc.nuts.NSession;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.elem.NEDesc;
-import net.thevpc.nuts.elem.NElement;
-import net.thevpc.nuts.elem.NElements;
-import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.io.NPathPermission;
-import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.io.NPs;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
-import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nuts.util.*;
 
-import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by vpc on 1/7/17.

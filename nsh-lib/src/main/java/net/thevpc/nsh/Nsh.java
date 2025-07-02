@@ -37,7 +37,7 @@ import net.thevpc.nsh.parser.nodes.*;
 import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineHistory;
-import net.thevpc.nuts.elem.NEDesc;
+import net.thevpc.nuts.elem.NDescribableElementSupplier;
 
 import net.thevpc.nuts.NStoreType;
 import net.thevpc.nuts.io.*;
@@ -325,14 +325,14 @@ public class Nsh {
     public List<String> findFiles(final String namePattern, boolean exact, String parent) {
         if (exact) {
             String[] all = NPath.of(parent).stream()
-                    .filter(NPredicate.of((NPath x) -> namePattern.equals(x.getName())).withDesc(NEDesc.of("name='" + namePattern + "'")))
-                    .map(NFunction.of(NPath::toString).withDesc(NEDesc.of("toString"))).toArray(String[]::new);
+                    .filter(NPredicate.of((NPath x) -> namePattern.equals(x.getName())).redescribe(NDescribableElementSupplier.of("name='" + namePattern + "'")))
+                    .map(NFunction.of(NPath::toString).redescribe(NDescribableElementSupplier.of("toString"))).toArray(String[]::new);
             return Arrays.asList(all);
         } else {
             final Pattern o = Pattern.compile(namePattern);
             String[] all = NPath.of(parent).stream()
-                    .filter(NPredicate.of((NPath x) -> o.matcher(x.getName()).matches()).withDesc(NEDesc.of("name~~'" + namePattern + "'")))
-                    .map(NFunction.of(NPath::toString).withDesc(NEDesc.of("toString"))).toArray(String[]::new);
+                    .filter(NPredicate.of((NPath x) -> o.matcher(x.getName()).matches()).redescribe(NDescribableElementSupplier.of("name~~'" + namePattern + "'")))
+                    .map(NFunction.of(NPath::toString).redescribe(NDescribableElementSupplier.of("toString"))).toArray(String[]::new);
             return Arrays.asList(all);
         }
     }
