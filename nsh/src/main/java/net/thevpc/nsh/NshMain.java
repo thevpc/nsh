@@ -16,7 +16,7 @@ import net.thevpc.nuts.util.NMsg;
 public class NshMain implements NApplication {
 
     public static void main(String[] args) {
-        new NshMain().main(NMainArgs.of(args));
+        NApp.builder(args).run();
     }
 
     @Override
