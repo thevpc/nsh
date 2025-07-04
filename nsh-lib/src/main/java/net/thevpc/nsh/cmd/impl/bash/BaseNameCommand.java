@@ -51,7 +51,6 @@ public class BaseNameCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         switch (a.key()) {
             case "-z":
@@ -63,16 +62,14 @@ public class BaseNameCommand extends NshBuiltinDefault {
             case "-a":
             case "--all":
             case "--multi": {
-                cmdLine.withNextFlag((v) -> options.multi = v.booleanValue());
-                return true;
+                return cmdLine.selector().withNextFlag((v) -> options.multi = v.booleanValue()).anyMatch();
             }
             case "-s":
             case "--suffix": {
-                cmdLine.withNextEntry((v) -> {
+                return cmdLine.selector().withNextEntry((v) -> {
                     options.suffix = v.stringValue();
                     options.multi = true;
-                });
-                return true;
+                }).anyMatch();
             }
             default: {
                 if (a.isOption()) {

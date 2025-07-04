@@ -55,59 +55,57 @@ public class PsCommand extends NshBuiltinDefault {
 
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
-        Options options = context.getOptions();
-        if (cmdLine.withFirst(
-                (a, cc) -> cc.with("-e", "-A").nextTrueFlag((vv) -> {
+        return cmdLine.selector()
+                .with("-e", "-A").nextTrueFlag((vv) -> {
+                    Options options = context.getOptions();
                     options.flags.add(a.key());
                     options.associatedWithTerminal = null;
                     options.running = null;
                     options.sessionLeader = null;
                     options.owned = null;
                 })
-                , (a, cc) -> cc.with("-N").nextTrueFlag((vv) -> {
-                    options.flags.add(a.key());
+                .with("-N").nextTrueFlag((v) -> {
+                    Options options = context.getOptions();
+                    options.flags.add(v.key());
                     options.negate = true;
                 })
-        )) {
-            //okkay
-        } else if (cmdLine.peek().get().isNonOption()) {
-            String path = cmdLine.next(NArgName.of("options"))
-                    .flatMap(NArg::asString).get();
-            for (char c : path.toCharArray()) {
-                options.flags.add("+" + String.valueOf(c));
-                switch (c) {
-                    case 'a':
-                    case 'x': {
-                        options.owned = null;
-                        break;
+                .withNonOption().next(v -> {
+                    String path = cmdLine.next(NArgName.of("options"))
+                            .flatMap(NArg::asString).get();
+                    Options options = context.getOptions();
+                    for (char c : path.toCharArray()) {
+                        options.flags.add("+" + String.valueOf(c));
+                        switch (c) {
+                            case 'a':
+                            case 'x': {
+                                options.owned = null;
+                                break;
+                            }
+                            case 'd': {
+                                options.sessionLeader = false;
+                                break;
+                            }
+                            case 'g': {
+                                options.sessionLeader = null;
+                                break;
+                            }
+                            case 'T':
+                            case 't': {
+                                options.associatedWithCurrentTerminal = true;
+                                break;
+                            }
+                            case 'r': {
+                                options.running = true;
+                                break;
+                            }
+                            case 'f': {
+                                //options.running = true;
+                                break;
+                            }
+                        }
                     }
-                    case 'd': {
-                        options.sessionLeader = false;
-                        break;
-                    }
-                    case 'g': {
-                        options.sessionLeader = null;
-                        break;
-                    }
-                    case 'T':
-                    case 't': {
-                        options.associatedWithCurrentTerminal = true;
-                        break;
-                    }
-                    case 'r': {
-                        options.running = true;
-                        break;
-                    }
-                    case 'f': {
-                        //options.running = true;
-                        break;
-                    }
-                }
-            }
-            cmdLine.skip();
-            return true;
-        }
-        return false;
+                    cmdLine.skip();
+                }).anyMatch();
     }
 
     private boolean doAcceptNoNegate(NPsInfo x, Options options) {

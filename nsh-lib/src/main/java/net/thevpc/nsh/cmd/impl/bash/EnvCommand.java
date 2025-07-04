@@ -56,54 +56,43 @@ public class EnvCommand extends NshBuiltinDefault {
             case 0: {
                 switch (a.key()) {
                     case "--sort": {
-                        cmdLine.withNextFlag((v) -> options.sort = v.booleanValue());
-                        return true;
+                        return cmdLine.selector().withNextFlag((v) -> options.sort = v.booleanValue()).anyMatch();
                     }
                     case "--external":
                     case "--spawn":
                     case "-x": {
-                        cmdLine.withNextTrueFlag((v) -> options.executionType = NExecutionType.SPAWN);
-                        return true;
+                        return cmdLine.selector().withNextTrueFlag((v) -> options.executionType = NExecutionType.SPAWN).anyMatch();
                     }
                     case "--embedded":
                     case "-b": {
-                        cmdLine.withNextTrueFlag((v) -> options.executionType = NExecutionType.EMBEDDED);
-                        return true;
+                        return cmdLine.selector().withNextTrueFlag((v) -> options.executionType = NExecutionType.EMBEDDED).anyMatch();
                     }
                     case "--system": {
-                        cmdLine.withNextTrueFlag((v) -> options.executionType = NExecutionType.SYSTEM);
-                        return true;
+                        return cmdLine.selector().withNextTrueFlag((v) -> options.executionType = NExecutionType.SYSTEM).anyMatch();
                     }
                     case "--current-user": {
-                        cmdLine.withNextTrueFlag((v) -> options.runAs = NRunAs.currentUser());
-                        return true;
+                        return cmdLine.selector().withNextTrueFlag((v) -> options.runAs = NRunAs.currentUser()).anyMatch();
                     }
                     case "--as-root": {
-                        cmdLine.withNextTrueFlag((v) -> options.runAs = NRunAs.root());
-                        return true;
+                        return cmdLine.selector().withNextTrueFlag((v) -> options.runAs = NRunAs.root()).anyMatch();
                     }
                     case "--sudo": {
-                        cmdLine.withNextTrueFlag((v) -> options.runAs = NRunAs.sudo());
-                        return true;
+                        return cmdLine.selector().withNextTrueFlag((v) -> options.runAs = NRunAs.sudo()).anyMatch();
                     }
                     case "--as-user": {
-                        cmdLine.withNextEntry((v) -> options.runAs = NRunAs.user(v.stringValue()));
-                        return true;
+                        return cmdLine.selector().withNextEntry((v) -> options.runAs = NRunAs.user(v.stringValue())).anyMatch();
                     }
                     case "-C":
                     case "--chdir": {
-                        cmdLine.withNextEntry((v) -> options.dir = v.stringValue());
-                        return true;
+                        return cmdLine.selector().withNextEntry((v) -> options.dir = v.stringValue()).anyMatch();
                     }
                     case "-u":
                     case "--unset": {
-                        cmdLine.withNextEntry((v) -> options.unsetVers.add(v.stringValue()));
-                        return true;
+                        return cmdLine.selector().withNextEntry((v) -> options.unsetVers.add(v.stringValue())).anyMatch();
                     }
                     case "-i":
                     case "--ignore-environment": {
-                        cmdLine.withNextFlag((v) -> options.ignoreEnvironment = v.booleanValue());
-                        return true;
+                        cmdLine.selector().withNextFlag((v) -> options.ignoreEnvironment = v.booleanValue()).anyMatch();
                     }
                     case "-": {
                         cmdLine.skip();
