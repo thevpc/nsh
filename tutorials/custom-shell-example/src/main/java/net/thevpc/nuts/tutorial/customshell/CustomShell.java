@@ -8,13 +8,14 @@ import net.thevpc.nsh.NShellConfiguration;
 /**
  * @author vpc
  */
-public class CustomShell implements NApplication {
+@NApp.Info
+public class CustomShell {
 
     public static void main(String[] args) {
-        new CustomShell().main(NMainArgs.ofExit(args));
+        NApp.builder(args).run();
     }
 
-    @Override
+    @NApp.Main
     public void run() {
         NShell sh = new NShell(new NShellConfiguration());
         sh.run();

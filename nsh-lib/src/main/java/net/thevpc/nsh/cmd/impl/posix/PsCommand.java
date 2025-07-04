@@ -56,7 +56,7 @@ public class PsCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         return cmdLine.selector()
-                .with("-e", "-A").nextTrueFlag((vv) -> {
+                .with("-e", "-A").nextTrueFlag((a) -> {
                     Options options = context.getOptions();
                     options.flags.add(a.key());
                     options.associatedWithTerminal = null;
