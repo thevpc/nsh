@@ -45,7 +45,7 @@ import java.util.Set;
 public class UnsetCommand extends NshBuiltinDefault {
 
     public UnsetCommand() {
-        super("unset", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("unset", NConstants.Support.DEFAULT_SUPPORT, Options.class);
     }
 
     @Override
@@ -55,11 +55,9 @@ public class UnsetCommand extends NshBuiltinDefault {
         NArg aa = cmdLine.peek().get();
         if (aa.isOption()) {
             if (aa.key().equals("-v")) {
-                cmdLine.withNextFlag((v) -> options.fct= !v.booleanValue());
-                return true;
+                return cmdLine.matcher().matchFlag((v) -> options.fct = !v.booleanValue()).anyMatch();
             } else if (aa.key().equals("-f")) {
-                cmdLine.withNextFlag((v) -> options.fct= v.booleanValue());
-                return true;
+                return cmdLine.matcher().matchFlag((v) -> options.fct = v.booleanValue()).anyMatch();
             }
         } else {
             options.list.addAll(Arrays.asList(cmdLine.toStringArray()));
@@ -87,6 +85,7 @@ public class UnsetCommand extends NshBuiltinDefault {
         boolean fct;
         Set<String> list = new HashSet<>();
     }
+
     @Override
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         return nextOption(arg, cmdLine, context);

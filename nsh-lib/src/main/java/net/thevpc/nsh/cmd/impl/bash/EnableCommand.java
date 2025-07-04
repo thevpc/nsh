@@ -62,22 +62,22 @@ public class EnableCommand extends NshBuiltinDefault {
         } else if (a.isOption()) {
             switch(a.key()) {
                 case "-a": {
-                    return cmdLine.selector().withNextFlag((v) -> options.a = v.booleanValue()).anyMatch();
+                    return cmdLine.matcher().matchFlag((v) -> options.a = v.booleanValue()).anyMatch();
                 }
                 case "-d": {
-                    return cmdLine.selector().withNextFlag((v) -> options.d = v.booleanValue()).anyMatch();
+                    return cmdLine.matcher().matchFlag((v) -> options.d = v.booleanValue()).anyMatch();
                 }
                 case "-n": {
-                    return cmdLine.selector().withNextFlag((v) -> options.n = v.booleanValue()).anyMatch();
+                    return cmdLine.matcher().matchFlag((v) -> options.n = v.booleanValue()).anyMatch();
                 }
                 case "-p": {
-                    return cmdLine.selector().withNextFlag((v) -> options.p = v.booleanValue()).anyMatch();
+                    return cmdLine.matcher().matchFlag((v) -> options.p = v.booleanValue()).anyMatch();
                 }
                 case "-s": {
-                    return cmdLine.selector().withNextFlag((v) -> options.s = v.booleanValue()).anyMatch();
+                    return cmdLine.matcher().matchFlag((v) -> options.s = v.booleanValue()).anyMatch();
                 }
                 case "-f": {
-                    return cmdLine.selector().withNextEntry((v) -> options.file = v.stringValue()).anyMatch();
+                    return cmdLine.matcher().matchEntry((v) -> options.file = v.stringValue()).anyMatch();
                 }
             }
         } else {
