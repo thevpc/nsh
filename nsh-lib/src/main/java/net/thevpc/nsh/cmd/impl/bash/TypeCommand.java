@@ -30,7 +30,6 @@ import net.thevpc.nuts.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
@@ -58,7 +57,7 @@ public class TypeCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         if (a.isNonOption()) {
-            config.commands.add(cmdLine.next().get().getImage());
+            config.commands.add(cmdLine.next().get().image());
             return true;
         }
         return false;

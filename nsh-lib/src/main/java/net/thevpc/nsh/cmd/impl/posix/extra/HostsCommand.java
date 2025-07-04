@@ -95,7 +95,7 @@ public class HostsCommand extends NshBuiltinDefault {
             cmdLine.next();
             while (cmdLine.hasNext()) {
                 NArg a = cmdLine.peek().get();
-                if (!a.isOption() && !isKeyword(a.getImage())) {
+                if (!a.isOption() && !isKeyword(a.image())) {
                     a = cmdLine.nextEntry().get();
                     String ip = a.key();
                     String name = a.value();
@@ -117,9 +117,9 @@ public class HostsCommand extends NshBuiltinDefault {
             cmdLine.next();
             while (cmdLine.hasNext()) {
                 NArg a = cmdLine.peek().get();
-                if (!a.isOption() && !isKeyword(a.getImage())) {
+                if (!a.isOption() && !isKeyword(a.image())) {
                     a = cmdLine.next().get();
-                    String ip = a.getImage();
+                    String ip = a.image();
                     NAssert.requireNonBlank(ip, "ip in " + a);
                     config.toRemove.add(ip);
                 } else {

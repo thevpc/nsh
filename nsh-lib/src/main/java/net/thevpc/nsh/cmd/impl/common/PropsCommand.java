@@ -35,7 +35,6 @@ import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class PropsCommand extends NshBuiltinDefault {
         Options o = context.getOptions();
         NSession session = context.getSession();
         if (cmdLine.next("get").isPresent()) {
-            o.property = cmdLine.next().get().getImage();
+            o.property = cmdLine.next().get().image();
             o.action = "get";
             while (cmdLine.hasNext()) {
                 if (cmdLine.next("--xml").isPresent()) {
@@ -86,8 +85,8 @@ public class PropsCommand extends NshBuiltinDefault {
             }
             return true;
         } else if (cmdLine.next("set").isPresent()) {
-            String k = cmdLine.next().get().getImage();
-            String v = cmdLine.next().get().getImage();
+            String k = cmdLine.next().get().image();
+            String v = cmdLine.next().get().image();
             o.updates.put(k, v);
             o.action = "set";
             while (cmdLine.hasNext()) {

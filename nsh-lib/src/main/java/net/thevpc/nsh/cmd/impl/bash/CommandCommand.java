@@ -30,7 +30,6 @@ import net.thevpc.nuts.NConstants;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
@@ -62,7 +61,7 @@ public class CommandCommand extends NshBuiltinDefault {
             options.p = a.getBooleanValue().get();
         } else if (!cmdLine.isNextOption()) {
             if (options.commandName == null) {
-                options.commandName = cmdLine.next().get().getImage();
+                options.commandName = cmdLine.next().get().image();
             }
             options.args.addAll(Arrays.asList(cmdLine.toStringArray()));
             cmdLine.skipAll();

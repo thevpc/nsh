@@ -30,7 +30,6 @@ import net.thevpc.nuts.NConstants;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.NSession;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
@@ -52,7 +51,7 @@ public class CdCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         if (cmdLine.peek().get().isNonOption()) {
             if (options.dirname == null) {
-                options.dirname = cmdLine.next().get().getImage();
+                options.dirname = cmdLine.next().get().image();
                 return true;
             } else {
                 cmdLine.throwUnexpectedArgument();

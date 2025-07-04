@@ -35,7 +35,6 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
-import net.thevpc.nuts.util.NLiteral;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class RmCommand extends NshBuiltinDefault {
             options.R = a.getBooleanValue().get();
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
-            options.files.add(ShellHelper.xfileOf(cmdLine.next().get().getImage(),
+            options.files.add(ShellHelper.xfileOf(cmdLine.next().get().image(),
                     context.getDirectory(), session));
             return true;
         }

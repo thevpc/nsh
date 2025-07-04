@@ -35,7 +35,6 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
 import java.util.ArrayList;
@@ -57,13 +56,13 @@ public class SshCommand extends NshBuiltinDefault {
         NArg a;
         NSession session = context.getSession();
         if (!o.cmd.isEmpty()) {
-            o.cmd.add(cmdLine.next().get().getImage());
+            o.cmd.add(cmdLine.next().get().image());
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
             if (o.address == null) {
-                o.address = cmdLine.next().get().getImage();
+                o.address = cmdLine.next().get().image();
             } else {
-                o.cmd.add(cmdLine.next().get().getImage());
+                o.cmd.add(cmdLine.next().get().image());
             }
             return true;
         } else if ((a = cmdLine.next("--nuts").orNull()) != null) {
@@ -82,7 +81,7 @@ public class SshCommand extends NshBuiltinDefault {
             return true;
         } else if (o.address == null || cmdLine.peek().get().isNonOption()) {
             o.acceptDashNuts = false;
-            o.cmd.add(cmdLine.next().get().getImage());
+            o.cmd.add(cmdLine.next().get().image());
             return true;
         }
 

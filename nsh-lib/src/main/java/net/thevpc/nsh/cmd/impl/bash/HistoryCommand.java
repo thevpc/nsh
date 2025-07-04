@@ -73,7 +73,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             if (a.isKeyValue()) {
                 options.sval = a.getStringValue().get();
             } else if (!cmdLine.isEmpty()) {
-                options.sval = cmdLine.next().get().getImage();
+                options.sval = cmdLine.next().get().image();
             }
             cmdLine.setCommandName(getName()).throwUnexpectedArgument();
             return true;
@@ -82,7 +82,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             if (a.isKeyValue()) {
                 options.sval = a.getStringValue().get();
             } else if (!cmdLine.isEmpty()) {
-                options.sval = cmdLine.next().get().getImage();
+                options.sval = cmdLine.next().get().image();
             }
             cmdLine.setCommandName(getName()).throwUnexpectedArgument();
             return true;

@@ -36,7 +36,6 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class WgetCommand extends NshBuiltinDefault {
             return true;
         } else if (!cmdLine.isNextOption()) {
             while (cmdLine.hasNext()) {
-                options.files.add(cmdLine.next().get().getImage());
+                options.files.add(cmdLine.next().get().image());
             }
             return true;
         }

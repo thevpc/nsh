@@ -33,7 +33,6 @@ import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
 import java.io.BufferedReader;
@@ -62,7 +61,7 @@ public class HeadCommand extends NshBuiltinDefault {
             cmdLine.skip();
             return true;
         } else if (!a.isOption()) {
-            String path = cmdLine.next().get().getImage();
+            String path = cmdLine.next().get().image();
             String file = NPath.of(path).toAbsolute(context.getDirectory()).toString();
             options.files.add(file);
             return true;

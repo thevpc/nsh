@@ -35,7 +35,6 @@ import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
 import java.util.*;
@@ -56,7 +55,7 @@ public class AutocompleteCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         if (!cmdLine.isNextOption()) {
             while (cmdLine.hasNext()) {
-                String s = cmdLine.next().get().getImage();
+                String s = cmdLine.next().get().image();
                 if (options.cmd == null) {
                     options.cmd = s;
                 } else {
