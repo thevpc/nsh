@@ -8,7 +8,7 @@ import net.thevpc.nsh.NShellConfiguration;
 /**
  * @author vpc
  */
-@NApp.Info
+@NApp.Definition
 public class CustomShell {
 
     public static void main(String[] args) {
