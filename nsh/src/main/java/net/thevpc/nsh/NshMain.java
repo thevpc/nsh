@@ -53,7 +53,7 @@ public class NshMain  {
         Nsh.uninstallFromNuts();
     }
 
-    @NApp.Main
+    @NApp.Runner
     public void run() {
 
         //before loading Nsh check if we need to activate rich term
