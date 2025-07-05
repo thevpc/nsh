@@ -13,7 +13,7 @@ import java.util.logging.Level;
 
 import net.thevpc.nuts.util.NMsg;
 
-@NApp.Info
+@NApp.Definition
 public class NshMain  {
 
     public static void main(String[] args) {
