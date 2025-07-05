@@ -71,7 +71,7 @@ public class HostsCommand extends NshBuiltinDefault {
         switch (cmdLine.peek().get().key()) {
             case "--hosts-file": {
                 NArg hf = cmdLine.nextEntry().get();
-                if (hf.isNonCommented()) {
+                if (hf.isUncommented()) {
                     config.hostsFile = hf.value();
                 }
                 return true;
