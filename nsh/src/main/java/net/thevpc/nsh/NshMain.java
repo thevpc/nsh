@@ -13,14 +13,14 @@ import java.util.logging.Level;
 
 import net.thevpc.nuts.util.NMsg;
 
-@NApp.Definition
+@NAppDefinition
 public class NshMain  {
 
     public static void main(String[] args) {
         NApp.builder(args).run();
     }
 
-    @NApp.Installer
+    @NAppInstaller
     public void onInstallApplication() {
         NLogOp log = NLogOp.of(NshMain.class);
         log.level(Level.CONFIG).verb(NLogVerb.START).log(NMsg.ofPlain("[nsh] Installation..."));
@@ -40,20 +40,20 @@ public class NshMain  {
         });
     }
 
-    @NApp.Updater
+    @NAppUpdater
     public void onUpdateApplication() {
         NLogOp log = NLogOp.of(NshMain.class);
         log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofPlain("[nsh] update..."));
         onInstallApplication();
     }
 
-    @NApp.Uninstaller
+    @NAppUninstaller
     public void onUninstallApplication() {
         NLogOp log = NLogOp.of(NshMain.class);
         Nsh.uninstallFromNuts();
     }
 
-    @NApp.Runner
+    @NAppRunner
     public void run() {
 
         //before loading Nsh check if we need to activate rich term
