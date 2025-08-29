@@ -246,9 +246,7 @@ public class Nsh {
 
     public static void uninstallFromNuts() {
         NLog log = NLog.of(Nsh.class);
-        log.log(NMsg.ofPlain("[nsh] uninstallation...")
-                .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
-        );
+        log.log(NMsg.ofPlain("[nsh] uninstallation...").withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO));
         try {
             try {
                 NWorkspace.of().removeCommandFactory("nsh");

@@ -47,8 +47,7 @@ public class NshMain  {
     public void onUpdateApplication() {
         NLog log = NLog.of(NshMain.class);
         log.log(NMsg.ofPlain("[nsh] update...")
-                .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
-        );
+                .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO));
         onInstallApplication();
     }
 
