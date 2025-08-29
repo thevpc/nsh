@@ -6,8 +6,9 @@ import net.thevpc.nuts.cmdline.NCmdLineRunner;
 
 import net.thevpc.nsh.options.DefaultNshOptionsParser;
 import net.thevpc.nsh.options.NshOptions;
-import net.thevpc.nuts.log.NLogOp;
-import net.thevpc.nuts.log.NLogVerb;
+
+import net.thevpc.nuts.log.NLog;
+import net.thevpc.nuts.log.NMsgIntent;
 
 import java.util.logging.Level;
 
@@ -22,8 +23,10 @@ public class NshMain  {
 
     @NAppInstaller
     public void onInstallApplication() {
-        NLogOp log = NLogOp.of(NshMain.class);
-        log.level(Level.CONFIG).verb(NLogVerb.START).log(NMsg.ofPlain("[nsh] Installation..."));
+        NLog log = NLog.of(NshMain.class);
+        log.log(NMsg.ofPlain("[nsh] Installation...")
+                .withLevel(Level.CONFIG).withIntent(NMsgIntent.START)
+        );
         NApp.of().runCmdLine(new NCmdLineRunner() {
             @Override
             public void init(NCmdLine cmdLine) {
@@ -42,14 +45,15 @@ public class NshMain  {
 
     @NAppUpdater
     public void onUpdateApplication() {
-        NLogOp log = NLogOp.of(NshMain.class);
-        log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofPlain("[nsh] update..."));
+        NLog log = NLog.of(NshMain.class);
+        log.log(NMsg.ofPlain("[nsh] update...")
+                .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+        );
         onInstallApplication();
     }
 
     @NAppUninstaller
     public void onUninstallApplication() {
-        NLogOp log = NLogOp.of(NshMain.class);
         Nsh.uninstallFromNuts();
     }
 

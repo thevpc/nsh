@@ -41,8 +41,8 @@ import net.thevpc.nuts.elem.NDescribables;
 
 import net.thevpc.nuts.NStoreType;
 import net.thevpc.nuts.io.*;
-import net.thevpc.nuts.log.NLogOp;
-import net.thevpc.nuts.log.NLogVerb;
+
+import net.thevpc.nuts.log.NMsgIntent;
 import net.thevpc.nuts.spi.NDefaultSupportLevelContext;
 import net.thevpc.nuts.spi.NSupportLevelContext;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
@@ -221,9 +221,7 @@ public class Nsh {
             }
         } catch (Exception ex) {
             NLog.of(Nsh.class)
-                    .with().level(Level.SEVERE)
-                    .error(ex)
-                    .log(NMsg.ofC("error resolving history file %s", this.history.getHistoryFile()));
+                    .log(NMsg.ofC("error resolving history file %s", this.history.getHistoryFile()).asError(ex));
         }
         NWorkspace.of().setProperty(NshHistory.class.getName(), this.history);
 
@@ -247,8 +245,10 @@ public class Nsh {
     }
 
     public static void uninstallFromNuts() {
-        NLogOp log = NLogOp.of(Nsh.class);
-        log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofPlain("[nsh] uninstallation..."));
+        NLog log = NLog.of(Nsh.class);
+        log.log(NMsg.ofPlain("[nsh] uninstallation...")
+                .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+        );
         try {
             try {
                 NWorkspace.of().removeCommandFactory("nsh");
@@ -270,8 +270,10 @@ public class Nsh {
                 }
             }
             if (!uninstalled.isEmpty()) {
-                log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofC("[nsh] unregistered %s nsh commands : %s", uninstalled.size(),
-                        String.join(", ", uninstalled)));
+                log.log(NMsg.ofC("[nsh] unregistered %s nsh commands : %s", uninstalled.size(),
+                        String.join(", ", uninstalled))
+                        .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+                );
             }
         } catch (Exception ex) {
             //ignore
@@ -1236,9 +1238,11 @@ public class Nsh {
 
     public void installToNuts() {
         NSession session = NSession.of();
-        NLogOp log = NLogOp.of(Nsh.class);
+        NLog log = NLog.of(Nsh.class);
         if (session.isTrace() || session.isYes()) {
-            log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofC("[nsh] activating options trace=%s yes=%s", session.isTrace(), session.isYes()));
+            log.log(NMsg.ofC("[nsh] activating options trace=%s yes=%s", session.isTrace(), session.isYes())
+                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+            );
         }
         String nshIdStr = NApp.of().getId().get().getShortName();
         NshBuiltin[] commands = getRootContext().builtins().getAll();
@@ -1264,12 +1268,16 @@ public class Nsh {
         }
 
         if (!firstInstalled.isEmpty()) {
-            log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofC("[nsh] registered %s nsh commands : %s", firstInstalled.size(),
-                    String.join(", ", firstInstalled)));
+            log.log(NMsg.ofC("[nsh] registered %s nsh commands : %s", firstInstalled.size(),
+                    String.join(", ", firstInstalled))
+                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+            );
         }
         if (!reinstalled.isEmpty()) {
-            log.level(Level.CONFIG).verb(NLogVerb.INFO).log(NMsg.ofC("[nsh] re-registered %s nsh commands : %s", reinstalled.size(),
-                    String.join(", ", reinstalled)));
+            log.log(NMsg.ofC("[nsh] re-registered %s nsh commands : %s", reinstalled.size(),
+                    String.join(", ", reinstalled))
+                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+            );
         }
         if (session.isPlainTrace()) {
             NTexts factory = NTexts.of();
