@@ -213,7 +213,7 @@ public class Nsh {
         try {
             NPath histFile = this.history.getHistoryFile();
             if (histFile == null) {
-                histFile = NWorkspace.of().getStoreLocation(this.appId, NStoreType.VAR).resolve((serviceName == null ? "" : serviceName) + ".history");
+                histFile = NPath.ofIdStore(this.appId, NStoreType.VAR).resolve((serviceName == null ? "" : serviceName) + ".history");
                 this.history.setHistoryFile(histFile);
                 if (histFile.exists()) {
                     this.history.load(histFile);
@@ -710,7 +710,7 @@ public class Nsh {
         NSystemTerminal.enableRichTerm();
         NPath appVarFolder = NApp.of().getVarFolder();
         if (appVarFolder == null) {
-            appVarFolder = NWorkspace.of().getStoreLocation(
+            appVarFolder = NPath.ofIdStore(
                     NId.get("net.thevpc.nsh:nsh").get()
                     , NStoreType.VAR);
         }

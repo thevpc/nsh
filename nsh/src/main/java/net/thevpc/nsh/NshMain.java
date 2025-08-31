@@ -10,6 +10,7 @@ import net.thevpc.nsh.options.NshOptions;
 import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.log.NMsgIntent;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 import net.thevpc.nuts.util.NMsg;
@@ -60,6 +61,7 @@ public class NshMain  {
     public void run() {
 
         //before loading Nsh check if we need to activate rich term
+        Map<String, String> sysEnv = NWorkspace.of().getSysEnv();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
         NshOptions o = options.parse(NApp.of().getCmdLine().toStringArray());
 
