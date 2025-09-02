@@ -283,7 +283,7 @@ public class CatCommand extends NshBuiltinDefault {
     }
 
     private NText nextNode(NText t, NSession session, Tracker tracker, Options options) {
-        switch (t.getType()) {
+        switch (t.type()) {
             case PLAIN: {
                 String text = ((NTextPlain) t).getValue();
                 NTextBuilder tb = NTextBuilder.of();
