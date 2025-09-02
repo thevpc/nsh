@@ -38,6 +38,7 @@ import net.thevpc.nuts.format.NTableModel;
 import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
+import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.util.*;
 
 import java.util.*;
@@ -162,10 +163,10 @@ public class PsCommand extends NshBuiltinDefault {
         switch (NSession.of().getOutputFormat().orDefault()) {
             case PLAIN: {
                 NMutableTableModel model = NTableModel.of();
-                model.addHeaderCells(Arrays.stream(cols).toArray());
+                model.addHeaderCells(Arrays.stream(cols).map(NText::of).toArray(NText[]::new));
                 for (NPsInfo nPsInfo : list) {
                     model.addRow(
-                            mapOf(nPsInfo, cols).values().toArray()
+                            mapOf(nPsInfo, cols).values().stream().map(NText::of).toArray(NText[]::new)
                     );
                 }
                 NOut.println(model);
