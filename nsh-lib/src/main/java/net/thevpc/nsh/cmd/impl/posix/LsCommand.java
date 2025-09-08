@@ -165,6 +165,7 @@ public class LsCommand extends NshBuiltinDefault {
         }
         if (success != null) {
             NPrintStream out = session.out();
+            out.resetLine();
             switch (session.getOutputFormat().orDefault()) {
                 case XML:
                 case JSON:
