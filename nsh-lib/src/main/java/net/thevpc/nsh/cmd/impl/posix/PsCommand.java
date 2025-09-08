@@ -163,7 +163,7 @@ public class PsCommand extends NshBuiltinDefault {
         switch (NSession.of().getOutputFormat().orDefault()) {
             case PLAIN: {
                 NMutableTableModel model = NTableModel.of();
-                model.addHeaderCells(Arrays.stream(cols).map(NText::of).toArray(NText[]::new));
+                model.addHeaderRow(Arrays.stream(cols).map(NText::of).toArray(NText[]::new));
                 for (NPsInfo nPsInfo : list) {
                     model.addRow(
                             mapOf(nPsInfo, cols).values().stream().map(NText::of).toArray(NText[]::new)
