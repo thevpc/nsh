@@ -246,7 +246,7 @@ public class Nsh {
 
     public static void uninstallFromNuts() {
         NLog log = NLog.of(Nsh.class);
-        log.log(NMsg.ofPlain("[nsh] uninstallation...").withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO));
+        log.log(NMsg.ofPlain("[nsh] uninstallation...").withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE));
         try {
             try {
                 NWorkspace.of().removeCommandFactory("nsh");
@@ -270,7 +270,7 @@ public class Nsh {
             if (!uninstalled.isEmpty()) {
                 log.log(NMsg.ofC("[nsh] unregistered %s nsh commands : %s", uninstalled.size(),
                         String.join(", ", uninstalled))
-                        .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+                        .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE)
                 );
             }
         } catch (Exception ex) {
@@ -1239,7 +1239,7 @@ public class Nsh {
         NLog log = NLog.of(Nsh.class);
         if (session.isTrace() || session.isYes()) {
             log.log(NMsg.ofC("[nsh] activating options trace=%s yes=%s", session.isTrace(), session.isYes())
-                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE)
             );
         }
         String nshIdStr = NApp.of().getId().get().getShortName();
@@ -1268,13 +1268,13 @@ public class Nsh {
         if (!firstInstalled.isEmpty()) {
             log.log(NMsg.ofC("[nsh] registered %s nsh commands : %s", firstInstalled.size(),
                     String.join(", ", firstInstalled))
-                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE)
             );
         }
         if (!reinstalled.isEmpty()) {
             log.log(NMsg.ofC("[nsh] re-registered %s nsh commands : %s", reinstalled.size(),
                     String.join(", ", reinstalled))
-                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.INFO)
+                    .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE)
             );
         }
         if (session.isPlainTrace()) {
