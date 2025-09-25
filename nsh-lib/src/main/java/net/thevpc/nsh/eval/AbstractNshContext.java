@@ -2,7 +2,7 @@ package net.thevpc.nsh.eval;
 
 import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.*;
-import net.thevpc.nuts.elem.NDescribables;
+import net.thevpc.nuts.elem.NElementDescribables;
 import net.thevpc.nuts.NShellFamily;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPrintStream;
@@ -219,7 +219,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public String[] expandPaths(String path) {
-        return NPath.of(path).walkGlob().map(NFunction.of(NPath::toString).redescribe(NDescribables.ofDesc("toString"))).toArray(String[]::new);
+        return NPath.of(path).walkGlob().map(NFunction.of(NPath::toString).redescribe(NElementDescribables.ofDesc("toString"))).toArray(String[]::new);
     }
 
     @Override
