@@ -25,10 +25,13 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NWorkspace;
+import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -36,6 +39,7 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.history.NshHistory;
 import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.util.NUnsupportedArgumentException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
