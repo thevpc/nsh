@@ -5,7 +5,6 @@
  */
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nsh.cmd.alias.DefaultNshAliasManager;
 import net.thevpc.nsh.cmd.alias.NshAliasManager;
@@ -19,6 +18,8 @@ import net.thevpc.nsh.parser.nodes.DefaultNshFunctionManager;
 import net.thevpc.nsh.parser.nodes.NshFunctionManager;
 import net.thevpc.nsh.parser.nodes.NshNode;
 import net.thevpc.nsh.parser.nodes.NshVariables;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NWorkspace;
 
 import java.util.*;
 
