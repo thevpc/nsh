@@ -31,7 +31,7 @@
 */
 package net.thevpc.nsh.err;
 
-import net.thevpc.nuts.NExecutionException;
+import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.util.NMsg;
 
 /**
