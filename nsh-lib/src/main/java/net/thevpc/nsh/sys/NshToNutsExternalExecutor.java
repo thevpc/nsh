@@ -26,7 +26,7 @@
  */
 package net.thevpc.nsh.sys;
 
-import net.thevpc.nuts.NExecCmd;
+import net.thevpc.nuts.command.NExecCmd;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.eval.NshContext;
 
