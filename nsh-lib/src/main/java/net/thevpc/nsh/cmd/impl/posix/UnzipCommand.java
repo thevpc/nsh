@@ -25,13 +25,11 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.io.NIOException;
-import net.thevpc.nuts.io.NUncompressVisitor;
-import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.io.NUncompress;
+import net.thevpc.nuts.command.NExecutionException;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
