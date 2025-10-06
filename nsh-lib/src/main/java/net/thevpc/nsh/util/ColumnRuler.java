@@ -1,6 +1,6 @@
 package net.thevpc.nsh.util;
 
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextStyle;
 import net.thevpc.nsh.util.bundles._StringUtils;
