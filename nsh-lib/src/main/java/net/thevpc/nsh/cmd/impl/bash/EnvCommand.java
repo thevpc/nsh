@@ -25,9 +25,14 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NExecutionType;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NRunAs;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
