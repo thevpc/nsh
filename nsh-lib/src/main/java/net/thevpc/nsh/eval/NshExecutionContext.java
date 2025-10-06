@@ -1,8 +1,9 @@
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.io.NTerminalMode;
 import net.thevpc.nsh.cmd.alias.NshAliasManager;
