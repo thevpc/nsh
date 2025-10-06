@@ -1,6 +1,6 @@
 package net.thevpc.nsh.options;
 
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.util.NMsg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nsh.err.NshException;
