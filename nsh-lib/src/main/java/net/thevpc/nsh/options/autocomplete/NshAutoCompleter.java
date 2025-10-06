@@ -1,6 +1,5 @@
 package net.thevpc.nsh.options.autocomplete;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.DefaultNArgCandidate;
 import net.thevpc.nuts.cmdline.NArgCandidate;
 import net.thevpc.nuts.cmdline.NCmdLine;
@@ -8,6 +7,7 @@ import net.thevpc.nuts.cmdline.NCmdLineAutoCompleteResolver;
 
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.eval.NshContext;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.util.NBlankable;
 
 import java.util.ArrayList;
