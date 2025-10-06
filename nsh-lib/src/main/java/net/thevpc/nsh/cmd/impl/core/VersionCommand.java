@@ -25,11 +25,11 @@
  */
 package net.thevpc.nsh.cmd.impl.core;
 
-import net.thevpc.nuts.NApp;
-import net.thevpc.nuts.NConstants;
+import net.thevpc.nuts.app.NApp;
+import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.format.NVersionFormat;
+import net.thevpc.nuts.text.NVersionFormat;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.eval.NshExecutionContext;
 
