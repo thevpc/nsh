@@ -2,8 +2,8 @@ package net.thevpc.nsh.eval;
 
 import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nuts.io.NPrintStream;
-import net.thevpc.nuts.NSession;
-import net.thevpc.nuts.NWorkspace;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nsh.cmd.alias.NshAliasManager;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
 import net.thevpc.nsh.cmd.NshBuiltin;
