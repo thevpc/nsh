@@ -1,12 +1,11 @@
 package net.thevpc.nsh.util;
 
-import net.thevpc.nuts.*;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NInputStreamMonitor;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPrintStream;
