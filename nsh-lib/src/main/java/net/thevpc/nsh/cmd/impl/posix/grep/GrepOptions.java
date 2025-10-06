@@ -1,6 +1,6 @@
 package net.thevpc.nsh.cmd.impl.posix.grep;
 
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineConfigurable;
 import net.thevpc.nsh.cmd.impl.util.NNumberedObject;
