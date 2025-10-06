@@ -28,7 +28,7 @@ package net.thevpc.nsh.err;
 
 import net.thevpc.nuts.util.NMsg;
 import net.thevpc.nuts.io.NPrintStream;
-import net.thevpc.nuts.NExecutionException;
+import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nsh.util.bundles._StringUtils;
 import net.thevpc.nsh.eval.NshContext;
 
