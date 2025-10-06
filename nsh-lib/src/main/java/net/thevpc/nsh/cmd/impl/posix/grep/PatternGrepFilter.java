@@ -1,6 +1,6 @@
 package net.thevpc.nsh.cmd.impl.posix.grep;
 
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextBuilder;
 import net.thevpc.nuts.text.NTextStyles;
