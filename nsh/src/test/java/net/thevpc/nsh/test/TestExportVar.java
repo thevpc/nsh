@@ -26,7 +26,7 @@
 */
 package net.thevpc.nsh.test;
 
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NCp;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NTerminal;
