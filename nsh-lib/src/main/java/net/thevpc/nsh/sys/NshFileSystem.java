@@ -5,7 +5,7 @@
  */
 package net.thevpc.nsh.sys;
 
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 
 /**
  * @author thevpc
