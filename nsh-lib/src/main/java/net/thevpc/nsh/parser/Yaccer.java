@@ -1,7 +1,6 @@
 package net.thevpc.nsh.parser;
 
 import net.thevpc.nsh.Nsh;
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.elem.NElementDescribables;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.err.NshUniformException;
@@ -12,6 +11,7 @@ import net.thevpc.nsh.parser.nodes.NshCommandNode;
 import net.thevpc.nsh.parser.nodes.NshNode;
 import net.thevpc.nuts.util.NFunction;
 import net.thevpc.nuts.expr.NGlob;
+import net.thevpc.nuts.util.NIllegalArgumentException;
 import net.thevpc.nuts.util.NMsg;
 
 import java.util.*;
