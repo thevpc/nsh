@@ -25,10 +25,11 @@
  */
 package net.thevpc.nsh.cmd.impl.core;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -36,7 +37,6 @@ import net.thevpc.nuts.text.NText;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.eval.NshResult;
-import net.thevpc.nuts.util.NLiteral;
 
 /**
  * Created by vpc on 1/7/17.
