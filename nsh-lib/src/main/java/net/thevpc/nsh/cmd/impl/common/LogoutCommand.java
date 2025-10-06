@@ -26,8 +26,8 @@
  */
 package net.thevpc.nsh.cmd.impl.common;
 
-import net.thevpc.nuts.NConstants;
-import net.thevpc.nuts.NWorkspaceSecurityManager;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.security.NWorkspaceSecurityManager;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.spi.NComponentScope;
