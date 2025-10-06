@@ -1,12 +1,13 @@
 package net.thevpc.nsh;
 
-import net.thevpc.nuts.*;
+import net.thevpc.nuts.app.*;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineRunner;
 
 import net.thevpc.nsh.options.DefaultNshOptionsParser;
 import net.thevpc.nsh.options.NshOptions;
 
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.log.NMsgIntent;
 
