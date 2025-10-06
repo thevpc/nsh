@@ -1,9 +1,17 @@
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.*;
+import net.thevpc.nuts.artifact.NDefinition;
+import net.thevpc.nuts.artifact.NDescriptor;
+import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.cmdline.*;
+import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NFetchStrategy;
+import net.thevpc.nuts.command.NSearchCmd;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.elem.NElementDescribables;
-import net.thevpc.nuts.NShellFamily;
+import net.thevpc.nuts.platform.NShellFamily;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
