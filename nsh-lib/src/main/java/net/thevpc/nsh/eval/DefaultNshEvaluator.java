@@ -26,7 +26,7 @@
 package net.thevpc.nsh.eval;
 
 import net.thevpc.nuts.io.NPrintStream;
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminal;
 import net.thevpc.nuts.io.NTerminalMode;
 import net.thevpc.nsh.err.NshException;
