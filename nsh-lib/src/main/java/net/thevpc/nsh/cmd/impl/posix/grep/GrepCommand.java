@@ -27,7 +27,6 @@ package net.thevpc.nsh.cmd.impl.posix.grep;
 
 import net.thevpc.nsh.cmd.impl.util.NumberRange;
 import net.thevpc.nsh.cmd.impl.util.NumberRangeList;
-import net.thevpc.nuts.*;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -36,6 +35,8 @@ import java.util.stream.Collectors;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.cmd.impl.util.filter.JavaExceptionWindowFilter;
@@ -172,7 +173,7 @@ public class GrepCommand extends NshBuiltinDefault {
         }
     }
 
-    private boolean parseNutsSpecific(NCmdLine cmdLine, GrepOptions options,NSession session) {
+    private boolean parseNutsSpecific(NCmdLine cmdLine, GrepOptions options, NSession session) {
         NArg a;
         if ((a = cmdLine.next("--nuts").orNull()) != null) {
             options.withNutsOptions = true;
