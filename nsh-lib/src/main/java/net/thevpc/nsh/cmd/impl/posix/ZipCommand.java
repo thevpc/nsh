@@ -25,15 +25,15 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NCompress;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NMsg;
 
 import java.util.ArrayList;
