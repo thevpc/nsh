@@ -1,11 +1,11 @@
 package net.thevpc.nsh.cmd.impl.posix.grep;
 
-import net.thevpc.nuts.NOut;
+import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.util.NMaps;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.NExecutionException;
+import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.util.NMsg;
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NCp;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPrintStream;
