@@ -25,11 +25,11 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.NConstants;
-import net.thevpc.nuts.NOut;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
