@@ -6,8 +6,8 @@
 package net.thevpc.nsh.test;
 
 import net.thevpc.nuts.Nuts;
-import net.thevpc.nuts.NVersion;
-import net.thevpc.nuts.NWorkspace;
+import net.thevpc.nuts.artifact.NVersion;
+import net.thevpc.nuts.core.NWorkspace;
 
 import java.io.File;
 import java.io.FileFilter;
