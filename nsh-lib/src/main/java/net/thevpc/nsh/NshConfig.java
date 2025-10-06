@@ -24,7 +24,7 @@
  */
 package net.thevpc.nsh;
 
-import net.thevpc.nuts.NId;
+import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.util.NMsg;
 import net.thevpc.nsh.cmd.resolver.NshCommandTypeResolver;
 import net.thevpc.nsh.cmd.NshBuiltin;
