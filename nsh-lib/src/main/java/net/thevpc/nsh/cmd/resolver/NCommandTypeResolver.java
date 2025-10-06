@@ -26,11 +26,11 @@
 */
 package net.thevpc.nsh.cmd.resolver;
 
-import net.thevpc.nuts.NExecCmd;
+import net.thevpc.nuts.command.NExecCmd;
 import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.NSession;
+import net.thevpc.nuts.core.NSession;
 import net.thevpc.nsh.eval.NshContext;
-import net.thevpc.nuts.NExecutableInformation;
+import net.thevpc.nuts.command.NExecutableInformation;
 
 /**
  *
