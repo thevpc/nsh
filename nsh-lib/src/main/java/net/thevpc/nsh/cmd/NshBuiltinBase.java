@@ -26,11 +26,16 @@
  */
 package net.thevpc.nsh.cmd;
 
-import net.thevpc.nuts.*;
+import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nuts.command.NExecutionException;
+import net.thevpc.nuts.core.NConstants;
+import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NMemoryPrintStream;
+import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NSupportLevelContext;
 import net.thevpc.nuts.text.NText;
@@ -38,6 +43,8 @@ import net.thevpc.nsh.options.autocomplete.NCommandAutoCompleteComponent;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.bundles._IOUtils;
 import net.thevpc.nuts.util.NBlankable;
+import net.thevpc.nuts.util.NException;
+import net.thevpc.nuts.util.NIllegalArgumentException;
 import net.thevpc.nuts.util.NMsg;
 
 import java.io.BufferedReader;
