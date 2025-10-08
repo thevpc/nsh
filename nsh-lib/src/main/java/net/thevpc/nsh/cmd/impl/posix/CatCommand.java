@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.text.NContentType;
 import net.thevpc.nuts.io.NCp;
@@ -44,7 +43,7 @@ import net.thevpc.nsh.util.bundles._StringUtils;
 import net.thevpc.nsh.util.ColumnRuler;
 import net.thevpc.nsh.util.FileInfo;
 import net.thevpc.nsh.util.ShellHelper;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NStringUtils;
 import net.thevpc.nuts.util.NUnsupportedOperationException;
 
@@ -59,7 +58,7 @@ import java.util.List;
 public class CatCommand extends NshBuiltinDefault {
 
     public CatCommand() {
-        super("cat", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("cat", DEFAULT_SCORE, Options.class);
     }
 
     @Override
