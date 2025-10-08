@@ -12,7 +12,7 @@ import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.io.NTerminal;
 import net.thevpc.nuts.ext.ssh.SshListener;
 import net.thevpc.nsh.util.bundles._IOUtils;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 public class ShellHelper {
 
