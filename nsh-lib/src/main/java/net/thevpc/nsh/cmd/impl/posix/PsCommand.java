@@ -27,7 +27,6 @@ package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.cmdline.NArg;
@@ -51,7 +50,7 @@ import java.util.stream.Collectors;
 public class PsCommand extends NshBuiltinDefault {
 
     public PsCommand() {
-        super("ps", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("ps", DEFAULT_SCORE, Options.class);
     }
 
     @Override
