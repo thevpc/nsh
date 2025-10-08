@@ -38,7 +38,7 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ import java.util.List;
 public class SshCommand extends NshBuiltinDefault {
 
     public SshCommand() {
-        super("ssh", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("ssh", DEFAULT_SCORE, Options.class);
     }
 
     @Override
