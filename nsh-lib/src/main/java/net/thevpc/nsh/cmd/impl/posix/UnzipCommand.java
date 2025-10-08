@@ -28,14 +28,13 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -49,7 +48,7 @@ import java.util.List;
 public class UnzipCommand extends NshBuiltinDefault {
 
     public UnzipCommand() {
-        super("unzip", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("unzip", DEFAULT_SCORE, Options.class);
     }
 
     @Override
