@@ -26,7 +26,6 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NSession;
@@ -45,7 +44,7 @@ import java.util.List;
 public class CommandCommand extends NshBuiltinDefault {
 
     public CommandCommand() {
-        super("command", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("command", DEFAULT_SCORE, Options.class);
     }
 
 
