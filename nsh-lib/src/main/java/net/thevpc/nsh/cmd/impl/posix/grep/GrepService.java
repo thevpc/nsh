@@ -4,7 +4,7 @@ import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.util.NMaps;
 import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NCp;
 import net.thevpc.nuts.io.NPath;
