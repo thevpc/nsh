@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.core;
 import net.thevpc.nuts.app.NApp;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminalMode;
 import net.thevpc.nuts.text.NText;
@@ -39,7 +38,7 @@ import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.bundles._StringUtils;
 import net.thevpc.nsh.options.CommandNonOption;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +52,7 @@ import java.util.function.Function;
 public class HelpCommand extends NshBuiltinCore {
 
     public HelpCommand() {
-        super("help", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("help", DEFAULT_SCORE, Options.class);
     }
 
     @Override
