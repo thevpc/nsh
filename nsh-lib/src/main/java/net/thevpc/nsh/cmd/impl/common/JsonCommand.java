@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.common;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.elem.NElement;
 import net.thevpc.nuts.elem.NElementParser;
@@ -41,7 +40,7 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshContext;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,7 +63,7 @@ import java.util.List;
 public class JsonCommand extends NshBuiltinDefault {
 
     public JsonCommand() {
-        super("json", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("json", DEFAULT_SCORE, Options.class);
     }
 
     @Override
