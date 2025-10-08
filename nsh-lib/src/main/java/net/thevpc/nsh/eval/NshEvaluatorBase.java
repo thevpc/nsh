@@ -5,7 +5,7 @@
  */
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nsh.err.NshException;
 import net.thevpc.nsh.err.NshUniformException;
 import net.thevpc.nsh.parser.nodes.NshCommandNode;
