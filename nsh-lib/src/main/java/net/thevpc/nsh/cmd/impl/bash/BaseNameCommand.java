@@ -25,7 +25,6 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
@@ -45,7 +44,7 @@ import java.util.List;
 public class BaseNameCommand extends NshBuiltinDefault {
 
     public BaseNameCommand() {
-        super("basename", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("basename", DEFAULT_SCORE, Options.class);
     }
 
     @Override
