@@ -42,7 +42,7 @@ import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.util.*;
 
@@ -53,7 +53,7 @@ import java.util.*;
 public class WhoamiCommand extends NshBuiltinDefault {
 
     public WhoamiCommand() {
-        super("whoami", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("whoami", DEFAULT_SCORE, Options.class);
     }
 
     @Override
