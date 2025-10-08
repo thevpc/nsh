@@ -52,8 +52,8 @@ import net.thevpc.nuts.io.*;
 
 import net.thevpc.nuts.log.NMsgIntent;
 import net.thevpc.nuts.security.NWorkspaceSecurityManager;
-import net.thevpc.nuts.spi.NDefaultSupportLevelContext;
-import net.thevpc.nuts.spi.NSupportLevelContext;
+import net.thevpc.nuts.spi.NDefaultScorableContext;
+import net.thevpc.nuts.spi.NScorableContext;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
 import net.thevpc.nsh.cmd.resolver.NCommandTypeResolver;
 import net.thevpc.nsh.cmd.resolver.NshCommandTypeResolver;
@@ -69,6 +69,7 @@ import net.thevpc.nsh.sys.NshToNutsExternalExecutor;
 import net.thevpc.nsh.sys.NshExternalExecutor;
 import net.thevpc.nsh.util.ByteArrayPrintStream;
 import net.thevpc.nsh.util.MemResult;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.text.NTextStyle;
 import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nuts.time.NClock;
@@ -117,10 +118,11 @@ public class Nsh {
 
     public Nsh(NshConfig configuration) {
         if (configuration == null) {
-            this.configuration = configuration = new NshConfig();
+            configuration = new NshConfig();
         } else {
-            this.configuration = configuration = configuration.copy();
+            configuration = configuration.copy();
         }
+        this.configuration = configuration;
         headerMessageSupplier = configuration.getHeaderMessageSupplier();
         serviceName = configuration.getServiceName();
         String[] args = resolveArgs(configuration.getArgs());
@@ -202,14 +204,14 @@ public class Nsh {
         _rootContext.setSession(NSession.of());
         //add default commands
         List<NshBuiltin> allCommand = new ArrayList<>();
-        NSupportLevelContext constraints = new NDefaultSupportLevelContext(this);
+        NScorableContext constraints = NScorableContext.of(this);
 
         Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
         for (NshBuiltin command : NWorkspace.of().extensions()
                 .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
                 .loadAll(this)) {
             NshBuiltin old = _rootContext.builtins().find(command.getName());
-            if (old != null && old.getSupportLevel(constraints) >= command.getSupportLevel(constraints)) {
+            if (old != null && old.getScore(constraints) >= command.getScore(constraints)) {
                 continue;
             }
             if (filter.test(command)) {
