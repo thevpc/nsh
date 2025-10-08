@@ -26,7 +26,6 @@
  */
 package net.thevpc.nsh.cmd.impl.common;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.security.NWorkspaceSecurityManager;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
@@ -42,7 +41,7 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 public class LogoutCommand extends NshBuiltinDefault {
 
     public LogoutCommand() {
-        super("logout", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("logout", DEFAULT_SCORE,Options.class);
     }
 
     private static class Options{
