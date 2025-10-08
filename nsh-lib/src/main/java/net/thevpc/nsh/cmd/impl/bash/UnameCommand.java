@@ -28,7 +28,6 @@ import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NOut;
@@ -48,7 +47,7 @@ import java.util.List;
 public class UnameCommand extends NshBuiltinDefault {
 
     public UnameCommand() {
-        super("uname", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("uname", DEFAULT_SCORE,Options.class);
     }
 
 
