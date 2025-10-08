@@ -31,13 +31,12 @@ import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NMemoryPrintStream;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPrintStream;
-import net.thevpc.nuts.spi.NSupportLevelContext;
+import net.thevpc.nuts.spi.NScorableContext;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nsh.options.autocomplete.NCommandAutoCompleteComponent;
 import net.thevpc.nsh.eval.NshExecutionContext;
@@ -45,7 +44,7 @@ import net.thevpc.nsh.util.bundles._IOUtils;
 import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.util.NException;
 import net.thevpc.nuts.util.NIllegalArgumentException;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,31 +63,31 @@ import java.util.logging.Logger;
 public abstract class NshBuiltinBase implements NshBuiltin {
     private static final Logger LOG = Logger.getLogger(NshBuiltinBase.class.getName());
     private final String name;
-    private final int supportLevel;
+    private final int score;
     private String help;
     private boolean enabled = true;
 
     private Supplier<Object> optionsSupplier;
 
-    public NshBuiltinBase(String name, int supportLevel, Class<?> optionsSupplier) {
+    public NshBuiltinBase(String name, int score, Class<?> optionsSupplier) {
         this.name = name;
-        this.supportLevel = supportLevel;
+        this.score = score;
         this.optionsSupplier = ()->createOptions(optionsSupplier);
     }
 
     public NshBuiltinBase(String name, Class<?> optionsSupplier) {
         this.name = name;
-        this.supportLevel = NConstants.Support.DEFAULT_SUPPORT;
+        this.score = DEFAULT_SCORE;
         this.optionsSupplier = ()->createOptions(optionsSupplier);
     }
-    public NshBuiltinBase(String name, int supportLevel, Supplier<?> optionsSupplier) {
+    public NshBuiltinBase(String name, int score, Supplier<?> optionsSupplier) {
         this.name = name;
-        this.supportLevel = supportLevel;
+        this.score = score;
         this.optionsSupplier = (Supplier)optionsSupplier;
     }
     public NshBuiltinBase(String name, Supplier<?> optionsSupplier) {
         this.name = name;
-        this.supportLevel = NConstants.Support.DEFAULT_SUPPORT;
+        this.score = DEFAULT_SCORE;
         this.optionsSupplier = (Supplier)optionsSupplier;
     }
 
@@ -123,8 +122,8 @@ public abstract class NshBuiltinBase implements NshBuiltin {
     }
 
     @Override
-    public int getSupportLevel(NSupportLevelContext param) {
-        return supportLevel;
+    public int getScore(NScorableContext param) {
+        return score;
     }
 
     @Override
@@ -136,7 +135,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                 throw new NIllegalArgumentException(NMsg.ofPlain("missing auto-complete"));
             }
             NCommandAutoCompleteComponent best = NWorkspace.of().extensions().createServiceLoader(NCommandAutoCompleteComponent.class, NshBuiltin.class, NCommandAutoCompleteComponent.class.getClassLoader())
-                    .loadBest(NshBuiltinBase.this);
+                    .loadBest(NshBuiltinBase.this).orNull();
             if (best != null) {
                 best.autoComplete(this, context);
             } else {
