@@ -14,7 +14,7 @@ import net.thevpc.nuts.log.NMsgIntent;
 import java.util.Map;
 import java.util.logging.Level;
 
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 @NAppDefinition
 public class NshMain  {
