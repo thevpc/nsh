@@ -25,7 +25,6 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
@@ -41,7 +40,7 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 public class PwdCommand extends NshBuiltinDefault {
 
     public PwdCommand() {
-        super("pwd", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("pwd", DEFAULT_SCORE,Options.class);
     }
 
     @Override
