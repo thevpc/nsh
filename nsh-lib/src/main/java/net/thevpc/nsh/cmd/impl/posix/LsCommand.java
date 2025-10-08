@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.elem.NElementDescribables;
 import net.thevpc.nuts.elem.NElement;
@@ -38,6 +37,7 @@ import net.thevpc.nuts.io.NPathPermission;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.text.NTextStyle;
 import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
@@ -66,7 +66,7 @@ public class LsCommand extends NshBuiltinDefault {
             .withZone(ZoneId.systemDefault());
 
     public LsCommand() {
-        super("ls", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("ls", DEFAULT_SCORE, Options.class);
     }
 
     @Override
