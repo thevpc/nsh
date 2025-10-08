@@ -26,7 +26,6 @@
 package net.thevpc.nsh.cmd.impl.core;
 
 import net.thevpc.nuts.app.NApp;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.text.NVersionFormat;
@@ -39,7 +38,7 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 public class VersionCommand extends NshBuiltinCore {
 
     public VersionCommand() {
-        super("version", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("version", DEFAULT_SCORE, Options.class);
     }
 
     @Override
