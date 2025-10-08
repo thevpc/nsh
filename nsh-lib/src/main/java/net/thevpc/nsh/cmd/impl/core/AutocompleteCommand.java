@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.core;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -38,7 +37,7 @@ import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.util.*;
 
@@ -49,7 +48,7 @@ import java.util.*;
 public class AutocompleteCommand extends NshBuiltinDefault {
 
     public AutocompleteCommand() {
-        super("autocomplete", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("autocomplete", DEFAULT_SCORE,Options.class);
     }
 
     @Override
