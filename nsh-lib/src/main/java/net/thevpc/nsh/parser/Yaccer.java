@@ -12,7 +12,7 @@ import net.thevpc.nsh.parser.nodes.NshNode;
 import net.thevpc.nuts.util.NFunction;
 import net.thevpc.nuts.expr.NGlob;
 import net.thevpc.nuts.util.NIllegalArgumentException;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.util.*;
 import java.util.stream.Collectors;
