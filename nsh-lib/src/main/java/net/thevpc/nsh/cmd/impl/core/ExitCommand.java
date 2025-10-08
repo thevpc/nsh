@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.core;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
@@ -42,7 +41,7 @@ import net.thevpc.nsh.err.NshQuitException;
 public class ExitCommand extends NshBuiltinCore {
 
     public ExitCommand() {
-        super("exit", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("exit", DEFAULT_SCORE, Options.class);
     }
 
     @Override
