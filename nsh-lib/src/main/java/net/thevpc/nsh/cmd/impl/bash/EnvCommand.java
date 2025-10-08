@@ -29,7 +29,6 @@ import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecCmd;
 import net.thevpc.nuts.command.NExecutionType;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NRunAs;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NOut;
@@ -49,7 +48,7 @@ import java.util.*;
 public class EnvCommand extends NshBuiltinDefault {
 
     public EnvCommand() {
-        super("env", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("env", DEFAULT_SCORE, Options.class);
     }
 
     @Override
