@@ -25,7 +25,6 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.text.NTextFormat;
 import net.thevpc.nuts.cmdline.NArg;
@@ -50,7 +49,7 @@ import java.util.stream.Stream;
 public class DfCommand extends NshBuiltinDefault {
 
     public DfCommand() {
-        super("df", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("df", DEFAULT_SCORE, Options.class);
     }
 
     @Override
