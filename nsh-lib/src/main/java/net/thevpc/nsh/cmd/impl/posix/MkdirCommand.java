@@ -25,7 +25,6 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.io.NPath;
@@ -44,7 +43,7 @@ import java.util.List;
 public class MkdirCommand extends NshBuiltinDefault {
 
     public MkdirCommand() {
-        super("mkdir", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("mkdir", DEFAULT_SCORE,Options.class);
     }
 
     @Override
