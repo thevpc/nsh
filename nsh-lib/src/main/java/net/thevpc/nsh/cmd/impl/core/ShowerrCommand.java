@@ -28,7 +28,6 @@ package net.thevpc.nsh.cmd.impl.core;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -45,7 +44,7 @@ import net.thevpc.nsh.eval.NshResult;
 public class ShowerrCommand extends NshBuiltinCore {
 
     public ShowerrCommand() {
-        super("showerr", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("showerr", DEFAULT_SCORE,Options.class);
     }
 
     @Override
