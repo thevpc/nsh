@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
@@ -43,7 +42,7 @@ import net.thevpc.nsh.cmd.impl.util.filter.JavaExceptionWindowFilter;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.FileInfo;
 import net.thevpc.nuts.util.NLiteral;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NStringUtils;
 
 /**
@@ -52,7 +51,7 @@ import net.thevpc.nuts.util.NStringUtils;
 public class GrepCommand extends NshBuiltinDefault {
 
     public GrepCommand() {
-        super("grep", NConstants.Support.DEFAULT_SUPPORT, GrepOptions.class);
+        super("grep", DEFAULT_SCORE, GrepOptions.class);
     }
 
 
