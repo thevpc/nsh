@@ -25,9 +25,8 @@
  */
 package net.thevpc.nsh.cmd.impl.bash;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.io.NOut;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NSession;
@@ -46,7 +45,7 @@ import java.util.*;
 public class AliasCommand extends NshBuiltinDefault {
 
     public AliasCommand() {
-        super("alias", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("alias", DEFAULT_SCORE,Options.class);
     }
 
     @Override
