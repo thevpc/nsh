@@ -2,7 +2,7 @@ package net.thevpc.nsh.cmd.impl.posix.grep;
 
 import net.thevpc.nuts.io.NAsk;
 import net.thevpc.nuts.util.NLiteral;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nsh.cmd.impl.util.NNumberedObject;
