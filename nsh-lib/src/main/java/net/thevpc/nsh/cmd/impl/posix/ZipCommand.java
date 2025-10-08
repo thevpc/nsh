@@ -28,13 +28,12 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NCompress;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NMsg;
+import net.thevpc.nuts.text.NMsg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ import java.util.List;
 public class ZipCommand extends NshBuiltinDefault {
 
     public ZipCommand() {
-        super("zip", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("zip", DEFAULT_SCORE, Options.class);
     }
 
     @Override
