@@ -26,7 +26,6 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
@@ -49,7 +48,7 @@ import java.time.format.DateTimeFormatter;
 public class DateCommand extends NshBuiltinDefault {
 
     public DateCommand() {
-        super("date", NConstants.Support.DEFAULT_SUPPORT,Options.class);
+        super("date", DEFAULT_SCORE,Options.class);
     }
 
     @Override
