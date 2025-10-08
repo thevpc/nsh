@@ -27,7 +27,6 @@ package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -47,7 +46,7 @@ import java.util.List;
 public class RmCommand extends NshBuiltinDefault {
 
     public RmCommand() {
-        super("rm", NConstants.Support.DEFAULT_SUPPORT, Options.class);
+        super("rm", DEFAULT_SCORE, Options.class);
     }
 
     @Override
