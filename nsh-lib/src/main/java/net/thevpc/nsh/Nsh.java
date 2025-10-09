@@ -52,8 +52,7 @@ import net.thevpc.nuts.io.*;
 
 import net.thevpc.nuts.log.NMsgIntent;
 import net.thevpc.nuts.security.NWorkspaceSecurityManager;
-import net.thevpc.nuts.spi.NDefaultScorableContext;
-import net.thevpc.nuts.spi.NScorableContext;
+import net.thevpc.nuts.util.NScorableContext;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
 import net.thevpc.nsh.cmd.resolver.NCommandTypeResolver;
 import net.thevpc.nsh.cmd.resolver.NshCommandTypeResolver;
