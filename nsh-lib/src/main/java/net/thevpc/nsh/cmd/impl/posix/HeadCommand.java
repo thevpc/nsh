@@ -73,7 +73,6 @@ public class HeadCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         if (options.files.isEmpty()) {
             cmdLine.throwMissingArgument();
         }
@@ -84,7 +83,6 @@ public class HeadCommand extends NshBuiltinDefault {
 
     private void head(String file, int max, NshExecutionContext context) {
         BufferedReader r = null;
-        NSession session = context.getSession();
         try {
             try {
                 r = new BufferedReader(new InputStreamReader(NPath.of(file)
