@@ -56,9 +56,8 @@ public class HeadCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
-        if (a.isOption() && a.getKey().isInt()) {
+        if (a.isOption() && a.getKey().asInt().isPresent()) {
             options.max = a.getKey().asInt().get();
             cmdLine.skip();
             return true;
