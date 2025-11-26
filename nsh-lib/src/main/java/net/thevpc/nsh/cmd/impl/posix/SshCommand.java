@@ -30,6 +30,9 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NSearchCmd;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.ext.ssh.IOBindings;
+import net.thevpc.nuts.ext.ssh.ISShConnexion;
+import net.thevpc.nuts.ext.ssh.SshConnexionPool;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.ext.ssh.SShConnection;
@@ -99,11 +102,7 @@ public class SshCommand extends NshBuiltinDefault {
         NAssert.requireNonBlank(o.address, "ssh address");
         NAssert.requireNonBlank(o.cmd, () -> NMsg.ofPlain("missing ssh command. Interactive ssh is not yet supported!"));
         ShellHelper.WsSshListener listener = new ShellHelper.WsSshListener(session);
-        try (SShConnection sshSession = new SShConnection(o.address,
-                session.in(),
-                NOut.asOutputStream(),
-                session.err().asOutputStream()
-        )
+        try (ISShConnexion sshSession = SshConnexionPool.of().acquire(o.address)
                 .addListener(listener)) {
             List<String> cmd = new ArrayList<>();
             if (o.invokeNuts) {
@@ -123,17 +122,12 @@ public class SshCommand extends NshBuiltinDefault {
                     cmd.add(o.nutsCommand);
                 } else {
                     String userHome = null;
-                    sshSession.failFast()
-                            .redirectErrorStream()
-                            .grabOutputString().exec("echo", "$HOME");
-                    userHome = sshSession.getOutputString().trim();
+                    userHome = sshSession.execArrayCommandGrabbed("echo", "$HOME").outString();
                     if (NBlankable.isBlank(workspace)) {
                         workspace = userHome + "/.config/nuts/" + NConstants.Names.DEFAULT_WORKSPACE_NAME;
                     }
                     boolean nutsCommandFound = false;
-                    int r = sshSession.setFailFast(false).
-                            grabOutputString()
-                            .redirectErrorStream().exec("ls", workspace + "/nuts");
+                    int r = sshSession.execArrayCommandGrabbed("ls", workspace + "/nuts").code();
                     if (0 == r) {
                         //found
                         nutsCommandFound = true;
@@ -143,7 +137,7 @@ public class SshCommand extends NshBuiltinDefault {
                         NAssert.requireNonNull(from, "jar file");
                         context.out().println(NMsg.ofC("Detected nuts.jar location : %s", from));
                         String bootApiFileName = "nuts-" + session.getWorkspace().getApiId() + ".jar";
-                        sshSession.failFast().copyLocalToRemote(from.toString(), workspace + "/" + bootApiFileName, true);
+                        sshSession.copyLocalToRemote(from.toString(), workspace + "/" + bootApiFileName, true);
                         String javaCmd = null;
                         if (o.nutsJre != null) {
                             javaCmd = (o.nutsJre + "/bin/java");
@@ -155,7 +149,9 @@ public class SshCommand extends NshBuiltinDefault {
                 }
             }
             cmd.addAll(o.cmd);
-            sshSession.grabOutputString(false).failFast().exec(cmd);
+            sshSession.execArrayCommand(cmd.toArray(new String[0]),new IOBindings(session.in(),
+                    NOut.asOutputStream(),
+                    session.err().asOutputStream()));
         }
     }
 
