@@ -31,11 +31,10 @@ import net.thevpc.nuts.command.NSearchCmd;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.ext.ssh.IOBindings;
-import net.thevpc.nuts.ext.ssh.ISShConnexion;
-import net.thevpc.nuts.ext.ssh.SshConnexionPool;
+import net.thevpc.nuts.ext.ssh.SshConnection;
+import net.thevpc.nuts.ext.ssh.SshConnectionPool;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.ext.ssh.SShConnection;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
@@ -102,7 +101,7 @@ public class SshCommand extends NshBuiltinDefault {
         NAssert.requireNonBlank(o.address, "ssh address");
         NAssert.requireNonBlank(o.cmd, () -> NMsg.ofPlain("missing ssh command. Interactive ssh is not yet supported!"));
         ShellHelper.WsSshListener listener = new ShellHelper.WsSshListener(session);
-        try (ISShConnexion sshSession = SshConnexionPool.of().acquire(o.address)
+        try (SshConnection sshSession = SshConnectionPool.of().acquire(o.address)
                 .addListener(listener)) {
             List<String> cmd = new ArrayList<>();
             if (o.invokeNuts) {
