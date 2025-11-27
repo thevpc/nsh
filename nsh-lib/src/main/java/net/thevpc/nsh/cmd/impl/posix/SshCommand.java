@@ -136,7 +136,9 @@ public class SshCommand extends NshBuiltinDefault {
                         NAssert.requireNonNull(from, "jar file");
                         context.out().println(NMsg.ofC("Detected nuts.jar location : %s", from));
                         String bootApiFileName = "nuts-" + session.getWorkspace().getApiId() + ".jar";
-                        sshSession.copyLocalToRemote(from.toString(), workspace + "/" + bootApiFileName, true);
+                        NPath to = from.resolve(workspace + "/" + bootApiFileName);
+                        to.mkParentDirs();
+                        from.copyTo(to);
                         String javaCmd = null;
                         if (o.nutsJre != null) {
                             javaCmd = (o.nutsJre + "/bin/java");
