@@ -32,9 +32,7 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.elem.NElementDescribables;
 import net.thevpc.nuts.elem.NElement;
 import net.thevpc.nuts.elem.NElements;
-import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.io.NPathPermission;
-import net.thevpc.nuts.io.NPrintStream;
+import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NMsg;
@@ -59,6 +57,7 @@ import java.util.stream.Stream;
 public class LsCommand extends NshBuiltinDefault {
 
     private static final FileSorter FILE_SORTER = new FileSorter();
+    private static final FileSorter2 FILE_SORTER2 = new FileSorter2();
     private final HashSet<String> fileTypeArchive = new HashSet<String>(Arrays.asList("jar", "war", "ear", "rar", "zip", "tar", "gz"));
     private final HashSet<String> fileTypeExec2 = new HashSet<String>(Arrays.asList("jar", "war", "ear", "rar", "zip", "bin", "exe", "tar", "gz", "class", "sh"));
     private final HashSet<String> fileTypeConfig = new HashSet<String>(Arrays.asList("xml", "config", "cfg", "json", "iml", "ipr"));
@@ -129,7 +128,8 @@ public class LsCommand extends NshBuiltinDefault {
                 continue;
             }
             file = file.toAbsolute(NPath.of(context.getDirectory()));
-            if (!file.exists()) {
+            NPathInfo fileInfo = file.getInfo();
+            if (fileInfo.getType()==NPathType.NOT_FOUND) {
                 exitCode = 1;
                 if (errors == null) {
                     errors = new ResultError();
@@ -139,7 +139,8 @@ public class LsCommand extends NshBuiltinDefault {
             } else {
                 ResultGroup g = new ResultGroup();
                 g.name = path;
-                if (!file.isDirectory() || options.d) {
+                g.fileInfo = fileInfo;
+                if ((fileInfo.getType()!=NPathType.DIRECTORY) || options.d) {
                     filesTodos.put(file, g);
                 } else {
                     foldersTodos.put(file, g);
@@ -149,19 +150,20 @@ public class LsCommand extends NshBuiltinDefault {
         for (Map.Entry<NPath, ResultGroup> e : filesTodos.entrySet()) {
             NPath file = e.getKey();
             ResultGroup g = e.getValue();
-            g.file = build(file);
+            g.file = build(file.resolve(g.fileInfo.getPath()),g.fileInfo);
             success.result.add(g);
         }
         for (Map.Entry<NPath, ResultGroup> e : foldersTodos.entrySet()) {
             NPath file = e.getKey();
             ResultGroup g = e.getValue();
-            g.children = file.stream()
-                    .sorted(FILE_SORTER)
-                    .map(NFunction.of(this::build).redescribe(NElementDescribables.ofDesc("build")))
+            g.children = file.listInfos().stream()
+                    .sorted(FILE_SORTER2)
+                    .map(NFunction.<NPathInfo,ResultItem>of(z->build(file.resolve(z.getTargetPath()),z))
+                            .redescribe(NElementDescribables.ofDesc("build")))
                     .filter(
                             NPredicate.of((ResultItem b) -> options.a || !b.hidden).redescribe(NElementDescribables.ofDesc("all || !hidden"))
                     )
-                    .toList();
+                    .collect(Collectors.toList());
             success.result.add(g);
         }
         if (success != null) {
@@ -267,23 +269,23 @@ public class LsCommand extends NshBuiltinDefault {
         }
     }
 
-    private ResultItem build(NPath path) {
+    private ResultItem build(NPath path2,NPathInfo fileInfo) {
         ResultItem r = new ResultItem();
-        r.path = path.toString();
-        r.name = path.getName();
-        boolean dir = path.isDirectory();
-        boolean regular = path.isRegularFile();
-        boolean link = path.isSymbolicLink();
+        r.path = path2.toString();
+        r.name = path2.getName();
+        boolean dir = fileInfo.getType()==NPathType.DIRECTORY || fileInfo.isSymbolicLink() && fileInfo.getTargetType()==NPathType.DIRECTORY;
+        boolean regular = fileInfo.getType()==NPathType.FILE || fileInfo.isSymbolicLink() && fileInfo.getTargetType()==NPathType.FILE;
+        boolean link = fileInfo.getType()==NPathType.SYMBOLIC_LINK;
         boolean other = false;
-        Set<NPathPermission> permissions = path.getPermissions();
+        Set<NPathPermission> permissions = fileInfo.getPermissions();
         r.jperms = (permissions.contains(NPathPermission.CAN_READ) ? "r" : "-") + (permissions.contains(NPathPermission.CAN_WRITE) ? "w" : "-") + (permissions.contains(NPathPermission.CAN_EXECUTE) ? "x" : "-");
-        r.owner = path.owner();
-        r.group = path.group();
-        r.modified = path.lastModifiedInstant();
-        r.created = path.getCreationInstant();
-        r.accessed = path.lastAccessInstant();
-        other = path.isOther();
-        r.length = path.contentLength();
+        r.owner = fileInfo.getOwner();
+        r.group = fileInfo.getGroup();
+        r.modified = fileInfo.getLastModifiedInstant();
+        r.created = fileInfo.getCreationInstant();
+        r.accessed = fileInfo.getLastAccessInstant();
+        other = fileInfo.getType()==NPathType.OTHER;
+        r.length = fileInfo.getContentLength();
         char[] perms = new char[9];
         perms[0] = permissions.contains(NPathPermission.OWNER_READ) ? 'r' : '-';
         perms[1] = permissions.contains(NPathPermission.OWNER_WRITE) ? 'w' : '-';
@@ -297,7 +299,7 @@ public class LsCommand extends NshBuiltinDefault {
         r.uperms = new String(perms);
 
 
-        String p = path.getName().toLowerCase();
+        String p = path2.getName().toLowerCase();
         if (!dir) {
             if (p.startsWith(".") || p.endsWith(".log") || p.contains(".log.")) {
                 r.hidden = true;
@@ -351,6 +353,7 @@ public class LsCommand extends NshBuiltinDefault {
     public static class ResultGroup {
 
         String name;
+        NPathInfo fileInfo;
         ResultItem file;
         List<ResultItem> children;
     }
@@ -388,6 +391,48 @@ public class LsCommand extends NshBuiltinDefault {
         public int compare(NPath o1, NPath o2) {
             int d1 = o1.isDirectory() ? 0 : o1.isRegularFile() ? 1 : 2;
             int d2 = o2.isDirectory() ? 0 : o2.isRegularFile() ? 1 : 2;
+            int x = 0;
+            if (foldersFirst) {
+                x = d1 - d2;
+                if (x != 0) {
+                    return x;
+                }
+            }
+            if (groupCase) {
+                x = o1.toString().toLowerCase().compareTo(o2.toString().toLowerCase());
+                if (x != 0) {
+                    return x;
+                }
+            }
+            x = o1.toString().compareTo(o2.toString());
+            return x;
+        }
+
+        @Override
+        public NElement describe() {
+            return NElement.ofString("foldersFirst");
+        }
+    }
+    private static class FileSorter2 implements NComparator<NPathInfo> {
+
+        boolean foldersFirst = true;
+        boolean groupCase = true;
+//        boolean hiddenFirst = true;
+
+        @Override
+        public int compare(NPathInfo o1, NPathInfo o2) {
+
+            int d1 = (o1.getType()==NPathType.DIRECTORY) ? 0 :
+                    (o1.getType()==NPathType.SYMBOLIC_LINK && o1.getTargetType()==NPathType.DIRECTORY) ?1:
+                            (o1.getType()==NPathType.FILE) ? 2 :
+                                    (o1.getType()==NPathType.SYMBOLIC_LINK && o1.getTargetType()==NPathType.FILE) ?3:
+                            4;
+            int d2 = (o2.getType()==NPathType.DIRECTORY) ? 0 :
+                    (o2.getType()==NPathType.SYMBOLIC_LINK && o2.getTargetType()==NPathType.DIRECTORY) ?1:
+                            (o2.getType()==NPathType.FILE) ? 2 :
+                                    (o2.getType()==NPathType.SYMBOLIC_LINK && o2.getTargetType()==NPathType.FILE) ?3:
+                            4;
+
             int x = 0;
             if (foldersFirst) {
                 x = d1 - d2;
