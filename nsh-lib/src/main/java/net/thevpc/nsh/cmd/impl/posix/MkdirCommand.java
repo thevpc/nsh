@@ -25,8 +25,11 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
+import net.thevpc.nuts.artifact.NVersion;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -64,6 +67,7 @@ public class MkdirCommand extends NshBuiltinDefault {
 
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
+        String s=NExecCmd.ofSystem("ls").getGrabbedAllString();
         Options options = context.getOptions();
         NSession session = context.getSession();
         options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory(), session);
