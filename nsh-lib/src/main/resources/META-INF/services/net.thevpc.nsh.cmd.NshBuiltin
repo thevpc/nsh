@@ -37,6 +37,9 @@ net.thevpc.nsh.cmd.impl.posix.RmCommand
 net.thevpc.nsh.cmd.impl.common.PropsCommand
 net.thevpc.nsh.cmd.impl.posix.MkdirCommand
 net.thevpc.nsh.cmd.impl.posix.DfCommand
+net.thevpc.nsh.cmd.impl.posix.WcCommand
+net.thevpc.nsh.cmd.impl.posix.TouchCommand
+net.thevpc.nsh.cmd.impl.posix.MvCommand
 net.thevpc.nsh.cmd.impl.core.AutocompleteCommand
 net.thevpc.nsh.cmd.impl.bash.DirNameCommand
 net.thevpc.nsh.cmd.impl.posix.DateCommand
