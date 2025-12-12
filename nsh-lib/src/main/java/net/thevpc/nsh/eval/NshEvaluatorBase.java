@@ -5,6 +5,7 @@
  */
 package net.thevpc.nsh.eval;
 
+import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nsh.err.NshException;
 import net.thevpc.nsh.err.NshUniformException;
@@ -182,7 +183,7 @@ public class NshEvaluatorBase implements NshEvaluator {
         try {
             j1.join();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            NLog.of(NshEvaluatorBase.class).log(NMsg.ofC("failed : %s", ex).asFinestFail(ex));
         }
         if (a[1] != null) {
             a[1].throwAny();
