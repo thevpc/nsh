@@ -26,6 +26,7 @@
  */
 package net.thevpc.nsh.err;
 
+import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.command.NExecutionException;
@@ -65,7 +66,7 @@ public class DefaultErrorHandler implements NshErrorHandler {
             err.println(NMsg.ofStyledError(message));
             err.flush();
         }else{
-            th.printStackTrace();
+            NLog.of(DefaultErrorHandler.class).log(NMsg.ofC("failed : %s", th).asInfoFail(th));
         }
     }
 
