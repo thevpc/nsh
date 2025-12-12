@@ -1,5 +1,6 @@
 package net.thevpc.nsh.eval;
 
+import net.thevpc.nsh.err.DefaultErrorHandler;
 import net.thevpc.nuts.artifact.NDefinition;
 import net.thevpc.nuts.artifact.NDescriptor;
 import net.thevpc.nuts.artifact.NId;
@@ -11,11 +12,13 @@ import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.elem.NElementDescribables;
+import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.platform.NShellFamily;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
 import net.thevpc.nsh.cmd.NshBuiltin;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NFunction;
 import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.util.NStringUtils;
@@ -71,7 +74,7 @@ public abstract class AbstractNshContext implements NshContext {
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        NLog.of(DefaultErrorHandler.class).log(NMsg.ofC("failed : %s", e).asFinestFail(e));
                     }
                 }
                 if (err != null) {
@@ -84,7 +87,7 @@ public abstract class AbstractNshContext implements NshContext {
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        NLog.of(DefaultErrorHandler.class).log(NMsg.ofC("failed : %s", e).asFinestFail(e));
                     }
                 }
                 if (in != null) {
@@ -97,7 +100,7 @@ public abstract class AbstractNshContext implements NshContext {
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        NLog.of(DefaultErrorHandler.class).log(NMsg.ofC("failed : %s", e).asFinestFail(e));
                     }
                 }
                 if (!some && w.isAskStopped()) {
