@@ -25,6 +25,7 @@
  */
 package net.thevpc.nsh.eval;
 
+import net.thevpc.nsh.err.DefaultErrorHandler;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminal;
@@ -34,6 +35,8 @@ import net.thevpc.nsh.err.NshUniformException;
 import net.thevpc.nsh.parser.nodes.NshCommandNode;
 import net.thevpc.nsh.util.NshNonBlockingInputStream;
 import net.thevpc.nsh.util.NshNonBlockingInputStreamAdapter;
+import net.thevpc.nuts.log.NLog;
+import net.thevpc.nuts.text.NMsg;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,7 +95,7 @@ public class DefaultNshEvaluator extends NshEvaluatorBase {
         try {
             j1.join();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            NLog.of(DefaultNshEvaluator.class).log(NMsg.ofC("failed : %s", ex).asFinestFail(ex));
         }
         if (a[1] != null) {
             a[1].throwAny();
