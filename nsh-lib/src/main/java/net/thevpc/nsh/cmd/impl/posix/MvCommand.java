@@ -96,11 +96,17 @@ public class MvCommand extends NshBuiltinDefault {
         // All other arguments are sources
         List<String> sources = options.paths.subList(0, options.paths.size() - 1);
         
-        // If multiple sources, destination must be a directory
-        if (sources.size() > 1 && !dest.isDirectory()) {
-            context.err().println(NMsg.ofC("mv: target '%s' is not a directory", destPath));
-            throw new net.thevpc.nuts.command.NExecutionException(
-                NMsg.ofPlain("mv: target is not a directory"), 1);
+        // Cache isDirectory() result to avoid redundant filesystem calls
+        // When multiple sources, destination must be a directory (checked below)
+        // For single source, we check inside the loop
+        Boolean destIsDirectory = null;
+        if (sources.size() > 1) {
+            if (!dest.isDirectory()) {
+                context.err().println(NMsg.ofC("mv: target '%s' is not a directory", destPath));
+                throw new net.thevpc.nuts.command.NExecutionException(
+                    NMsg.ofPlain("mv: target is not a directory"), 1);
+            }
+            destIsDirectory = true; // Cache the result since we know it's a directory
         }
         
         for (String sourcePath : sources) {
@@ -113,7 +119,9 @@ public class MvCommand extends NshBuiltinDefault {
                 }
                 
                 NPath targetPath;
-                if (dest.isDirectory()) {
+                // Use cached result if available, otherwise check
+                boolean isDestDir = (destIsDirectory != null) ? destIsDirectory : dest.isDirectory();
+                if (isDestDir) {
                     // Moving into a directory - keep the filename
                     String filename = source.getName();
                     targetPath = dest.resolve(filename);

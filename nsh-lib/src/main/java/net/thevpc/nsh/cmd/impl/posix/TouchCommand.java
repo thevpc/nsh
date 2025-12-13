@@ -25,6 +25,10 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,14 +101,26 @@ public class TouchCommand extends NshBuiltinDefault {
                         path.writeString("");
                     }
                 } else {
-                    // Update timestamps by touching the file
-                    // Read and rewrite to update modification time
-                    if (!options.onlyAccessTime) {
-                        byte[] content = path.readBytes();
-                        path.writeBytes(content);
+                    // Update timestamps efficiently using Files API
+                    // This avoids reading/writing entire file content
+                    try {
+                        Path javaPath = Paths.get(path.toAbsolute().normalize().toString());
+                        FileTime now = FileTime.fromMillis(System.currentTimeMillis());
+                        
+                        if (!options.onlyAccessTime) {
+                            // Update modification time
+                            Files.setLastModifiedTime(javaPath, now);
+                        }
+                        // Note: Access time update requires Files.setAttribute() which may not be
+                        // supported on all file systems. For now, we rely on the read operation
+                        // to update access time if needed.
+                    } catch (Exception e) {
+                        // Fallback to old method if Files API fails (e.g., for non-local paths)
+                        if (!options.onlyAccessTime) {
+                            byte[] content = path.readBytes();
+                            path.writeBytes(content);
+                        }
                     }
-                    // Note: Access time update is not easily portable in Java
-                    // Most file systems will update it on read operations
                 }
             } catch (Exception e) {
                 context.err().println(NMsg.ofC("touch: cannot touch '%s': %s", filePath, e.getMessage()));
