@@ -150,7 +150,7 @@ public class LsCommand extends NshBuiltinDefault {
         for (Map.Entry<NPath, ResultGroup> e : filesTodos.entrySet()) {
             NPath file = e.getKey();
             ResultGroup g = e.getValue();
-            g.file = build(file.resolve(g.fileInfo.getPath()),g.fileInfo);
+            g.file = build(file,g.fileInfo);
             success.result.add(g);
         }
         for (Map.Entry<NPath, ResultGroup> e : foldersTodos.entrySet()) {
@@ -158,7 +158,7 @@ public class LsCommand extends NshBuiltinDefault {
             ResultGroup g = e.getValue();
             g.children = file.listInfos().stream()
                     .sorted(FILE_SORTER2)
-                    .map(NFunction.<NPathInfo,ResultItem>of(z->build(file.resolve(z.getTargetPath()),z))
+                    .map(NFunction.<NPathInfo,ResultItem>of(z->build(file,z))
                             .redescribe(NElementDescribables.ofDesc("build")))
                     .filter(
                             NPredicate.of((ResultItem b) -> options.a || !b.hidden).redescribe(NElementDescribables.ofDesc("all || !hidden"))
@@ -255,24 +255,31 @@ public class LsCommand extends NshBuiltinDefault {
         String name = NPath.of(item.path).getName();
         NTexts text = NTexts.of();
         if (item.hidden) {
-            out.println(text.ofStyled(name, NTextStyle.pale()));
+            out.print(text.ofStyled(name, NTextStyle.pale()));
         } else if (item.type == 'd') {
-            out.println(text.ofStyled(name, NTextStyle.primary3()));
+            out.print(text.ofStyled(name, NTextStyle.primary3()));
         } else if (item.exec2 || item.jperms.charAt(2) == 'x') {
-            out.println(text.ofStyled(name, NTextStyle.primary4()));
+            out.print(text.ofStyled(name, NTextStyle.primary4()));
         } else if (item.config) {
-            out.println(text.ofStyled(name, NTextStyle.primary5()));
+            out.print(text.ofStyled(name, NTextStyle.primary5()));
         } else if (item.archive) {
-            out.println(text.ofStyled(name, NTextStyle.primary1()));
+            out.print(text.ofStyled(name, NTextStyle.primary1()));
         } else {
-            out.println(text.ofPlain(name));
+            out.print(text.ofPlain(name));
         }
+        if(item.targetPath!=null){
+            out.print(text.ofStyled(" -> ", NTextStyle.operator()));
+            out.print(text.ofStyled(item.targetPath, NTextStyle.path()));
+        }
+        out.println();
     }
 
-    private ResultItem build(NPath path2,NPathInfo fileInfo) {
+    private ResultItem build(NPath baseFilePath,NPathInfo fileInfo) {
+        // .resolve(g.fileInfo.getPath()) // .resolve(z.getTargetPath())
         ResultItem r = new ResultItem();
-        r.path = path2.toString();
-        r.name = path2.getName();
+        r.path = fileInfo.getPath();
+        r.targetPath = fileInfo.getTargetPath();
+        r.name = baseFilePath.resolve(fileInfo.getPath()).getName();
         boolean dir = fileInfo.getType()==NPathType.DIRECTORY || fileInfo.isSymbolicLink() && fileInfo.getTargetType()==NPathType.DIRECTORY;
         boolean regular = fileInfo.getType()==NPathType.FILE || fileInfo.isSymbolicLink() && fileInfo.getTargetType()==NPathType.FILE;
         boolean link = fileInfo.getType()==NPathType.SYMBOLIC_LINK;
@@ -299,7 +306,7 @@ public class LsCommand extends NshBuiltinDefault {
         r.uperms = new String(perms);
 
 
-        String p = path2.getName().toLowerCase();
+        String p = baseFilePath.getName().toLowerCase();
         if (!dir) {
             if (p.startsWith(".") || p.endsWith(".log") || p.contains(".log.")) {
                 r.hidden = true;
@@ -362,6 +369,7 @@ public class LsCommand extends NshBuiltinDefault {
 
         String name;
         String path;
+        String targetPath;
         char type;
         String uperms;
         String jperms;
