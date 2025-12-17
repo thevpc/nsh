@@ -159,14 +159,14 @@ public class WcCommand extends NshBuiltinDefault {
             String line;
             while ((line = reader.readLine()) != null) {
                 stats.lines++;
+                
+                // Count bytes: line bytes + newline (1 byte for \n)
+                // Note: getBytes() is necessary for accurate UTF-8 byte counting
                 stats.bytes += line.getBytes().length + 1; // +1 for newline
                 stats.chars += line.length() + 1; // +1 for newline
                 
-                // Count words (split by whitespace)
-                String trimmed = line.trim();
-                if (!trimmed.isEmpty()) {
-                    stats.words += trimmed.split("\\s+").length;
-                }
+                // Count words manually (more efficient than regex split)
+                stats.words += countWords(line);
                 
                 // Track max line length
                 if (line.length() > stats.maxLineLength) {
@@ -176,6 +176,35 @@ public class WcCommand extends NshBuiltinDefault {
         }
         
         return stats;
+    }
+    
+    /**
+     * Count words in a line manually (more efficient than regex split)
+     * A word is a sequence of non-whitespace characters
+     */
+    private int countWords(String line) {
+        if (line == null || line.isEmpty()) {
+            return 0;
+        }
+        
+        int wordCount = 0;
+        boolean inWord = false;
+        
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            boolean isWhitespace = Character.isWhitespace(c);
+            
+            if (isWhitespace) {
+                inWord = false;
+            } else {
+                if (!inWord) {
+                    wordCount++;
+                    inWord = true;
+                }
+            }
+        }
+        
+        return wordCount;
     }
 
     private void printStats(FileStats stats, String filename, Options options, NPrintStream out) {
