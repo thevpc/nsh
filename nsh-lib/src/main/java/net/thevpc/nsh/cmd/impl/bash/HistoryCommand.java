@@ -38,6 +38,8 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.history.NshHistory;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 import net.thevpc.nuts.util.NUnsupportedArgumentException;
 
 import java.util.LinkedHashMap;
@@ -47,10 +49,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class HistoryCommand extends NshBuiltinDefault {
 
     public HistoryCommand() {
-        super("history", DEFAULT_SCORE,Options.class);
+        super("history", Options.class);
     }
 
     @Override
