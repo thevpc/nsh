@@ -38,7 +38,7 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 public class VersionCommand extends NshBuiltinCore {
 
     public VersionCommand() {
-        super("version", DEFAULT_SCORE, Options.class);
+        super("version", Options.class);
     }
 
     @Override
