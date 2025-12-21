@@ -36,6 +36,8 @@ import net.thevpc.nsh.Nsh;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.cmd.resolver.NshCommandResolution;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +46,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class TypeCommand extends NshBuiltinDefault {
 
     public TypeCommand() {
-        super("type", DEFAULT_SCORE,Options.class);
+        super("type", Options.class);
     }
 
     @Override
