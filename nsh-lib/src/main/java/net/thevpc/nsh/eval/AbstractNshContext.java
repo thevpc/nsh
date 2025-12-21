@@ -5,9 +5,9 @@ import net.thevpc.nuts.artifact.NDefinition;
 import net.thevpc.nuts.artifact.NDescriptor;
 import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.cmdline.*;
-import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.command.NFetchStrategy;
-import net.thevpc.nuts.command.NSearchCmd;
+import net.thevpc.nuts.command.NSearch;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
@@ -151,14 +151,14 @@ public abstract class AbstractNshContext implements NshContext {
         if (command != null) {
             command.autoComplete(new DefaultNshExecutionContext(this, command), autoComplete);
         } else {
-            List<NId> nutsIds = NSearchCmd.of()
+            List<NId> nutsIds = NSearch.of()
                     .setFetchStrategy(NFetchStrategy.OFFLINE)
                     .addId(commandName)
                     .setLatest(true)
                     .getResultIds().toList();
             if (nutsIds.size() == 1) {
                 NId selectedId = nutsIds.get(0);
-                NDefinition def = NSearchCmd.of()
+                NDefinition def = NSearch.of()
                         .setFetchStrategy(NFetchStrategy.OFFLINE)
                         .addId(selectedId)
                         .getResultDefinitions().findFirst().get();
@@ -167,7 +167,7 @@ public abstract class AbstractNshContext implements NshContext {
                 if (d.isNutsApplication()
                         || "true".equalsIgnoreCase(nuts_autocomplete_support)
                         || "supported".equalsIgnoreCase(nuts_autocomplete_support)) {
-                    NExecCmd t = NExecCmd.of()
+                    NExec t = NExec.of()
                             .grabAll()
                             .addCommand(
                                     selectedId
