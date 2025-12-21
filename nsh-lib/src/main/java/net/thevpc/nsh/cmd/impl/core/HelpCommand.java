@@ -52,7 +52,7 @@ import java.util.function.Function;
 public class HelpCommand extends NshBuiltinCore {
 
     public HelpCommand() {
-        super("help", DEFAULT_SCORE, Options.class);
+        super("help", Options.class);
     }
 
     @Override
