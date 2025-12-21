@@ -25,11 +25,9 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.artifact.NVersion;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.command.NExecCmd;
-import net.thevpc.nuts.core.NWorkspace;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -37,16 +35,19 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class MkdirCommand extends NshBuiltinDefault {
 
     public MkdirCommand() {
-        super("mkdir", DEFAULT_SCORE,Options.class);
+        super("mkdir", Options.class);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class MkdirCommand extends NshBuiltinDefault {
 
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
-        String s=NExecCmd.ofSystem("ls").getGrabbedAllString();
+        String s= NExec.ofSystem("ls").getGrabbedAllString();
         Options options = context.getOptions();
         NSession session = context.getSession();
         options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory(), session);
