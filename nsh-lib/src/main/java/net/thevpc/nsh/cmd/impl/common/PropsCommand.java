@@ -38,6 +38,8 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,10 +49,11 @@ import java.util.*;
 /**
  * Created by vpc on 1/7/17.
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class PropsCommand extends NshBuiltinDefault {
 
     public PropsCommand() {
-        super("props", DEFAULT_SCORE,Options.class);
+        super("props", Options.class);
     }
 
     @Override
