@@ -34,6 +34,8 @@ import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -45,10 +47,11 @@ import java.time.format.DateTimeFormatter;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class DateCommand extends NshBuiltinDefault {
 
     public DateCommand() {
-        super("date", DEFAULT_SCORE,Options.class);
+        super("date", Options.class);
     }
 
     @Override
