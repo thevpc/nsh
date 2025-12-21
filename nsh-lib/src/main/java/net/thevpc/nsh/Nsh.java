@@ -41,11 +41,13 @@ import net.thevpc.nuts.cmdline.NCmdLineHistory;
 import net.thevpc.nuts.command.NCommandConfig;
 import net.thevpc.nuts.command.NCustomCmd;
 import net.thevpc.nuts.command.NExecutionException;
-import net.thevpc.nuts.command.NFetchCmd;
+import net.thevpc.nuts.command.NFetch;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.elem.NElementDescribables;
 
+import net.thevpc.nuts.ext.NExtensions;
+import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.platform.NLauncherOptions;
 import net.thevpc.nuts.platform.NStoreType;
 import net.thevpc.nuts.io.*;
@@ -206,11 +208,12 @@ public class Nsh {
         NScorableContext constraints = NScorableContext.of(this);
 
         Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
+        NExtensions extensions = NExtensions.of();
         for (NshBuiltin command : NWorkspace.of().extensions()
                 .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
                 .loadAll(this)) {
             NshBuiltin old = _rootContext.builtins().find(command.getName());
-            if (old != null && old.getScore(constraints) >= command.getScore(constraints)) {
+            if (old != null && extensions.getInstanceScorable(old,NshBuiltin.class).get().getScore(constraints) >= extensions.getInstanceScorable(command,NshBuiltin.class).get().getScore(constraints)) {
                 continue;
             }
             if (filter.test(command)) {
@@ -657,7 +660,7 @@ public class Nsh {
             NDescriptor resultDescriptor = null;
             if (appId != null) {
                 try {
-                    resultDescriptor = NFetchCmd.of(appId)
+                    resultDescriptor = NFetch.of(appId)
                             .setDependencyFilter(NDependencyFilters.of().byRunnable())
                             .getResultDescriptor();
                 } catch (Exception ex) {
@@ -1084,7 +1087,7 @@ public class Nsh {
 //        } catch (IOException ex) {
 //            cwd = new File(".").getAbsolutePath();
 //        }
-        context.vars().set(NWorkspace.of().getSysEnv());
+        context.vars().set(NEnv.of().getEnv());
         setUndefinedStartupEnv("USER", System.getProperty("user.name"), context);
         setUndefinedStartupEnv("LOGNAME", System.getProperty("user.name"), context);
         setUndefinedStartupEnv(Nsh.ENV_PATH, ".", context);
