@@ -43,10 +43,11 @@ import java.util.stream.Collectors;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class HostsCommand extends NshBuiltinDefault {
 
     public HostsCommand() {
-        super("hosts", DEFAULT_SCORE, Options.class);
+        super("hosts", Options.class);
     }
 
     @Override
