@@ -34,6 +34,8 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshContext;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,10 +45,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class SourceCommand extends NshBuiltinDefault {
 
     public SourceCommand() {
-        super("source", DEFAULT_SCORE, Options.class);
+        super("source", Options.class);
     }
 
     @Override
