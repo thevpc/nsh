@@ -35,6 +35,8 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +45,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class RmCommand extends NshBuiltinDefault {
 
     public RmCommand() {
-        super("rm", DEFAULT_SCORE, Options.class);
+        super("rm", Options.class);
     }
 
     @Override
