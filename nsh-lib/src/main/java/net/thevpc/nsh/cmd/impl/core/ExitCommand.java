@@ -41,7 +41,7 @@ import net.thevpc.nsh.err.NshQuitException;
 public class ExitCommand extends NshBuiltinCore {
 
     public ExitCommand() {
-        super("exit", DEFAULT_SCORE, Options.class);
+        super("exit", Options.class);
     }
 
     @Override
