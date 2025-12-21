@@ -38,6 +38,8 @@ import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.*;
 
@@ -45,10 +47,11 @@ import java.util.*;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class AutocompleteCommand extends NshBuiltinDefault {
 
     public AutocompleteCommand() {
-        super("autocomplete", DEFAULT_SCORE,Options.class);
+        super("autocomplete", Options.class);
     }
 
     @Override
