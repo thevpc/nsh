@@ -36,6 +36,8 @@ import net.thevpc.nuts.io.NPs;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.*;
 
@@ -43,10 +45,11 @@ import java.util.*;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class KillCommand extends NshBuiltinDefault {
 
     public KillCommand() {
-        super("kill", DEFAULT_SCORE, Options.class);
+        super("kill", Options.class);
     }
 
     @Override
