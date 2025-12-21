@@ -34,6 +34,8 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.parser.nodes.NshFunction;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -44,10 +46,11 @@ import java.util.Map;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class SetCommand extends NshBuiltinDefault {
 
     public SetCommand() {
-        super("set", DEFAULT_SCORE,Options.class);
+        super("set", Options.class);
     }
 
     @Override
