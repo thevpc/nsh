@@ -29,13 +29,15 @@ import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NOut;
+import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.platform.NArchFamily;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +46,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class UnameCommand extends NshBuiltinDefault {
 
     public UnameCommand() {
-        super("uname", DEFAULT_SCORE,Options.class);
+        super("uname", Options.class);
     }
 
 
@@ -81,12 +84,11 @@ public class UnameCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options config = context.getOptions();
-        NSession session = context.getSession();
-
         Result rr = new Result();
-        rr.osDist = NWorkspace.of().getOsDist();
-        rr.os = NWorkspace.of().getOs();
-        rr.arch = NWorkspace.of().getArchFamily();
+        NEnv environment = NEnv.of();
+        rr.osDist = environment.getOsDist();
+        rr.os = environment.getOs();
+        rr.arch = environment.getArchFamily();
         if (!config.farch && !config.fos && !config.fdist) {
             config.farch = true;
             config.fos = true;
