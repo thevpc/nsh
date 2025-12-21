@@ -44,6 +44,8 @@ import net.thevpc.nsh.util.ColumnRuler;
 import net.thevpc.nsh.util.FileInfo;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 import net.thevpc.nuts.util.NStringUtils;
 import net.thevpc.nuts.util.NUnsupportedOperationException;
 
@@ -55,10 +57,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class CatCommand extends NshBuiltinDefault {
 
     public CatCommand() {
-        super("cat", DEFAULT_SCORE, Options.class);
+        super("cat", Options.class);
     }
 
     @Override
