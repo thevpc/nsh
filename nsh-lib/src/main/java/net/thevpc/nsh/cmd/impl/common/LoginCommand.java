@@ -37,15 +37,18 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.io.NAsk;
 import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 /**
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class LoginCommand extends NshBuiltinDefault {
 
     public LoginCommand() {
-        super("login", DEFAULT_SCORE, Options.class);
+        super("login", Options.class);
     }
 
     @Override
