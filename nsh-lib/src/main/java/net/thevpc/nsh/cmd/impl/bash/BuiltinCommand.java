@@ -32,16 +32,19 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.Arrays;
 
 /**
  * Created by vpc on 1/7/17.
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class BuiltinCommand extends NshBuiltinDefault {
 
     public BuiltinCommand() {
-        super("builtin", DEFAULT_SCORE, Options.class);
+        super("builtin", Options.class);
     }
 
     @Override
