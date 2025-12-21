@@ -44,7 +44,7 @@ import net.thevpc.nsh.eval.NshResult;
 public class ShowerrCommand extends NshBuiltinCore {
 
     public ShowerrCommand() {
-        super("showerr", DEFAULT_SCORE,Options.class);
+        super("showerr", Options.class);
     }
 
     @Override
