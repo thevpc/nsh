@@ -42,6 +42,8 @@ import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 /**
  * wc - print newline, word, and byte counts for each file
@@ -49,10 +51,11 @@ import net.thevpc.nuts.text.NMsg;
  * @author thevpc
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class WcCommand extends NshBuiltinDefault {
 
     public WcCommand() {
-        super("wc", DEFAULT_SCORE, Options.class);
+        super("wc", Options.class);
     }
 
     @Override
