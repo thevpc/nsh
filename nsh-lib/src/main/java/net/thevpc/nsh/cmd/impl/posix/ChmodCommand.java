@@ -35,6 +35,8 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.*;
 
@@ -42,10 +44,11 @@ import java.util.*;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class ChmodCommand extends NshBuiltinDefault {
 
     public ChmodCommand() {
-        super("chmod", DEFAULT_SCORE,Options.class);
+        super("chmod", Options.class);
     }
 
 
