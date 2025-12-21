@@ -37,6 +37,8 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NCollections;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.io.IOException;
 import java.nio.file.FileStore;
@@ -46,10 +48,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class DfCommand extends NshBuiltinDefault {
 
     public DfCommand() {
-        super("df", DEFAULT_SCORE, Options.class);
+        super("df", Options.class);
     }
 
     @Override
