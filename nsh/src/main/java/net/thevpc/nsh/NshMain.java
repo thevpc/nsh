@@ -7,13 +7,13 @@ import net.thevpc.nuts.cmdline.NCmdLineRunner;
 import net.thevpc.nsh.options.DefaultNshOptionsParser;
 import net.thevpc.nsh.options.NshOptions;
 
-import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.log.NMsgIntent;
 
 import java.util.Map;
 import java.util.logging.Level;
 
+import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.text.NMsg;
 
 @NAppDefinition
@@ -62,7 +62,7 @@ public class NshMain  {
     public void run() {
 
         //before loading Nsh check if we need to activate rich term
-        Map<String, String> sysEnv = NWorkspace.of().getSysEnv();
+        Map<String, String> sysEnv = NEnv.of().getEnv();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
         NshOptions o = options.parse(NApp.of().getCmdLine().toStringArray());
 
