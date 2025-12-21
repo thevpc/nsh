@@ -28,15 +28,17 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 
-import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NOut;
+import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.platform.NOsFamily;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,10 +50,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class JpsCommand extends NshBuiltinDefault {
 
     public JpsCommand() {
-        super("jps", DEFAULT_SCORE,Options.class);
+        super("jps", Options.class);
     }
 
     public static String resolveJpsCommand(NSession session) {
@@ -59,7 +62,7 @@ public class JpsCommand extends NshBuiltinDefault {
     }
 
     public static String resolveJavaToolCommand(NSession session, String javaHome, String javaCommand) {
-        String exe = NWorkspace.of().getOsFamily().equals(NOsFamily.WINDOWS) ? (javaCommand + ".exe") : javaCommand;
+        String exe = NEnv.of().getOsFamily().equals(NOsFamily.WINDOWS) ? (javaCommand + ".exe") : javaCommand;
         if (javaHome == null) {
             javaHome = System.getProperty("java.home");
         }
@@ -120,7 +123,7 @@ public class JpsCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         List<JpsRow> results = new ArrayList<>();
 
-        NExecCmd e = NExecCmd.of()
+        NExec e = NExec.of()
                 .system()
                 .addCommand(resolveJpsCommand(context.getSession()), "-l", "-v", "-m")
                 .grabAll()
