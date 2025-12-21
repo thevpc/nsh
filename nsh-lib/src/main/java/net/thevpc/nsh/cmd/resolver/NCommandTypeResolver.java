@@ -26,7 +26,7 @@
 */
 package net.thevpc.nsh.cmd.resolver;
 
-import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nsh.eval.NshContext;
@@ -49,7 +49,7 @@ public class NCommandTypeResolver implements NshCommandTypeResolver {
             path = context.getDirectory() + "/" + item;
         }
         NSession session = context.getSession();
-        try(NExecutableInformation w = NExecCmd.of().addCommand(item).which()) {
+        try(NExecutableInformation w = NExec.of().addCommand(item).which()) {
             if (w != null) {
                 return new NshCommandResolution(item, "nuts " + w.getType().toString().toLowerCase(), w.getValue(), w.getDescription());
             }
