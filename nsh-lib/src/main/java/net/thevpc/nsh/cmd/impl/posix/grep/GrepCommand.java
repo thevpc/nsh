@@ -41,17 +41,20 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.cmd.impl.util.filter.JavaExceptionWindowFilter;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.FileInfo;
+import net.thevpc.nuts.util.NScore;
 import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScorable;
 import net.thevpc.nuts.util.NStringUtils;
 
 /**
  * Created by vpc on 1/7/17.
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class GrepCommand extends NshBuiltinDefault {
 
     public GrepCommand() {
-        super("grep", DEFAULT_SCORE, GrepOptions.class);
+        super("grep", GrepOptions.class);
     }
 
 
