@@ -47,10 +47,11 @@ import java.util.stream.Collectors;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class PsCommand extends NshBuiltinDefault {
 
     public PsCommand() {
-        super("ps", DEFAULT_SCORE, Options.class);
+        super("ps", Options.class);
     }
 
     @Override
