@@ -19,7 +19,7 @@ import net.thevpc.nsh.parser.nodes.NshFunctionManager;
 import net.thevpc.nsh.parser.nodes.NshNode;
 import net.thevpc.nsh.parser.nodes.NshVariables;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.core.NWorkspace;
+import net.thevpc.nuts.platform.NEnv;
 
 import java.util.*;
 
@@ -68,7 +68,7 @@ public class DefaultNshContext extends AbstractNshContext {
                 aliases().set(a, parentContext.aliases().get(a));
             }
         } else {
-            for (Map.Entry<String, String> entry : NWorkspace.of().getSysEnv().entrySet()) {
+            for (Map.Entry<String, String> entry : NEnv.of().getEnv().entrySet()) {
                 vars().export(entry.getKey(), entry.getValue());
             }
             setBuiltins(new NBuiltinManager());
