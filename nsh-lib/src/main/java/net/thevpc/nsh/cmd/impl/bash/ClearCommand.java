@@ -33,15 +33,18 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NTerminalCmd;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 /**
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class ClearCommand extends NshBuiltinDefault {
 
     public ClearCommand() {
-        super("clear", DEFAULT_SCORE, Options.class);
+        super("clear", Options.class);
     }
 
     private static class Options {
