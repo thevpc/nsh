@@ -63,31 +63,19 @@ import java.util.logging.Logger;
 public abstract class NshBuiltinBase implements NshBuiltin {
     private static final Logger LOG = Logger.getLogger(NshBuiltinBase.class.getName());
     private final String name;
-    private final int score;
     private String help;
     private boolean enabled = true;
 
     private Supplier<Object> optionsSupplier;
 
-    public NshBuiltinBase(String name, int score, Class<?> optionsSupplier) {
+    public NshBuiltinBase(String name, Class<?> optionsSupplier) {
         this.name = name;
-        this.score = score;
         this.optionsSupplier = ()->createOptions(optionsSupplier);
     }
 
-    public NshBuiltinBase(String name, Class<?> optionsSupplier) {
-        this.name = name;
-        this.score = DEFAULT_SCORE;
-        this.optionsSupplier = ()->createOptions(optionsSupplier);
-    }
-    public NshBuiltinBase(String name, int score, Supplier<?> optionsSupplier) {
-        this.name = name;
-        this.score = score;
-        this.optionsSupplier = (Supplier)optionsSupplier;
-    }
+
     public NshBuiltinBase(String name, Supplier<?> optionsSupplier) {
         this.name = name;
-        this.score = DEFAULT_SCORE;
         this.optionsSupplier = (Supplier)optionsSupplier;
     }
 
@@ -119,11 +107,6 @@ public abstract class NshBuiltinBase implements NshBuiltin {
 
     protected void init(NCmdLine cmdLine, NshExecutionContext context) {
 
-    }
-
-    @Override
-    public int getScore(NScorableContext param) {
-        return score;
     }
 
     @Override
