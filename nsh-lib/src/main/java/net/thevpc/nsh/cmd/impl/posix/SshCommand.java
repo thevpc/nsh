@@ -27,7 +27,7 @@ package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.command.NSearchCmd;
+import net.thevpc.nuts.command.NSearch;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.ext.ssh.IOBindings;
@@ -41,6 +41,8 @@ import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +51,11 @@ import java.util.List;
  * Created by vpc on 1/7/17. ssh copy credits to Chanaka Lakmal from
  * https://medium.com/ldclakmal/scp-with-java-b7b7dbcdbc85
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class SshCommand extends NshBuiltinDefault {
 
     public SshCommand() {
-        super("ssh", DEFAULT_SCORE, Options.class);
+        super("ssh", Options.class);
     }
 
     @Override
@@ -132,7 +135,7 @@ public class SshCommand extends NshBuiltinDefault {
                         nutsCommandFound = true;
                     }
                     if (!nutsCommandFound) {
-                        NPath from = NSearchCmd.of().addId(session.getWorkspace().getApiId()).getResultDefinitions().findFirst().get().getContent().orNull();
+                        NPath from = NSearch.of().addId(session.getWorkspace().getApiId()).getResultDefinitions().findFirst().get().getContent().orNull();
                         NAssert.requireNonNull(from, "jar file");
                         context.out().println(NMsg.ofC("Detected nuts.jar location : %s", from));
                         String bootApiFileName = "nuts-" + session.getWorkspace().getApiId() + ".jar";
