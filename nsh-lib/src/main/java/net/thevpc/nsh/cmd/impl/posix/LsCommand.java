@@ -54,6 +54,7 @@ import java.util.stream.Stream;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class LsCommand extends NshBuiltinDefault {
 
     private static final FileSorter FILE_SORTER = new FileSorter();
@@ -65,7 +66,7 @@ public class LsCommand extends NshBuiltinDefault {
             .withZone(ZoneId.systemDefault());
 
     public LsCommand() {
-        super("ls", DEFAULT_SCORE, Options.class);
+        super("ls", Options.class);
     }
 
     @Override
