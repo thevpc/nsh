@@ -38,6 +38,8 @@ import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +48,11 @@ import java.util.List;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class WgetCommand extends NshBuiltinDefault {
 
     public WgetCommand() {
-        super("wget", DEFAULT_SCORE,Options.class);
+        super("wget", Options.class);
     }
 
     @Override
