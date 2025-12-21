@@ -33,6 +33,8 @@ import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPathPermission;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.time.Instant;
 import java.util.Stack;
@@ -40,10 +42,11 @@ import java.util.Stack;
 /**
  * Created by vpc on 1/7/17.
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class TestCommand extends NshBuiltinDefault {
 
     public TestCommand() {
-        super("test", DEFAULT_SCORE, Options.class);
+        super("test", Options.class);
     }
 
     private static NPath evalPath(Eval a, NshExecutionContext context) {
