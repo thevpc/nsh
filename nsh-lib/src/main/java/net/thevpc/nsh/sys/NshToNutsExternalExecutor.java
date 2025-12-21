@@ -26,7 +26,7 @@
  */
 package net.thevpc.nsh.sys;
 
-import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.eval.NshContext;
 
@@ -48,7 +48,7 @@ public class NshToNutsExternalExecutor implements NshExternalExecutor {
             list.remove(0);
             command=list.toArray(new String[0]);
         }
-        return NExecCmd.of().addCommand(command).failFast()
+        return NExec.of().addCommand(command).failFast()
                 .setExecutionType(context.getSession().getExecutionType().orDefault())
                 .setDirectory(NPath.of(context.getDirectory()))
                 .run().getResultCode();
