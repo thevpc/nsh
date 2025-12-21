@@ -32,15 +32,18 @@ import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 /**
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class PwdCommand extends NshBuiltinDefault {
 
     public PwdCommand() {
-        super("pwd", DEFAULT_SCORE,Options.class);
+        super("pwd", Options.class);
     }
 
     @Override
