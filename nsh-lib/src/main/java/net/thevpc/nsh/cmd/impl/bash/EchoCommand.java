@@ -35,16 +35,19 @@ import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextCode;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 import net.thevpc.nuts.util.NStringUtils;
 
 /**
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class EchoCommand extends NshBuiltinDefault {
 
     public EchoCommand() {
-        super("echo", DEFAULT_SCORE, Options.class);
+        super("echo", Options.class);
     }
 
     @Override
