@@ -41,15 +41,18 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class CpCommand extends NshBuiltinDefault {
 
     public CpCommand() {
-        super("cp", DEFAULT_SCORE, Options.class);
+        super("cp", Options.class);
     }
 
 
