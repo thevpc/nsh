@@ -27,7 +27,7 @@ package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.command.NExecCmd;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.command.NExecutionType;
 import net.thevpc.nuts.core.NRunAs;
 import net.thevpc.nuts.core.NSession;
@@ -38,6 +38,8 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.NBlankable;
+import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.util.NScorable;
 
 import java.util.*;
 
@@ -45,10 +47,11 @@ import java.util.*;
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class EnvCommand extends NshBuiltinDefault {
 
     public EnvCommand() {
-        super("env", DEFAULT_SCORE, Options.class);
+        super("env", Options.class);
     }
 
     @Override
@@ -162,7 +165,7 @@ public class EnvCommand extends NshBuiltinDefault {
                 NOut.println(env);
             }
         } else {
-            final NExecCmd e = NExecCmd.of().addCommand(options.command)
+            final NExec e = NExec.of().addCommand(options.command)
                     .setEnv(env)
                     .failFast();
             if (!NBlankable.isBlank(options.dir)) {
