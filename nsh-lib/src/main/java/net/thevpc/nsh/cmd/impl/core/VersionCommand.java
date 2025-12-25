@@ -31,10 +31,13 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.text.NVersionFormat;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.util.NScorable;
+import net.thevpc.nuts.util.NScore;
 
 /**
  * Created by vpc on 1/7/17.
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class VersionCommand extends NshBuiltinCore {
 
     public VersionCommand() {
