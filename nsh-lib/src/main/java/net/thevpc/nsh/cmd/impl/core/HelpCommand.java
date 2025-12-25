@@ -39,6 +39,8 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.bundles._StringUtils;
 import net.thevpc.nsh.options.CommandNonOption;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.util.NScorable;
+import net.thevpc.nuts.util.NScore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +51,7 @@ import java.util.function.Function;
 /**
  * Created by vpc on 1/7/17.
  */
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class HelpCommand extends NshBuiltinCore {
 
     public HelpCommand() {
