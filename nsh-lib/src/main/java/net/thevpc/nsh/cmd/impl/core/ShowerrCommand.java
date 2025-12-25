@@ -36,11 +36,14 @@ import net.thevpc.nuts.text.NText;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.eval.NshResult;
+import net.thevpc.nuts.util.NScorable;
+import net.thevpc.nuts.util.NScore;
 
 /**
  * Created by vpc on 1/7/17.
  */
 @NComponentScope(NScopeType.WORKSPACE)
+@NScore(fixed = NScorable.DEFAULT_SCORE)
 public class ShowerrCommand extends NshBuiltinCore {
 
     public ShowerrCommand() {
@@ -50,7 +53,6 @@ public class ShowerrCommand extends NshBuiltinCore {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
