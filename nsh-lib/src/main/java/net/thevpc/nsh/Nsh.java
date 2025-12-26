@@ -707,7 +707,7 @@ public class Nsh {
                     copyRight
             );
         }
-        out.resetLine().println(m);
+        out.println(m);
     }
 
     protected void executeHelp(NshContext context) {
