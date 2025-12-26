@@ -83,7 +83,6 @@ public class CpCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         for (String value : options.files) {
             NAssert.requireNonBlank(value, "file path");
             options.xfiles.add(NPath.of((value.contains("://") ? value :
@@ -94,7 +93,7 @@ public class CpCommand extends NshBuiltinDefault {
             throw new NExecutionException(NMsg.ofPlain("missing parameters"), NExecutionException.ERROR_2);
         }
 
-        options.sshlistener = new ShellHelper.WsSshListener(session);
+//        options.sshlistener = new ShellHelper.WsSshListener(session);
         for (int i = 0; i < options.xfiles.size() - 1; i++) {
             copy(options.xfiles.get(i), options.xfiles.get(options.xfiles.size() - 1), options, context);
         }
@@ -185,7 +184,7 @@ public class CpCommand extends NshBuiltinDefault {
 
         boolean mkdir;
         boolean recursive;
-        ShellHelper.WsSshListener sshlistener;
+//        ShellHelper.WsSshListener sshlistener;
         List<String> files = new ArrayList<>();
         List<NPath> xfiles = new ArrayList<>();
     }
