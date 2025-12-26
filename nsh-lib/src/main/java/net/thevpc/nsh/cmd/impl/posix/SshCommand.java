@@ -27,12 +27,13 @@ package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.command.NExec;
 import net.thevpc.nuts.command.NSearch;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.ext.ssh.IOBindings;
-import net.thevpc.nuts.ext.ssh.SshConnection;
-import net.thevpc.nuts.ext.ssh.SshConnectionPool;
+//import net.thevpc.nuts.ext.ssh.IOBindings;
+//import net.thevpc.nuts.ext.ssh.SshConnection;
+//import net.thevpc.nuts.ext.ssh.SshConnectionPool;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
@@ -100,63 +101,69 @@ public class SshCommand extends NshBuiltinDefault {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options o = context.getOptions();
         // address --nuts [nuts options] args
-        NSession session = context.getSession();
         NAssert.requireNonBlank(o.address, "ssh address");
         NAssert.requireNonBlank(o.cmd, () -> NMsg.ofPlain("missing ssh command. Interactive ssh is not yet supported!"));
-        ShellHelper.WsSshListener listener = new ShellHelper.WsSshListener(session);
-        try (SshConnection sshSession = SshConnectionPool.of().acquire(o.address)
-                .addListener(listener)) {
-            List<String> cmd = new ArrayList<>();
-            if (o.invokeNuts) {
-                String workspace = null;
-                NCmdLine c = NCmdLine.of(o.cmd.subList(1, o.cmd.size()));
-                NArg arg = null;
-                while (c.hasNext()) {
-                    if ((arg = c.next("--workspace").orNull()) != null) {
-                        workspace = c.nextNonOption().get().asString().get();
-                    } else if (c.peek().isPresent() && c.peek().get().isNonOption()) {
-                        break;
-                    } else {
-                        c.skip();
-                    }
-                }
-                if (!NBlankable.isBlank(o.nutsCommand)) {
-                    cmd.add(o.nutsCommand);
-                } else {
-                    String userHome = null;
-                    userHome = sshSession.execArrayCommandGrabbed("echo", "$HOME").outString();
-                    if (NBlankable.isBlank(workspace)) {
-                        workspace = userHome + "/.config/nuts/" + NConstants.Names.DEFAULT_WORKSPACE_NAME;
-                    }
-                    boolean nutsCommandFound = false;
-                    int r = sshSession.execArrayCommandGrabbed("ls", workspace + "/nuts").code();
-                    if (0 == r) {
-                        //found
-                        nutsCommandFound = true;
-                    }
-                    if (!nutsCommandFound) {
-                        NPath from = NSearch.of().addId(session.getWorkspace().getApiId()).getResultDefinitions().findFirst().get().getContent().orNull();
-                        NAssert.requireNonNull(from, "jar file");
-                        context.out().println(NMsg.ofC("Detected nuts.jar location : %s", from));
-                        String bootApiFileName = "nuts-" + session.getWorkspace().getApiId() + ".jar";
-                        NPath to = from.resolve(workspace + "/" + bootApiFileName);
-                        to.mkParentDirs();
-                        from.copyTo(to);
-                        String javaCmd = null;
-                        if (o.nutsJre != null) {
-                            javaCmd = (o.nutsJre + "/bin/java");
-                        } else {
-                            javaCmd = ("java");
-                        }
-                    }
-                    cmd.add(workspace + "/nuts");
-                }
-            }
-            cmd.addAll(o.cmd);
-            sshSession.execArrayCommand(cmd.toArray(new String[0]),new IOBindings(session.in(),
-                    NOut.asOutputStream(),
-                    session.err().asOutputStream()));
-        }
+//        NSession session = context.getSession();
+//        ShellHelper.WsSshListener listener = new ShellHelper.WsSshListener(session);
+//        try (SshConnection sshSession = SshConnectionPool.of().acquire(o.address)
+//                .addListener(listener)) {
+//            List<String> cmd = new ArrayList<>();
+//            if (o.invokeNuts) {
+//                String workspace = null;
+//                NCmdLine c = NCmdLine.of(o.cmd.subList(1, o.cmd.size()));
+//                NArg arg = null;
+//                while (c.hasNext()) {
+//                    if ((arg = c.next("--workspace").orNull()) != null) {
+//                        workspace = c.nextNonOption().get().asString().get();
+//                    } else if (c.peek().isPresent() && c.peek().get().isNonOption()) {
+//                        break;
+//                    } else {
+//                        c.skip();
+//                    }
+//                }
+//                if (!NBlankable.isBlank(o.nutsCommand)) {
+//                    cmd.add(o.nutsCommand);
+//                } else {
+//                    String userHome = null;
+//                    userHome = sshSession.execArrayCommandGrabbed("echo", "$HOME").outString();
+//                    if (NBlankable.isBlank(workspace)) {
+//                        workspace = userHome + "/.config/nuts/" + NConstants.Names.DEFAULT_WORKSPACE_NAME;
+//                    }
+//                    boolean nutsCommandFound = false;
+//                    int r = sshSession.execArrayCommandGrabbed("ls", workspace + "/nuts").code();
+//                    if (0 == r) {
+//                        //found
+//                        nutsCommandFound = true;
+//                    }
+//                    if (!nutsCommandFound) {
+//                        NPath from = NSearch.of().addId(session.getWorkspace().getApiId()).getResultDefinitions().findFirst().get().getContent().orNull();
+//                        NAssert.requireNonNull(from, "jar file");
+//                        context.out().println(NMsg.ofC("Detected nuts.jar location : %s", from));
+//                        String bootApiFileName = "nuts-" + session.getWorkspace().getApiId() + ".jar";
+//                        NPath to = from.resolve(workspace + "/" + bootApiFileName);
+//                        to.mkParentDirs();
+//                        from.copyTo(to);
+//                        String javaCmd = null;
+//                        if (o.nutsJre != null) {
+//                            javaCmd = (o.nutsJre + "/bin/java");
+//                        } else {
+//                            javaCmd = ("java");
+//                        }
+//                    }
+//                    cmd.add(workspace + "/nuts");
+//                }
+//            }
+//            cmd.addAll(o.cmd);
+//            sshSession.execArrayCommand(cmd.toArray(new String[0]),new IOBindings(session.in(),
+//                    NOut.asOutputStream(),
+//                    session.err().asOutputStream()));
+//    }
+
+            NExec.ofSystem(o.cmd.subList(1, o.cmd.size()).toArray(new  String[0]))
+                    .at("ssh://"+o.address)
+                    .failFast()
+                    .run();
+
     }
 
     private static class Options {
