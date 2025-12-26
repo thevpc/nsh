@@ -29,6 +29,7 @@ import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.io.NIn;
 import net.thevpc.nuts.security.NWorkspaceSecurityManager;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -76,8 +77,7 @@ public class LoginCommand extends NshBuiltinDefault {
         if (!NConstants.Users.ANONYMOUS.equals(options.login)
                 && (options.password == null
                 || NBlankable.isBlank(new String(options.password)))) {
-            NSession session = context.getSession();
-            options.password = NAsk.of()
+            options.password = NIn.ask()
                     .forPassword(NMsg.ofPlain("Password:")).getValue();
         }
         NWorkspaceSecurityManager.of().login(options.login, options.password);
