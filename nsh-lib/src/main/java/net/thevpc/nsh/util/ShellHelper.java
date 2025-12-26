@@ -10,7 +10,7 @@ import net.thevpc.nuts.io.NInputStreamMonitor;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.io.NTerminal;
-import net.thevpc.nuts.ext.ssh.SshListener;
+//import net.thevpc.nuts.ext.ssh.SshListener;
 import net.thevpc.nsh.util.bundles._IOUtils;
 import net.thevpc.nuts.text.NMsg;
 
@@ -53,46 +53,46 @@ public class ShellHelper {
         }
     }
 
-    public static class WsSshListener implements SshListener {
-
-        NPrintStream out;
-        NSession session;
-
-        public WsSshListener(NSession session) {
-            this.session = session;
-            out = session.out();
-        }
-
-        private boolean isTrace() {
-            return session.isPlainTrace();
-        }
-
-        @Override
-        public void onExec(String command) {
-            if (isTrace()) {
-                out.println(NMsg.ofC("##:primary4:[SSH-EXEC]## %s", command));
-            }
-        }
-
-        @Override
-        public void onGet(String from, String to, boolean mkdir) {
-            if (isTrace()) {
-                out.println(NMsg.ofC("##:primary4:[SSH-GET ]## %s -> %s", from, to));
-            }
-        }
-
-        @Override
-        public void onPut(String from, String to, boolean mkdir) {
-            if (isTrace()) {
-                out.println(NMsg.ofC("##:primary4:[SSH-PUT ]## %s -> %s", from, to));
-            }
-        }
-
-        @Override
-        public InputStream monitorInputStream(InputStream stream, long length, NMsg message) {
-            return NInputStreamMonitor.of().setSource(stream).setLength(length).setName(message).create();
-        }
-    }
+//    public static class WsSshListener implements SshListener {
+//
+//        NPrintStream out;
+//        NSession session;
+//
+//        public WsSshListener(NSession session) {
+//            this.session = session;
+//            out = session.out();
+//        }
+//
+//        private boolean isTrace() {
+//            return session.isPlainTrace();
+//        }
+//
+//        @Override
+//        public void onExec(String command) {
+//            if (isTrace()) {
+//                out.println(NMsg.ofC("##:primary4:[SSH-EXEC]## %s", command));
+//            }
+//        }
+//
+//        @Override
+//        public void onGet(String from, String to, boolean mkdir) {
+//            if (isTrace()) {
+//                out.println(NMsg.ofC("##:primary4:[SSH-GET ]## %s -> %s", from, to));
+//            }
+//        }
+//
+//        @Override
+//        public void onPut(String from, String to, boolean mkdir) {
+//            if (isTrace()) {
+//                out.println(NMsg.ofC("##:primary4:[SSH-PUT ]## %s -> %s", from, to));
+//            }
+//        }
+//
+//        @Override
+//        public InputStream monitorInputStream(InputStream stream, long length, NMsg message) {
+//            return NInputStreamMonitor.of().setSource(stream).setLength(length).setName(message).create();
+//        }
+//    }
 
     public static boolean readAccept(NTerminal t) {
         while (true) {
