@@ -209,8 +209,7 @@ public class Nsh {
 
         Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
         NExtensions extensions = NExtensions.of();
-        for (NshBuiltin command : NWorkspace.of().extensions()
-                .createServiceLoader(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
+        for (NshBuiltin command : NServiceLoader.of(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
                 .loadAll(this)) {
             NshBuiltin old = _rootContext.builtins().find(command.getName());
             if (old != null && extensions.getInstanceScorable(old,NshBuiltin.class).get().getScore(constraints) >= extensions.getInstanceScorable(command,NshBuiltin.class).get().getScore(constraints)) {
