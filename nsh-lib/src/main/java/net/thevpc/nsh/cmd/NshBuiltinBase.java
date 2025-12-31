@@ -36,6 +36,7 @@ import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NMemoryPrintStream;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPrintStream;
+import net.thevpc.nuts.io.NServiceLoader;
 import net.thevpc.nuts.util.NScorableContext;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nsh.options.autocomplete.NCommandAutoCompleteComponent;
@@ -117,7 +118,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
             if (autoComplete == null) {
                 throw new NIllegalArgumentException(NMsg.ofPlain("missing auto-complete"));
             }
-            NCommandAutoCompleteComponent best = NWorkspace.of().extensions().createServiceLoader(NCommandAutoCompleteComponent.class, NshBuiltin.class, NCommandAutoCompleteComponent.class.getClassLoader())
+            NCommandAutoCompleteComponent best = NServiceLoader.of(NCommandAutoCompleteComponent.class, NshBuiltin.class, NCommandAutoCompleteComponent.class.getClassLoader())
                     .loadBest(NshBuiltinBase.this).orNull();
             if (best != null) {
                 best.autoComplete(this, context);
