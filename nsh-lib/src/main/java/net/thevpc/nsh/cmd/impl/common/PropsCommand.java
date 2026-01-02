@@ -233,13 +233,13 @@ public class PropsCommand extends NshBuiltinDefault {
     }
 
     private void action_list(NshExecutionContext context, Options o) {
-        NObjectFormat.of().setValue(getProperties(o, context)).print();
+        NObjectFormat.of().print(getProperties(o, context));
     }
 
     private int action_get(NshExecutionContext context, Options o) {
         Map<String, String> p = getProperties(o, context);
         String v = p.get(o.property);
-        NObjectFormat.of().setValue(v == null ? "" : v).print();
+        NObjectFormat.of().print(v == null ? "" : v);
         return 0;
     }
 
@@ -318,10 +318,10 @@ public class PropsCommand extends NshBuiltinDefault {
             Format format = o.targetFormat;
             switch (format) {
                 case AUTO: {
-                    NObjectFormat f = NObjectFormat.of().setValue(p);
+                    NObjectFormat f = NObjectFormat.of();
                     f.configure(true, NWorkspace.of().getBootOptions().getOutputFormatOptions().orElseGet(Collections::emptyList).toArray(new String[0]));
                     f.configure(true, session.getOutputFormatOptions().toArray(new String[0]));
-                    f.println(session.out());
+                    f.println(p, session.out());
                     break;
                 }
                 case PROPS: {
