@@ -30,7 +30,7 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.elem.NElement;
-import net.thevpc.nuts.elem.NElementParser;
+import net.thevpc.nuts.elem.NElementReader;
 import net.thevpc.nuts.elem.NElementWriter;
 import net.thevpc.nuts.elem.NElements;
 import net.thevpc.nuts.text.NContentType;
@@ -100,7 +100,7 @@ public class JsonCommand extends NshBuiltinDefault {
         if (options.queries.isEmpty()) {
             NElement inputDocument = readJsonConvertElement(options.input, context.getShellContext());
             if (session.getOutputFormat().orDefault() == NContentType.PLAIN) {
-                session.out().println(NElementWriter.ofJson().setNtf(true).toText(inputDocument));
+                session.out().println(NElementWriter.ofJson().setNtf(true).format(inputDocument));
             } else {
                 session.out().println(inputDocument);
             }
@@ -166,7 +166,7 @@ public class JsonCommand extends NshBuiltinDefault {
         if (path != null) {
             NPath file = NPath.of(path).toAbsolute(context.getDirectory());
             if (file.exists()) {
-                inputDocument = NElementParser.ofJson().parse(file, cls);
+                inputDocument = NElementReader.ofJson().read(file, cls);
             } else {
                 throw new NExecutionException(NMsg.ofC("invalid path %s", path), NExecutionException.ERROR_1);
             }
@@ -181,12 +181,12 @@ public class JsonCommand extends NshBuiltinDefault {
                     throw new NExecutionException(NMsg.ofPlain("broken Input"), NExecutionException.ERROR_2);
                 }
                 if (line == null) {
-                    inputDocument = NElementParser.ofJson().parse(new StringReader(sb.toString()), cls);
+                    inputDocument = NElementReader.ofJson().read(new StringReader(sb.toString()), cls);
                     break;
                 } else {
                     sb.append(line);
                     try {
-                        inputDocument = NElementParser.ofJson().parse(new StringReader(sb.toString()), cls);
+                        inputDocument = NElementReader.ofJson().read(new StringReader(sb.toString()), cls);
                         break;
                     } catch (Exception ex) {
                         //
