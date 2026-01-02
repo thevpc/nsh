@@ -28,7 +28,7 @@ package net.thevpc.nsh.cmd.impl.core;
 import net.thevpc.nuts.app.NApp;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.text.NVersionFormat;
+import net.thevpc.nuts.text.NVersionWriter;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.NScorable;
@@ -48,7 +48,7 @@ public class VersionCommand extends NshBuiltinCore {
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         if (options.version == null) {
-            options.version = NVersionFormat.of();
+            options.version = NVersionWriter.of();
         }
         return options.version.configureFirst(cmdLine);
     }
@@ -57,7 +57,7 @@ public class VersionCommand extends NshBuiltinCore {
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         if (options.version == null) {
-            options.version = NVersionFormat.of();
+            options.version = NVersionWriter.of();
         }
         return options.version.configureFirst(cmdLine);
     }
@@ -66,7 +66,7 @@ public class VersionCommand extends NshBuiltinCore {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         if (options.version == null) {
-            options.version = NVersionFormat.of();
+            options.version = NVersionWriter.of();
         }
         if(context.getSession().isPlainOut()){
             context.out().println( NApp.of().getId().get().getVersion().getValue());
@@ -78,6 +78,6 @@ public class VersionCommand extends NshBuiltinCore {
     }
 
     private static class Options {
-        NVersionFormat version;
+        NVersionWriter version;
     }
 }
