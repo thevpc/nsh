@@ -140,7 +140,7 @@ public class HostsCommand extends NshBuiltinDefault {
             cmdLine.throwMissingArgument();
         }
         HostLinesService s = new HostLinesService();
-        HostLines h = s.readHostLines(options, session);
+        HostLines h = s.readHostLines(options);
         boolean someChange = false;
         for (String n : options.toRemove) {
             if (s.removeEntry(h, n, session)) {
@@ -153,15 +153,15 @@ public class HostsCommand extends NshBuiltinDefault {
             }
         }
         if (someChange) {
-            s.writeHostLines(h, options, session);
+            s.writeHostLines(h, options);
         }
     }
 
 
     private static class HostLinesService {
 
-        private void writeHostLines(HostLines value, Options options, NSession session) {
-            String hostsFile = NStringUtils.firstNonBlank(options.hostsFile, "/etc/hosts");
+        private void writeHostLines(HostLines value, Options options) {
+            String hostsFile = NStringUtils.firstNonBlankTrimmed(options.hostsFile, "/etc/hosts");
             NPath nPath = NPath.of(hostsFile);
             try (PrintStream out = nPath.getPrintStream()) {
                 for (HostLine line : value.lines) {
@@ -175,8 +175,8 @@ public class HostsCommand extends NshBuiltinDefault {
             }
         }
 
-        private HostLines readHostLines(Options options, NSession session) {
-            String hostsFile = NStringUtils.firstNonBlank(options.hostsFile, "/etc/hosts");
+        private HostLines readHostLines(Options options) {
+            String hostsFile = NStringUtils.firstNonBlankTrimmed(options.hostsFile, "/etc/hosts");
             NPath nPath = NPath.of(hostsFile);
             NRef<HostLineComment> lastComment = NRef.ofNull();
             HostLines hosts = new HostLines();
