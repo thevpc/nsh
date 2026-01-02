@@ -698,11 +698,11 @@ public class Nsh {
                     (appId == null || appId.getVersion().isBlank()) ?
                             getRootContext().getWorkspace().getRuntimeId().getVersion() :
                             appId.getVersion()
-                    , contributor == null ? "thevpc" : NStringUtils.firstNonBlank(
+                    , NStringUtils.firstNonBlank(contributor == null ? null : NStringUtils.firstNonBlankTrimmed(
                             contributor.getName(),
                             contributor.getEmail(),
                             contributor.getId()
-                    ),
+                    ),"thevpc"),
                     copyRight
             );
         }
@@ -1305,10 +1305,10 @@ public class Nsh {
             }
         }
         if (NWorkspace.of().getBootOptions().getInitScripts()
-                .ifEmpty(true)
+                .onEmpty(true)
                 .orElse(false)) {
             boolean initLaunchers = NWorkspace.of().getBootOptions().getInitLaunchers()
-                    .ifEmpty(true)
+                    .onEmpty(true)
                     .orElse(false);
             NWorkspace.of().addLauncher(
                     new NLauncherOptions()
