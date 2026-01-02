@@ -32,7 +32,7 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
-import net.thevpc.nuts.text.NObjectFormat;
+import net.thevpc.nuts.text.NObjectObjectWriter;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
@@ -233,13 +233,13 @@ public class PropsCommand extends NshBuiltinDefault {
     }
 
     private void action_list(NshExecutionContext context, Options o) {
-        NObjectFormat.of().print(getProperties(o, context));
+        NObjectObjectWriter.of().print(getProperties(o, context));
     }
 
     private int action_get(NshExecutionContext context, Options o) {
         Map<String, String> p = getProperties(o, context);
         String v = p.get(o.property);
-        NObjectFormat.of().print(v == null ? "" : v);
+        NObjectObjectWriter.of().print(v == null ? "" : v);
         return 0;
     }
 
@@ -318,7 +318,7 @@ public class PropsCommand extends NshBuiltinDefault {
             Format format = o.targetFormat;
             switch (format) {
                 case AUTO: {
-                    NObjectFormat f = NObjectFormat.of();
+                    NObjectObjectWriter f = NObjectObjectWriter.of();
                     f.configure(true, NWorkspace.of().getBootOptions().getOutputFormatOptions().orElseGet(Collections::emptyList).toArray(new String[0]));
                     f.configure(true, session.getOutputFormatOptions().toArray(new String[0]));
                     f.println(p, session.out());
