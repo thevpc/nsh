@@ -73,7 +73,7 @@ public class VersionCommand extends NshBuiltinCore {
         }else {
             options.version
                     .addProperty("app-version", NApp.of().getId().get().getVersion().getValue())
-                    .println(context.out());
+                    .println(NApp.of().getId().get().getVersion(), context.out());
         }
     }
 
