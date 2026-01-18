@@ -139,7 +139,7 @@ public class JsonCommand extends NshBuiltinDefault {
                     List<NElement> all = new ArrayList<>();
                     for (String query : options.queries) {
                         all.addAll(NElements.of()
-                                .compilePath(query)
+                                .compileSelector(query)
                                 .filter(inputDocument)
                         );
                     }
