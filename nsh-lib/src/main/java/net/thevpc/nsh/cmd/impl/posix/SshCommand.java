@@ -28,19 +28,13 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExec;
-import net.thevpc.nuts.command.NSearch;
-import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 //import net.thevpc.nuts.ext.ssh.IOBindings;
 //import net.thevpc.nuts.ext.ssh.SshConnection;
 //import net.thevpc.nuts.ext.ssh.SshConnectionPool;
-import net.thevpc.nuts.io.NOut;
-import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
-import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NScore;
 import net.thevpc.nuts.util.NScorable;
@@ -101,7 +95,7 @@ public class SshCommand extends NshBuiltinDefault {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options o = context.getOptions();
         // address --nuts [nuts options] args
-        NAssert.requireNonBlank(o.address, "ssh address");
+        NAssert.requireNamedNonBlank(o.address, "ssh address");
         NAssert.requireNonBlank(o.cmd, () -> NMsg.ofPlain("missing ssh command. Interactive ssh is not yet supported!"));
 //        NSession session = context.getSession();
 //        ShellHelper.WsSshListener listener = new ShellHelper.WsSshListener(session);
