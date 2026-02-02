@@ -100,8 +100,8 @@ public class HostsCommand extends NshBuiltinDefault {
                     a = cmdLine.nextEntry().get();
                     String ip = a.key();
                     String name = a.value();
-                    NAssert.requireNonBlank(ip, "ip in " + a);
-                    NAssert.requireNonBlank(name, "name in " + a);
+                    NAssert.requireNamedNonBlank(ip, "ip in " + a);
+                    NAssert.requireNamedNonBlank(name, "name in " + a);
                     config.toAdd.add(new Host(ip, name));
                 } else {
                     break;
@@ -121,7 +121,7 @@ public class HostsCommand extends NshBuiltinDefault {
                 if (!a.isOption() && !isKeyword(a.image())) {
                     a = cmdLine.next().get();
                     String ip = a.image();
-                    NAssert.requireNonBlank(ip, "ip in " + a);
+                    NAssert.requireNamedNonBlank(ip, "ip in " + a);
                     config.toRemove.add(ip);
                 } else {
                     break;
