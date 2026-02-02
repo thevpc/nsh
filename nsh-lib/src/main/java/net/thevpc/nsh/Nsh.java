@@ -44,7 +44,7 @@ import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.command.NFetch;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
-import net.thevpc.nuts.elem.NElementDescribables;
+import net.thevpc.nuts.elem.NDescribables;
 
 import net.thevpc.nuts.ext.NExtensions;
 import net.thevpc.nuts.platform.NEnv;
@@ -53,7 +53,7 @@ import net.thevpc.nuts.platform.NStoreType;
 import net.thevpc.nuts.io.*;
 
 import net.thevpc.nuts.log.NMsgIntent;
-import net.thevpc.nuts.security.NWorkspaceSecurityManager;
+import net.thevpc.nuts.security.NSecurityManager;
 import net.thevpc.nuts.util.NScorableContext;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
 import net.thevpc.nsh.cmd.resolver.NCommandTypeResolver;
@@ -337,14 +337,14 @@ public class Nsh {
     public List<String> findFiles(final String namePattern, boolean exact, String parent) {
         if (exact) {
             String[] all = NPath.of(parent).stream()
-                    .filter(NPredicate.of((NPath x) -> namePattern.equals(x.getName())).redescribe(NElementDescribables.ofDesc("name='" + namePattern + "'")))
-                    .map(NFunction.of(NPath::toString).redescribe(NElementDescribables.ofDesc("toString"))).toArray(String[]::new);
+                    .filter(NPredicate.of((NPath x) -> namePattern.equals(x.getName())).withDescription(NDescribables.ofDesc("name='" + namePattern + "'")))
+                    .map(NFunction.of(NPath::toString).withDescription(NDescribables.ofDesc("toString"))).toArray(String[]::new);
             return Arrays.asList(all);
         } else {
             final Pattern o = Pattern.compile(namePattern);
             String[] all = NPath.of(parent).stream()
-                    .filter(NPredicate.of((NPath x) -> o.matcher(x.getName()).matches()).redescribe(NElementDescribables.ofDesc("name~~'" + namePattern + "'")))
-                    .map(NFunction.of(NPath::toString).redescribe(NElementDescribables.ofDesc("toString"))).toArray(String[]::new);
+                    .filter(NPredicate.of((NPath x) -> o.matcher(x.getName()).matches()).withDescription(NDescribables.ofDesc("name~~'" + namePattern + "'")))
+                    .map(NFunction.of(NPath::toString).withDescription(NDescribables.ofDesc("toString"))).toArray(String[]::new);
             return Arrays.asList(all);
         }
     }
@@ -906,7 +906,7 @@ public class Nsh {
 //        String wss = ws == null ? "" : new File(getRootContext().getAbsolutePath(ws.config().getWorkspaceLocation().toString())).getName();
         String login = null;
         if (session != null) {
-            login = NWorkspaceSecurityManager.of().getCurrentUsername();
+            login = NSecurityManager.of().getCurrentUsername();
         }
         String prompt = ((login != null && login.length() > 0 && !"anonymous".equals(login)) ? (login + "@") : "");
         if (!NBlankable.isBlank(getRootContext().getServiceName())) {
