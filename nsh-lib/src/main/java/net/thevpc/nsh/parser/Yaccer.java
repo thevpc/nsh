@@ -1,7 +1,7 @@
 package net.thevpc.nsh.parser;
 
 import net.thevpc.nsh.Nsh;
-import net.thevpc.nuts.elem.NElementDescribables;
+import net.thevpc.nuts.elem.NDescribables;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nsh.err.NshUniformException;
 import net.thevpc.nsh.eval.NshContext;
@@ -1256,7 +1256,7 @@ public class Yaccer {
                 if (!pp.isAbsolute()) {
                     pp = pp.toAbsolute(context.getDirectory());
                 }
-                String[] r = pp.walkGlob().map(NFunction.of(NPath::toString).redescribe(NElementDescribables.ofDesc("toString"))).toArray(String[]::new);
+                String[] r = pp.walkGlob().map(NFunction.of(NPath::toString).withDescription(NDescribables.ofDesc("toString"))).toArray(String[]::new);
                 if (r.length > 0) {
                     return r;
                 }
