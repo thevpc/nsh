@@ -12,13 +12,13 @@
  * <br>
  * <p>
  * Copyright [2020] [thevpc]
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 3 (the "License"); 
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 3 (the "License");
  * you may  not use this file except in compliance with the License. You may obtain
  * a copy of the License at https://www.gnu.org/licenses/lgpl-3.0.en.html
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
- * either express or implied. See the License for the specific language 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  * <br>
  * ====================================================================
@@ -32,9 +32,10 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.core.NRepository;
+import net.thevpc.nuts.security.NRepositoryAccess;
+import net.thevpc.nuts.security.NSecurityManager;
 import net.thevpc.nuts.security.NUser;
 import net.thevpc.nuts.io.NPrintStream;
-import net.thevpc.nuts.security.NWorkspaceSecurityManager;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NTextStyle;
@@ -88,15 +89,14 @@ public class WhoamiCommand extends NshBuiltinDefault {
         if (!options.nutsUser) {
             result.login = System.getProperty("user.name");
         } else {
-            NSession session = context.getSession();
-            String login = NWorkspaceSecurityManager.of().getCurrentUsername();
+            String login = NSecurityManager.of().getCurrentUsername();
             result.login = login;
             if (options.argAll) {
-                NUser user = NWorkspaceSecurityManager.of().findUser(login);
+                NUser user = NSecurityManager.of().findUser(login).get();
                 Set<String> groups = new TreeSet<>((user.getGroups()));
                 Set<String> rights = new TreeSet<>((user.getPermissions()));
                 Set<String> inherited = new TreeSet<>((user.getInheritedPermissions()));
-                result.loginStack = NWorkspaceSecurityManager.of().getCurrentLoginStack();
+                result.loginStack = NSecurityManager.of().getCurrentLoginStack();
                 if (result.loginStack.length <= 1) {
                     result.loginStack = null;
                 }
@@ -118,15 +118,12 @@ public class WhoamiCommand extends NshBuiltinDefault {
                 } else {
                     result.rights = new String[]{"ALL"};
                 }
-                if (user.getRemoteIdentity() != null) {
-                    result.remoteId = user.getRemoteIdentity();
-                }
                 List<RepoResult> rr = new ArrayList<>();
                 for (NRepository repository : NWorkspace.of().getRepositories()) {
-                    NUser ruser = repository.security().getEffectiveUser(login);
+                    NUser ruser = NSecurityManager.of().findUser(login).orNull();
                     if (ruser != null && (ruser.getGroups().size() > 0
                             || ruser.getPermissions().size() > 0
-                            || !NBlankable.isBlank(ruser.getRemoteIdentity()))) {
+                            )) {
                         RepoResult rt = new RepoResult();
                         rr.add(rt);
                         rt.name = repository.getName();
@@ -146,9 +143,8 @@ public class WhoamiCommand extends NshBuiltinDefault {
                         } else {
                             rt.rights = new String[]{"ALL"};
                         }
-                        if (ruser.getRemoteIdentity() != null) {
-                            rt.remoteId = ruser.getRemoteIdentity();
-                        }
+                        NRepositoryAccess r = NSecurityManager.of().findRepositoryAccess(ruser.getUsername(), repository.getUuid()).get();
+                        rt.remoteId = r.getRemoteUserName();
                     }
                 }
                 result.repos = rr.isEmpty() ? null : rr.toArray(new RepoResult[0]);
