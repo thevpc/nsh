@@ -26,7 +26,7 @@
  */
 package net.thevpc.nsh.cmd.impl.common;
 
-import net.thevpc.nuts.security.NWorkspaceSecurityManager;
+import net.thevpc.nuts.security.NSecurityManager;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -57,7 +57,7 @@ public class LogoutCommand extends NshBuiltinDefault {
 
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
-        NWorkspaceSecurityManager.of().logout();
+        NSecurityManager.of().logout();
     }
     @Override
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
