@@ -11,7 +11,7 @@ import net.thevpc.nuts.command.NSearch;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
-import net.thevpc.nuts.elem.NElementDescribables;
+import net.thevpc.nuts.elem.NDescribables;
 import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.platform.NShellFamily;
 import net.thevpc.nuts.io.NPath;
@@ -230,7 +230,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public String[] expandPaths(String path) {
-        return NPath.of(path).walkGlob().map(NFunction.of(NPath::toString).redescribe(NElementDescribables.ofDesc("toString"))).toArray(String[]::new);
+        return NPath.of(path).walkGlob().map(NFunction.of(NPath::toString).withDescription(NDescribables.ofDesc("toString"))).toArray(String[]::new);
     }
 
     @Override
