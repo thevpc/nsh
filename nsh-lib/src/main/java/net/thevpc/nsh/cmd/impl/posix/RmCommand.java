@@ -72,7 +72,7 @@ public class RmCommand extends NshBuiltinDefault {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         NSession session = context.getSession();
-        NAssert.requireNonBlank(options.files, "parameters");
+        NAssert.requireNamedNonBlank(options.files, "parameters");
 //        ShellHelper.WsSshListener listener = options.verbose ? new ShellHelper.WsSshListener(context.getSession()) : null;
         for (NPath p : options.files) {
 //            if (p instanceof SshXFile) {
