@@ -38,7 +38,6 @@ import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NScore;
@@ -84,7 +83,7 @@ public class CpCommand extends NshBuiltinDefault {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         for (String value : options.files) {
-            NAssert.requireNonBlank(value, "file path");
+            NAssert.requireNamedNonBlank(value, "file path");
             options.xfiles.add(NPath.of((value.contains("://") ? value :
                     NPath.of(value).toAbsolute(NWorkspace.of().getWorkspaceLocation()).toString()
             )));
