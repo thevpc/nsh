@@ -30,6 +30,7 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NIn;
+import net.thevpc.nuts.security.NSecureString;
 import net.thevpc.nuts.security.NSecurityManager;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -79,7 +80,9 @@ public class LoginCommand extends NshBuiltinDefault {
             options.password = NIn.ask()
                     .forPassword(NMsg.ofPlain("Password:")).getValue();
         }
-        NSecurityManager.of().login(options.login, options.password);
+        try (NSecureString ss = NSecureString.ofSecure(options.password)) {
+            NSecurityManager.of().login(options.login, ss);
+        }
     }
 
     private static class Options {
