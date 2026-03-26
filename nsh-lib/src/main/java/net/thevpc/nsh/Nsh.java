@@ -43,13 +43,13 @@ import net.thevpc.nuts.command.NCustomCmd;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.command.NFetch;
 import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.core.NStoreKey;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.elem.NDescribables;
 
 import net.thevpc.nuts.ext.NExtensions;
 import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.platform.NLauncherOptions;
-import net.thevpc.nuts.platform.NStoreType;
 import net.thevpc.nuts.io.*;
 
 import net.thevpc.nuts.log.NMsgIntent;
@@ -225,7 +225,7 @@ public class Nsh {
         try {
             NPath histFile = this.history.getHistoryFile();
             if (histFile == null) {
-                histFile = NPath.ofIdStore(this.appId, NStoreType.VAR).resolve((serviceName == null ? "" : serviceName) + ".history");
+                histFile = NPath.of(NStoreKey.ofVar(this.appId)).resolve((serviceName == null ? "" : serviceName) + ".history");
                 this.history.setHistoryFile(histFile);
                 if (histFile.exists()) {
                     this.history.load(histFile);
@@ -722,9 +722,7 @@ public class Nsh {
         NSystemTerminal.enableRichTerm();
         NPath appVarFolder = NApp.of().getVarFolder();
         if (appVarFolder == null) {
-            appVarFolder = NPath.ofIdStore(
-                    NId.get("net.thevpc.nsh:nsh").get()
-                    , NStoreType.VAR);
+            appVarFolder = NPath.of(NStoreKey.ofVar(NId.get("net.thevpc.nsh:nsh").get()));
         }
         NIO.of().getSystemTerminal()
                 .setCommandAutoCompleteResolver(new NshAutoCompleter())
