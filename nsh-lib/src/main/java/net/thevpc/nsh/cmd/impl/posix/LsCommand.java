@@ -36,11 +36,11 @@ import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.text.NTextFormat;
 import net.thevpc.nuts.text.NTextStyle;
 import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nsh.util.bundles.BytesSizeFormat;
 import net.thevpc.nuts.util.*;
 
 import java.time.Instant;
@@ -249,7 +249,7 @@ public class LsCommand extends NshBuiltinDefault {
                     item.type, item.uperms != null ? item.uperms : item.jperms,
                     owner,
                     group   ,
-                    options.h ? options.byteFormat.format(item.length) : String.format("%9d", item.length),
+                    options.h ? options.byteFormat.toText(item.length) : String.format("%9d", item.length),
                     item.modified == null ? "" : SIMPLE_DATE_FORMAT.format(item.modified)
             ));
         }
@@ -342,7 +342,7 @@ public class LsCommand extends NshBuiltinDefault {
         boolean l = false;
         boolean h = false;
         List<String> paths = new ArrayList<>();
-        BytesSizeFormat byteFormat = new BytesSizeFormat("iD1F");
+        NTextFormat<Number> byteFormat = NTexts.of().createTextFormat("bytes",null,Number.class).get();
     }
 
     private static class ResultSuccess {
