@@ -157,7 +157,7 @@ public class DfCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory(), session);
         List<UInfo> result = new ArrayList<>();
-        NTextFormat<Number> formatter = NTexts.of().createNumberTextFormat("bytes", "").get();
+        NTextFormat<Number> formatter = NTextFormat.ofBytes( "");
         List<FileStore> stores = NCollections.list(FileSystems.getDefault().getFileStores());
         if (options.xfiles.isEmpty()) {
             Stream<CInfo> s = stores.stream()
