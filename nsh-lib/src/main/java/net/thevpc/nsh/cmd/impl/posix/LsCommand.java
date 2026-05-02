@@ -188,7 +188,7 @@ public class LsCommand extends NshBuiltinDefault {
                             .flatMap(x ->
                                     x.children == null ? Stream.empty() :
                                             x.children.stream().map(y -> {
-                                                Map m = (Map) NElements.of().destruct(y);
+                                                Map m = (Map) NElements.of().toSimple(y);
                                                 m.put("group", x.name);
                                                 return m;
                                             })).collect(Collectors.toList()));
