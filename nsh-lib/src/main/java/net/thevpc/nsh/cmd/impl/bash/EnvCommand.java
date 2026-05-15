@@ -169,10 +169,10 @@ public class EnvCommand extends NshBuiltinDefault {
                     .setEnv(env)
                     .failFast();
             if (!NBlankable.isBlank(options.dir)) {
-                e.setDirectory(NPath.of(options.dir));
+                e.directory(NPath.of(options.dir));
             }
             if (options.executionType != null) {
-                e.setExecutionType(options.executionType);
+                e.executionType(options.executionType);
             }
             e.run();
         }

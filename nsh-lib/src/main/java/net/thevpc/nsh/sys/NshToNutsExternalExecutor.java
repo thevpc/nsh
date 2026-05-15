@@ -49,9 +49,9 @@ public class NshToNutsExternalExecutor implements NshExternalExecutor {
             command=list.toArray(new String[0]);
         }
         return NExec.of().addCommand(command).failFast()
-                .setExecutionType(context.getSession().getExecutionType().orDefault())
-                .setDirectory(NPath.of(context.getDirectory()))
-                .run().getResultCode();
+                .executionType(context.getSession().getExecutionType().orDefault())
+                .directory(NPath.of(context.getDirectory()))
+                .run().exitCode();
     }
 
 }

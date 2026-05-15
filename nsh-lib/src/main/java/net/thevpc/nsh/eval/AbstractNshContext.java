@@ -176,7 +176,7 @@ public abstract class AbstractNshContext implements NshContext {
                             )
                             .addCommand(autoCompleteWords)
                             .run();
-                    if (t.getResultCode() == 0) {
+                    if (t.exitCode() == 0) {
                         String rr = t.getGrabbedOutString();
                         for (String s : rr.split("\n")) {
                             s = s.trim();

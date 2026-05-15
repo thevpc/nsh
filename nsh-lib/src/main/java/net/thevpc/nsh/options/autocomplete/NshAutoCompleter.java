@@ -19,11 +19,11 @@ public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
     }
 
     @Override
-    public List<NArgCandidate> resolveCandidates(NCmdLine cmdLine, int wordIndex) {
+    public List<NArgCandidate> resolveCandidates(NCmdLine cmdLine, Pos pos) {
         List<NArgCandidate> candidates = new ArrayList<>();
         NshContext fileContext = (NshContext) NWorkspace.of().getProperties().get(NshContext.class.getName());
 
-        if (wordIndex == 0) {
+        if (pos.wordIndex() == 0) {
             for (NshBuiltin command : fileContext.builtins().getAll()) {
                 candidates.add(new DefaultNArgCandidate(command.getName()));
             }
@@ -32,7 +32,7 @@ public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
             int x = cmdLine.getCommandName().length();
 
             List<NshAutoCompleteCandidate> autoCompleteCandidates
-                    = fileContext.resolveAutoCompleteCandidates(cmdLine.getCommandName(), autoCompleteWords, wordIndex, cmdLine.toString());
+                    = fileContext.resolveAutoCompleteCandidates(cmdLine.getCommandName(), autoCompleteWords, pos.wordIndex(), cmdLine.toString());
             for (Object cmdCandidate0 : autoCompleteCandidates) {
                 NshAutoCompleteCandidate cmdCandidate = (NshAutoCompleteCandidate) cmdCandidate0;
                 if (cmdCandidate != null) {
