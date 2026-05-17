@@ -155,7 +155,7 @@ public class SshCommand extends NshBuiltinDefault {
 
             NExec.ofSystem(o.cmd.subList(1, o.cmd.size()).toArray(new  String[0]))
                     .at("ssh://"+o.address)
-                    .failFast()
+                    .failFast(true)
                     .run();
 
     }

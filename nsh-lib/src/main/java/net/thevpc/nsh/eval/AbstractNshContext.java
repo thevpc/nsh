@@ -154,7 +154,7 @@ public abstract class AbstractNshContext implements NshContext {
             List<NId> nutsIds = NSearch.of()
                     .setFetchStrategy(NFetchStrategy.OFFLINE)
                     .addId(commandName)
-                    .setLatest(true)
+                    .latest(true)
                     .getResultIds().toList();
             if (nutsIds.size() == 1) {
                 NId selectedId = nutsIds.get(0);

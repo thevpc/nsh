@@ -57,7 +57,7 @@ public class DefaultNshEvaluator extends NshEvaluatorBase {
         final NshNonBlockingInputStream in2;
         try {
             out = new PipedOutputStream();
-            nout = NPrintStream.of(out, NTerminalMode.FORMATTED,null);
+            nout = NPrintStream.of(out, NTerminalMode.FORMATTED,NTerminalMode.ANSI);
             in = new PipedInputStream(out, 1024);
             in2 = (in instanceof NshNonBlockingInputStream) ? (NshNonBlockingInputStream) in : new NshNonBlockingInputStreamAdapter("jpipe-" + right.toString(), in);
         } catch (IOException ex) {

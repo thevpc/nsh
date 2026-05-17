@@ -127,7 +127,7 @@ public class JpsCommand extends NshBuiltinDefault {
                 .system()
                 .addCommand(resolveJpsCommand(context.getSession()), "-l", "-v", "-m")
                 .grabAll()
-                .failFast().run();
+                .failFast(true).run();
         String resultString = e.getGrabbedOutString();
         for (String line : resultString.split("[\n\r]+")) {
             line = line.trim();
