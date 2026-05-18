@@ -276,7 +276,7 @@ public class PropsCommand extends NshBuiltinDefault {
 
             Format sourceFormat = o.sourceFormat;
             if (sourceFormat == Format.AUTO) {
-                sourceFormat = detectFileFormat(filePath.getName(), context);
+                sourceFormat = detectFileFormat(filePath.name(), context);
             }
             switch (sourceFormat) {
                 case PROPS: {
@@ -344,7 +344,7 @@ public class PropsCommand extends NshBuiltinDefault {
             try (OutputStream os = filePath.getOutputStream()) {
                 Format format = o.targetFormat;
                 if (format == Format.AUTO) {
-                    format = detectFileFormat(filePath.getName(), null);
+                    format = detectFileFormat(filePath.name(), null);
                 }
                 switch (format) {
                     case PROPS: {

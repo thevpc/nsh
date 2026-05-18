@@ -100,7 +100,7 @@ public class TouchCommand extends NshBuiltinDefault {
                 if (!path.exists()) {
                     if (!options.noCreate) {
                         // Create the file
-                        path.getParent().mkdirs();
+                        path.parent().mkdirs();
                         path.writeString("");
                     }
                 } else {

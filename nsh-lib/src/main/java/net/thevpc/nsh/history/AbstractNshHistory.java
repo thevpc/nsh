@@ -56,8 +56,8 @@ public abstract class AbstractNshHistory implements NshHistory {
         if (file == null) {
             return;
         }
-        if (file.getParent() != null) {
-            file.getParent().mkdirs();
+        if (file.parent() != null) {
+            file.parent().mkdirs();
         }
         PrintWriter w = null;
         try {

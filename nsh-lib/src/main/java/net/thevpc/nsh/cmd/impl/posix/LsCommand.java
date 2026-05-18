@@ -129,7 +129,7 @@ public class LsCommand extends NshBuiltinDefault {
                 continue;
             }
             file = file.toAbsolute(NPath.of(context.getDirectory()));
-            NPathInfo fileInfo = file.getInfo();
+            NPathInfo fileInfo = file.info();
             if (fileInfo.getType() == NPathType.NOT_FOUND) {
                 exitCode = 1;
                 if (errors == null) {
@@ -253,7 +253,7 @@ public class LsCommand extends NshBuiltinDefault {
                     item.modified == null ? "" : SIMPLE_DATE_FORMAT.format(item.modified)
             ));
         }
-        String name = NPath.of(item.path).getName();
+        String name = NPath.of(item.path).name();
         NTexts text = NTexts.of();
         if (item.hidden) {
             out.print(text.ofStyled(name, NTextStyle.pale()));
@@ -280,7 +280,7 @@ public class LsCommand extends NshBuiltinDefault {
         ResultItem r = new ResultItem();
         r.path = fileInfo.getPath();
         r.targetPath = fileInfo.getTargetPath();
-        r.name = baseFilePath.resolve(fileInfo.getPath()).getName();
+        r.name = baseFilePath.resolve(fileInfo.getPath()).name();
         boolean dir = fileInfo.getType() == NPathType.DIRECTORY || fileInfo.isSymbolicLink() && fileInfo.getTargetType() == NPathType.DIRECTORY;
         boolean regular = fileInfo.getType() == NPathType.FILE || fileInfo.isSymbolicLink() && fileInfo.getTargetType() == NPathType.FILE;
         boolean link = fileInfo.getType() == NPathType.SYMBOLIC_LINK;
@@ -307,7 +307,7 @@ public class LsCommand extends NshBuiltinDefault {
         r.uperms = new String(perms);
 
 
-        String p = baseFilePath.getName().toLowerCase();
+        String p = baseFilePath.name().toLowerCase();
         if (!dir) {
             if (p.startsWith(".") || p.endsWith(".log") || p.contains(".log.")) {
                 r.hidden = true;

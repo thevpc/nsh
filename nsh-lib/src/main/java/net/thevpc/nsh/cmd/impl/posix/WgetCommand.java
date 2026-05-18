@@ -85,7 +85,7 @@ public class WgetCommand extends NshBuiltinDefault {
     protected void download(String path, String output, NshExecutionContext context) {
         String output2 = output;
         NSession session = context.getSession();
-        String urlName = NPath.of(path).getName();
+        String urlName = NPath.of(path).name();
         if (!NBlankable.isBlank(output2)) {
             output2 = output2.replace("{}", urlName);
         }

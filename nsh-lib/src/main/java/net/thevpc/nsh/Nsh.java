@@ -337,13 +337,13 @@ public class Nsh {
     public List<String> findFiles(final String namePattern, boolean exact, String parent) {
         if (exact) {
             String[] all = NPath.of(parent).stream()
-                    .filter(NPredicate.of((NPath x) -> namePattern.equals(x.getName())).withDescription(NDescribables.ofDesc("name='" + namePattern + "'")))
+                    .filter(NPredicate.of((NPath x) -> namePattern.equals(x.name())).withDescription(NDescribables.ofDesc("name='" + namePattern + "'")))
                     .map(NFunction.of(NPath::toString).withDescription(NDescribables.ofDesc("toString"))).toArray(String[]::new);
             return Arrays.asList(all);
         } else {
             final Pattern o = Pattern.compile(namePattern);
             String[] all = NPath.of(parent).stream()
-                    .filter(NPredicate.of((NPath x) -> o.matcher(x.getName()).matches()).withDescription(NDescribables.ofDesc("name~~'" + namePattern + "'")))
+                    .filter(NPredicate.of((NPath x) -> o.matcher(x.name()).matches()).withDescription(NDescribables.ofDesc("name~~'" + namePattern + "'")))
                     .map(NFunction.of(NPath::toString).withDescription(NDescribables.ofDesc("toString"))).toArray(String[]::new);
             return Arrays.asList(all);
         }
@@ -568,10 +568,10 @@ public class Nsh {
     }
 
     private boolean isScriptFile(NPath cmdPath) {
-        if (cmdPath.getName().endsWith(".nsh")) {
+        if (cmdPath.name().endsWith(".nsh")) {
             return true;
         }
-        if (cmdPath.getName().endsWith(".sh")) {
+        if (cmdPath.name().endsWith(".sh")) {
             return true;
         }
         if (cmdPath.exists()) {

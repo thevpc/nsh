@@ -61,7 +61,7 @@ public class GrepService {
                     return true;
                 }
                 for (Pattern pattern : patterns) {
-                    if (pattern.matcher(nPath.getName()).matches()) {
+                    if (pattern.matcher(nPath.name()).matches()) {
                         return true;
                     }
                 }
@@ -194,7 +194,7 @@ public class GrepService {
     private boolean processByText(GrepOptions options, GrepFilter p, FileInfo f, GrepResultCollector results, NSession session) throws IOException {
         String text = new String(NCp.of().from(f.getPath()).getByteArrayResult());
         if (NBlankable.isBlank(f.getHighlighter())) {
-            f.setHighlighter(f.getPath().getContentType());
+            f.setHighlighter(f.getPath().contentType());
         }
         NTextBuilder flattened = NText.ofCode(f.getHighlighter(), text).highlight()
                 .builder()

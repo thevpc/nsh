@@ -126,7 +126,7 @@ public class MvCommand extends NshBuiltinDefault {
                 boolean isDestDir = (destIsDirectory != null) ? destIsDirectory : dest.isDirectory();
                 if (isDestDir) {
                     // Moving into a directory - keep the filename
-                    String filename = source.getName();
+                    String filename = source.name();
                     targetPath = dest.resolve(filename);
                 } else {
                     // Renaming or moving to specific path
