@@ -84,7 +84,7 @@ public class ZipCommand extends NshBuiltinDefault {
             cmdLine.throwError(NMsg.ofPlain("missing out-zip"));
         }
         NCompress aa = NCompress.of()
-                .setTarget(options.outZip);
+                .target(options.outZip);
         for (NPath file : options.files) {
             aa.addSource(file);
         }

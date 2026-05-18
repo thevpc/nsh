@@ -97,7 +97,7 @@ public class HelpCommand extends NshBuiltinCore {
         NSession session = context.getSession();
         Options options = context.getOptions();
         if (options.code) {
-            session.getTerminal().setOut(
+            session.getTerminal().out(
                     session.getTerminal().out().setTerminalMode(NTerminalMode.INHERITED)
             );
         }
@@ -113,7 +113,7 @@ public class HelpCommand extends NshBuiltinCore {
                 NText n=null;
                 try {
                     if (context.getSession() != null) {
-                        n = NApp.of().getHelpText().orNull();
+                        n = NApp.of().helpText().orNull();
                     }
                 } catch (Exception ex) {
                     //

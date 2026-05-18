@@ -130,7 +130,7 @@ public class LsCommand extends NshBuiltinDefault {
             }
             file = file.toAbsolute(NPath.of(context.getDirectory()));
             NPathInfo fileInfo = file.info();
-            if (fileInfo.getType() == NPathType.NOT_FOUND) {
+            if (fileInfo.type() == NPathType.NOT_FOUND) {
                 exitCode = 1;
                 if (errors == null) {
                     errors = new ResultError();
@@ -141,7 +141,7 @@ public class LsCommand extends NshBuiltinDefault {
                 ResultGroup g = new ResultGroup();
                 g.name = path;
                 g.fileInfo = fileInfo;
-                if ((fileInfo.getType() != NPathType.DIRECTORY) || options.d) {
+                if ((fileInfo.type() != NPathType.DIRECTORY) || options.d) {
                     filesTodos.put(file, g);
                 } else {
                     foldersTodos.put(file, g);
@@ -278,22 +278,22 @@ public class LsCommand extends NshBuiltinDefault {
     private ResultItem build(NPath baseFilePath, NPathInfo fileInfo) {
         // .resolve(g.fileInfo.getPath()) // .resolve(z.getTargetPath())
         ResultItem r = new ResultItem();
-        r.path = fileInfo.getPath();
-        r.targetPath = fileInfo.getTargetPath();
-        r.name = baseFilePath.resolve(fileInfo.getPath()).name();
-        boolean dir = fileInfo.getType() == NPathType.DIRECTORY || fileInfo.isSymbolicLink() && fileInfo.getTargetType() == NPathType.DIRECTORY;
-        boolean regular = fileInfo.getType() == NPathType.FILE || fileInfo.isSymbolicLink() && fileInfo.getTargetType() == NPathType.FILE;
-        boolean link = fileInfo.getType() == NPathType.SYMBOLIC_LINK;
+        r.path = fileInfo.path();
+        r.targetPath = fileInfo.targetPath();
+        r.name = baseFilePath.resolve(fileInfo.path()).name();
+        boolean dir = fileInfo.type() == NPathType.DIRECTORY || fileInfo.isSymbolicLink() && fileInfo.targetType() == NPathType.DIRECTORY;
+        boolean regular = fileInfo.type() == NPathType.FILE || fileInfo.isSymbolicLink() && fileInfo.targetType() == NPathType.FILE;
+        boolean link = fileInfo.type() == NPathType.SYMBOLIC_LINK;
         boolean other = false;
-        Set<NPathPermission> permissions = fileInfo.getPermissions();
+        Set<NPathPermission> permissions = fileInfo.permissions();
         r.jperms = (permissions.contains(NPathPermission.CAN_READ) ? "r" : "-") + (permissions.contains(NPathPermission.CAN_WRITE) ? "w" : "-") + (permissions.contains(NPathPermission.CAN_EXECUTE) ? "x" : "-");
-        r.owner = fileInfo.getOwner();
-        r.group = fileInfo.getGroup();
-        r.modified = fileInfo.getLastModifiedInstant();
-        r.created = fileInfo.getCreationInstant();
-        r.accessed = fileInfo.getLastAccessInstant();
-        other = fileInfo.getType() == NPathType.OTHER;
-        r.length = fileInfo.getContentLength();
+        r.owner = fileInfo.owner();
+        r.group = fileInfo.group();
+        r.modified = fileInfo.lastModifiedInstant();
+        r.created = fileInfo.creationInstant();
+        r.accessed = fileInfo.lastAccessInstant();
+        other = fileInfo.type() == NPathType.OTHER;
+        r.length = fileInfo.contentLength();
         char[] perms = new char[9];
         perms[0] = permissions.contains(NPathPermission.OWNER_READ) ? 'r' : '-';
         perms[1] = permissions.contains(NPathPermission.OWNER_WRITE) ? 'w' : '-';
@@ -432,15 +432,15 @@ public class LsCommand extends NshBuiltinDefault {
         @Override
         public int compare(NPathInfo o1, NPathInfo o2) {
 
-            int d1 = (o1.getType() == NPathType.DIRECTORY) ? 0 :
-                    (o1.getType() == NPathType.SYMBOLIC_LINK && o1.getTargetType() == NPathType.DIRECTORY) ? 1 :
-                            (o1.getType() == NPathType.FILE) ? 2 :
-                                    (o1.getType() == NPathType.SYMBOLIC_LINK && o1.getTargetType() == NPathType.FILE) ? 3 :
+            int d1 = (o1.type() == NPathType.DIRECTORY) ? 0 :
+                    (o1.type() == NPathType.SYMBOLIC_LINK && o1.targetType() == NPathType.DIRECTORY) ? 1 :
+                            (o1.type() == NPathType.FILE) ? 2 :
+                                    (o1.type() == NPathType.SYMBOLIC_LINK && o1.targetType() == NPathType.FILE) ? 3 :
                                             4;
-            int d2 = (o2.getType() == NPathType.DIRECTORY) ? 0 :
-                    (o2.getType() == NPathType.SYMBOLIC_LINK && o2.getTargetType() == NPathType.DIRECTORY) ? 1 :
-                            (o2.getType() == NPathType.FILE) ? 2 :
-                                    (o2.getType() == NPathType.SYMBOLIC_LINK && o2.getTargetType() == NPathType.FILE) ? 3 :
+            int d2 = (o2.type() == NPathType.DIRECTORY) ? 0 :
+                    (o2.type() == NPathType.SYMBOLIC_LINK && o2.targetType() == NPathType.DIRECTORY) ? 1 :
+                            (o2.type() == NPathType.FILE) ? 2 :
+                                    (o2.type() == NPathType.SYMBOLIC_LINK && o2.targetType() == NPathType.FILE) ? 3 :
                                             4;
 
             int x = 0;

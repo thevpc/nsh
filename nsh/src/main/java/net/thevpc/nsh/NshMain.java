@@ -64,7 +64,7 @@ public class NshMain  {
         //before loading Nsh check if we need to activate rich term
         Map<String, String> sysEnv = NEnv.of().getEnv();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
-        NshOptions o = options.parse(NApp.of().getCmdLine().toStringArray());
+        NshOptions o = options.parse(NApp.of().cmdLine().toStringArray());
 
 //        if (o.isEffectiveInteractive()) {
 //            session.getWorkspace().io().term().enableRichTerm(session);

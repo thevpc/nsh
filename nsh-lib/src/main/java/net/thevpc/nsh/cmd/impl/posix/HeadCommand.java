@@ -88,7 +88,7 @@ public class HeadCommand extends NshBuiltinDefault {
         try {
             try {
                 r = new BufferedReader(new InputStreamReader(NPath.of(file)
-                        .getInputStream()));
+                        .inputStream()));
                 String line = null;
                 int count = 0;
                 while (count < max && (line = r.readLine()) != null) {

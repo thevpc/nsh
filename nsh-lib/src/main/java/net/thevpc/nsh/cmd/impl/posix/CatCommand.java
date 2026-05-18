@@ -128,7 +128,7 @@ public class CatCommand extends NshBuiltinDefault {
                         f.setHighlighter("ntf");
                     }
                 } else {
-                    in = f.getPath().getInputStream();
+                    in = f.getPath().inputStream();
                     if (f.getHighlighter() == null) {
                         f.setHighlighter("plain");
                     } else if (f.getHighlighter().isEmpty()) {

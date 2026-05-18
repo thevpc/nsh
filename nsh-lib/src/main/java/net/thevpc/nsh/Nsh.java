@@ -135,10 +135,10 @@ public class Nsh {
         NId appId = configuration.getAppId();
 
         this.appId = appId;
-        this.bootStartMillis = NApp.of().getStartTime();
+        this.bootStartMillis = NApp.of().startTime();
         //super.setCwd(workspace.getConfigManager().getCwd());
         if (this.appId == null) {
-            this.appId = NApp.of().getId().orNull();
+            this.appId = NApp.of().id().orNull();
             if (this.appId == null) {
                 this.appId = NId.getForClass(Nsh.class).orNull();
             }
@@ -147,7 +147,7 @@ public class Nsh {
             throw new IllegalArgumentException("unable to resolve application id");
         }
         if (serviceName == null) {
-            serviceName = this.appId.getArtifactId();
+            serviceName = this.appId.artifactId();
         }
 
         serviceName = resolveServiceName(serviceName, appId);
@@ -243,7 +243,7 @@ public class Nsh {
         if (args != null) {
             return args;
         }
-        return NApp.of().getArguments().toArray(new String[0]);
+        return NApp.of().arguments().toArray(new String[0]);
     }
 
     private static String resolveServiceName(String serviceName, NId appId) {
@@ -251,7 +251,7 @@ public class Nsh {
             if (appId == null) {
                 appId = NId.getForClass(Nsh.class).get();
             }
-            serviceName = appId.getArtifactId();
+            serviceName = appId.artifactId();
         }
         return serviceName;
     }
@@ -266,7 +266,7 @@ public class Nsh {
                 //ignore!
             }
             Set<String> uninstalled = new TreeSet<>();
-            for (NCustomCmd command : NWorkspace.of().findCommandsByOwner(NApp.of().getId().orNull())) {
+            for (NCustomCmd command : NWorkspace.of().findCommandsByOwner(NApp.of().id().orNull())) {
                 try {
                     NWorkspace.of().removeCommand(command.getName());
                     uninstalled.add(command.getName());
@@ -593,7 +593,7 @@ public class Nsh {
 
     public void run() {
         try {
-            if (NApp.of().getAutoComplete() != null) {
+            if (NApp.of().autoComplete() != null) {
                 return;
             }
             NshContext rootContext = getRootContext();
@@ -695,9 +695,9 @@ public class Nsh {
             }
             m = NMsg.ofC("%s v%s (c) %s",
                     NMsg.ofStyledPrimary1(NStringUtils.firstNonNull(serviceName, "app")),
-                    (appId == null || appId.getVersion().isBlank()) ?
-                            getRootContext().getWorkspace().getRuntimeId().getVersion() :
-                            appId.getVersion()
+                    (appId == null || appId.version().isBlank()) ?
+                            getRootContext().getWorkspace().getRuntimeId().version() :
+                            appId.version()
                     , NStringUtils.firstNonBlank(contributor == null ? null : NStringUtils.firstNonBlankTrimmed(
                             contributor.getName(),
                             contributor.getEmail(),
@@ -715,12 +715,12 @@ public class Nsh {
     }
 
     protected void executeVersion(NshContext context) {
-        context.out().println(NApp.of().getId().get().getVersion());
+        context.out().println(NApp.of().id().get().version());
     }
 
     protected void executeInteractive(NshContext context) {
         NSystemTerminal.enableRichTerm();
-        NPath appVarFolder = NApp.of().getVarFolder();
+        NPath appVarFolder = NApp.of().varFolder();
         if (appVarFolder == null) {
             appVarFolder = NPath.of(NStoreKey.ofVar(NId.get("net.thevpc.nsh:nsh").get()));
         }
@@ -823,7 +823,7 @@ public class Nsh {
             }
             throw new NshException(NMsg.ofC("file not found : %s", file), 1);
         }
-        try (InputStream stream = NPath.of(file).getInputStream()) {
+        try (InputStream stream = NPath.of(file).inputStream()) {
             return executeServiceStream(context, file, stream);
         } catch (IOException ex) {
             throw new NshException(ex, 1);
@@ -1218,7 +1218,7 @@ public class Nsh {
         if (nutsId == null) {
             return "dev";
         }
-        return nutsId.getVersion().getValue();
+        return nutsId.version().value();
     }
 
     public MemResult executeCommand(String[] command) {
@@ -1252,7 +1252,7 @@ public class Nsh {
                     .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE)
             );
         }
-        String nshIdStr = NApp.of().getId().get().getShortName();
+        String nshIdStr = NApp.of().id().get().shortName();
         NshBuiltin[] commands = getRootContext().builtins().getAll();
         Set<String> reinstalled = new TreeSet<>();
         Set<String> firstInstalled = new TreeSet<>();
@@ -1265,7 +1265,7 @@ public class Nsh {
                                 .setFactoryId("nsh")
                                 .setName(command.getName())
                                 .setCommand(nshIdStr, "-c", command.getName())
-                                .setOwner(NApp.of().getId().orNull())
+                                .setOwner(NApp.of().id().orNull())
                                 .setHelpCommand(nshIdStr, "-c", "help", "--ntf", command.getName())
                         )) {
                     reinstalled.add(command.getName());
@@ -1310,7 +1310,7 @@ public class Nsh {
                     .orElse(false);
             NWorkspace.of().addLauncher(
                     new NLauncherOptions()
-                            .setId(NApp.of().getId().orNull())
+                            .setId(NApp.of().id().orNull())
                             .setCreateScript(true)
                             .setCreateDesktopLauncher(initLaunchers ? NSupportMode.PREFERRED : NSupportMode.NEVER)
                             .setCreateMenuLauncher(initLaunchers ? NSupportMode.SUPPORTED : NSupportMode.NEVER)

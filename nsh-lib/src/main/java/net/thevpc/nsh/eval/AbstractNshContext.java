@@ -48,12 +48,12 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public NPrintStream out() {
-        return getSession().getTerminal().getOut();
+        return getSession().getTerminal().out();
     }
 
     @Override
     public NPrintStream err() {
-        return getSession().getTerminal().getErr();
+        return getSession().getTerminal().err();
     }
 
     @Override
@@ -113,7 +113,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public NshContext setOut(PrintStream out) {
-        getSession().getTerminal().setOut(
+        getSession().getTerminal().out(
                 NPrintStream.of(out)
         );
 //        commandContext.getTerminal().setOut(workspace.createPrintStream(out,
@@ -123,7 +123,7 @@ public abstract class AbstractNshContext implements NshContext {
     }
 
     public NshContext setErr(PrintStream err) {
-        getSession().getTerminal().setErr(
+        getSession().getTerminal().err(
                 NPrintStream.of(err)
         );
         return this;
@@ -131,7 +131,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public NshContext setIn(InputStream in) {
-        getSession().getTerminal().setIn(in);
+        getSession().getTerminal().in(in);
         return this;
     }
 
@@ -162,7 +162,7 @@ public abstract class AbstractNshContext implements NshContext {
                         .setFetchStrategy(NFetchStrategy.OFFLINE)
                         .addId(selectedId)
                         .getResultDefinitions().findFirst().get();
-                NDescriptor d = def.getDescriptor();
+                NDescriptor d = def.descriptor();
                 String nuts_autocomplete_support = NStringUtils.trim(d.getPropertyValue("nuts.autocomplete").flatMap(NLiteral::asString).get());
                 if (d.isNutsApplication()
                         || "true".equalsIgnoreCase(nuts_autocomplete_support)
@@ -171,7 +171,7 @@ public abstract class AbstractNshContext implements NshContext {
                             .grabAll()
                             .addCommand(
                                     selectedId
-                                            .getLongName(),
+                                            .longName(),
                                     "--nuts-exec-mode=auto-complete " + wordIndex
                             )
                             .addCommand(autoCompleteWords)

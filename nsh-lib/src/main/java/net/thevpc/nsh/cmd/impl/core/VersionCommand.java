@@ -69,11 +69,11 @@ public class VersionCommand extends NshBuiltinCore {
             options.version = NVersionWriter.of();
         }
         if(context.getSession().isPlainOut()){
-            context.out().println( NApp.of().getId().get().getVersion().getValue());
+            context.out().println( NApp.of().id().get().version().value());
         }else {
             options.version
-                    .addProperty("app-version", NApp.of().getId().get().getVersion().getValue())
-                    .println(NApp.of().getId().get().getVersion(), context.out());
+                    .addProperty("app-version", NApp.of().id().get().version().value())
+                    .println(NApp.of().id().get().version(), context.out());
         }
     }
 

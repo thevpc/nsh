@@ -32,12 +32,10 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NMemoryPrintStream;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.io.NServiceLoader;
-import net.thevpc.nuts.util.NScorableContext;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nsh.options.autocomplete.NCommandAutoCompleteComponent;
 import net.thevpc.nsh.eval.NshExecutionContext;
@@ -263,7 +261,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                     return;
                 }
                 if (context.isAskVersion()) {
-                    NOut.println(NId.getForClass(getClass()).get().getVersion());
+                    NOut.println(NId.getForClass(getClass()).get().version());
                     return;
                 }
                 main(cmdLine, context);

@@ -97,7 +97,7 @@ public class XmlCommand extends NshBuiltinDefault {
         if (options.input != null) {
             NPath file = NPath.of(options.input).toAbsolute(context.getDirectory());
             if (file.isRegularFile()) {
-                try (InputStream is = file.getInputStream()) {
+                try (InputStream is = file.inputStream()) {
                     doc = dBuilder.parse(is);
                 } catch (Exception ex) {
                     throw new NExecutionException(NMsg.ofC("invalid xml %s", options.input), ex, NExecutionException.ERROR_2);

@@ -104,7 +104,7 @@ public class CpCommand extends NshBuiltinDefault {
                 .from(from)
                 .to(to)
                 .setRecursive(o.recursive)
-                .setMkdirs(o.mkdir);
+                .mkdirs(o.mkdir);
         ccp.run();
 //        if (from.getProtocol().equals("file") && to.getProtocol().equals("file")) {
 //            File from1 = ((JavaXFile) from).getFile();

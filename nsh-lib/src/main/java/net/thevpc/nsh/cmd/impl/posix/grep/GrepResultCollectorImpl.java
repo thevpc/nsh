@@ -1,6 +1,5 @@
 package net.thevpc.nsh.cmd.impl.posix.grep;
 
-import net.thevpc.nuts.io.NAsk;
 import net.thevpc.nuts.io.NIn;
 import net.thevpc.nuts.util.NLiteral;
 import net.thevpc.nuts.text.NMsg;
@@ -92,8 +91,8 @@ class GrepResultCollectorImpl implements GrepResultCollector {
                             if (options.byLine) {
                                 String v = NIn.ask()
                                         .forString(NMsg.ofPlain("continue"))
-                                        .setDefaultValue("y")
-                                        .getValue();
+                                        .defaultValue("y")
+                                        .value();
                                 if (!NLiteral.of(v).asBoolean().orElse(false)) {
                                     stopped = true;
                                     return false;

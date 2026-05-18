@@ -96,7 +96,7 @@ public class _IOUtils {
         InputStream fis = null;
 
         try {
-            fis = in.getInputStream();
+            fis = in.inputStream();
             copy(fis, out, bufferSize);
         } finally {
             if (fis != null) {

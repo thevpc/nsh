@@ -96,7 +96,7 @@ public class TailCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         try {
             try {
-                r = new BufferedReader(new InputStreamReader(file.getInputStream()));
+                r = new BufferedReader(new InputStreamReader(file.inputStream()));
                 String line = null;
                 int count = 0;
                 LinkedList<String> lines = new LinkedList<>();

@@ -128,7 +128,7 @@ public class UnzipCommand extends NshBuiltinDefault {
                 if (options.l) {
                     NUncompress.of()
                             .from(file)
-                            .setSkipRoot(options.skipRoot)
+                            .skipRoot(options.skipRoot)
                             .visit(new NUncompressVisitor() {
                                 @Override
                                 public boolean visitFolder(String path) {
@@ -150,7 +150,7 @@ public class UnzipCommand extends NshBuiltinDefault {
                     NUncompress.of()
                             .from(file)
                             .to(NPath.of(dir))
-                            .setSkipRoot(options.skipRoot)
+                            .skipRoot(options.skipRoot)
                             .run();
                 }
             } catch (UncheckedIOException | NIOException ex) {

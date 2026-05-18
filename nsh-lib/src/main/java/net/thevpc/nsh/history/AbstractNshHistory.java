@@ -12,7 +12,7 @@ public abstract class AbstractNshHistory implements NshHistory {
         try {
             BufferedReader bufferedReader = null;
             try {
-                bufferedReader = new BufferedReader(new InputStreamReader(reader.getInputStream()));
+                bufferedReader = new BufferedReader(new InputStreamReader(reader.inputStream()));
                 String line = null;
                 while ((line = bufferedReader.readLine()) != null) {
                     add(line);
@@ -61,7 +61,7 @@ public abstract class AbstractNshHistory implements NshHistory {
         }
         PrintWriter w = null;
         try {
-            w = new PrintWriter(new OutputStreamWriter(file.getOutputStream()));
+            w = new PrintWriter(new OutputStreamWriter(file.outputStream()));
             save(w);
         } finally {
             if (w != null) {

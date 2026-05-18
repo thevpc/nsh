@@ -111,14 +111,14 @@ public class PsCommand extends NshBuiltinDefault {
 
     private boolean doAcceptNoNegate(NPsInfo x, Options options) {
         if (options.owned != null) {
-            String u = x.getUser();
+            String u = x.user();
             String userName = System.getProperty("user.name");
             if (options.owned.booleanValue() != Objects.equals(u, userName)) {
                 return false;
             }
         }
         if (options.associatedWithTerminal != null) {
-            String u = x.getTerminal();
+            String u = x.terminal();
             if (options.associatedWithTerminal.booleanValue() != NBlankable.isNonBlank(u)) {
                 return false;
             }
@@ -127,12 +127,12 @@ public class PsCommand extends NshBuiltinDefault {
             // just ignore
         }
         if (options.sessionLeader != null) {
-            if (options.sessionLeader.booleanValue() != x.getStatusFlags().contains("session-leader")) {
+            if (options.sessionLeader.booleanValue() != x.statusFlags().contains("session-leader")) {
                 return false;
             }
         }
         if (options.running != null) {
-            if (options.running.booleanValue() != (x.getStatus() == NpsStatus.RUNNING)) {
+            if (options.running.booleanValue() != (x.status() == NpsStatus.RUNNING)) {
                 return false;
             }
         }
@@ -193,50 +193,50 @@ public class PsCommand extends NshBuiltinDefault {
         for (String col : cols) {
             switch (col.trim().toLowerCase()) {
                 case "pid": {
-                    l.put(col, nPsInfo.getPid());
+                    l.put(col, nPsInfo.pid());
                     break;
                 }
                 case "user": {
-                    l.put(col, nPsInfo.getUser());
+                    l.put(col, nPsInfo.user());
                     break;
                 }
                 case "%cpu": {
-                    l.put(col, nPsInfo.getPercentCpu());
+                    l.put(col, nPsInfo.percentCpu());
                     break;
                 }
                 case "%mem": {
-                    l.put(col, nPsInfo.getPercentMem());
+                    l.put(col, nPsInfo.percentMem());
                     break;
                 }
                 case "vsz": {
-                    l.put(col, nPsInfo.getVirtualMemorySize());
+                    l.put(col, nPsInfo.virtualMemorySize());
                     break;
                 }
                 case "rss": {
-                    l.put(col, nPsInfo.getResidentSetSize());
+                    l.put(col, nPsInfo.residentSetSize());
                     break;
                 }
                 case "tty": {
-                    l.put(col, NStringUtils.trim(nPsInfo.getTerminal()));
+                    l.put(col, NStringUtils.trim(nPsInfo.terminal()));
                     break;
                 }
                 case "stat": {
-                    l.put(col, nPsInfo.getStatus());
+                    l.put(col, nPsInfo.status());
                     break;
                 }
                 case "start": {
-                    l.put(col, nPsInfo.getStartTime());
+                    l.put(col, nPsInfo.startTime());
                     break;
                 }
                 case "time": {
-                    l.put(col, nPsInfo.getTime());
+                    l.put(col, nPsInfo.time());
                     break;
                 }
                 case "command": {
                     l.put(col,
-                            nPsInfo.getCmdLineArgs() != null ?
-                                    NCmdLine.of(nPsInfo.getCmdLineArgs())
-                                    : nPsInfo.getCmdLine()
+                            nPsInfo.cmdLineArgs() != null ?
+                                    NCmdLine.of(nPsInfo.cmdLineArgs())
+                                    : nPsInfo.cmdLine()
                     );
                     break;
                 }

@@ -192,7 +192,7 @@ public class GrepService {
     }
 
     private boolean processByText(GrepOptions options, GrepFilter p, FileInfo f, GrepResultCollector results, NSession session) throws IOException {
-        String text = new String(NCp.of().from(f.getPath()).getByteArrayResult());
+        String text = new String(NCp.of().from(f.getPath()).byteArrayResult());
         if (NBlankable.isBlank(f.getHighlighter())) {
             f.setHighlighter(f.getPath().contentType());
         }

@@ -123,7 +123,7 @@ public class WcCommand extends NshBuiltinDefault {
                         continue;
                     }
                     
-                    try (InputStream in = path.getInputStream()) {
+                    try (InputStream in = path.inputStream()) {
                         FileStats stats = countFile(in, session);
                         printStats(stats, filePath, options, out);
                         
