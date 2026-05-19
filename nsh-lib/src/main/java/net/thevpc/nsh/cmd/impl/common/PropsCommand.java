@@ -84,7 +84,7 @@ public class PropsCommand extends NshBuiltinDefault {
                     o.sourceType = SourceType.FILE;
                     o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NArg::asString).get();
                 } else {
-                    cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+                    cmdLine.commandName(getName()).throwUnexpectedArgument();
                 }
 
             }
@@ -147,7 +147,7 @@ public class PropsCommand extends NshBuiltinDefault {
                     o.sourceType = SourceType.FILE;
                     o.sourceFile = cmdLine.nextNonOption(NArgName.of("file")).flatMap(NArg::asString).get();
                 } else {
-                    cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+                    cmdLine.commandName(getName()).throwUnexpectedArgument();
                 }
             }
             return true;
@@ -177,7 +177,7 @@ public class PropsCommand extends NshBuiltinDefault {
                     o.sort = true;
                     session.addOutputFormatOptions("--sort");
                 } else {
-                    cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+                    cmdLine.commandName(getName()).throwUnexpectedArgument();
                 }
             }
             return true;
@@ -189,7 +189,7 @@ public class PropsCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options o = context.getOptions();
-        cmdLine.setCommandName(getName());
+        cmdLine.commandName(getName());
         if (o.sourceType != SourceType.FILE && o.sourceFile != null) {
             throw new NExecutionException(NMsg.ofPlain("props: Should not use file with --system flag"), NExecutionException.ERROR_2);
         }
@@ -319,7 +319,7 @@ public class PropsCommand extends NshBuiltinDefault {
             switch (format) {
                 case AUTO: {
                     NObjectObjectWriter f = NObjectObjectWriter.of();
-                    f.configure(true, NWorkspace.of().getBootOptions().getOutputFormatOptions().orElseGet(Collections::emptyList).toArray(new String[0]));
+                    f.configure(true, NWorkspace.of().getBootOptions().outputFormatOptions().orElseGet(Collections::emptyList).toArray(new String[0]));
                     f.configure(true, session.getOutputFormatOptions().toArray(new String[0]));
                     f.println(p, session.out());
                     break;

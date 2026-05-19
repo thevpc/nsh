@@ -29,10 +29,10 @@ public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
             }
         } else {
             List<String> autoCompleteWords = new ArrayList<>(Arrays.asList(cmdLine.toStringArray()));
-            int x = cmdLine.getCommandName().length();
+            int x = cmdLine.commandName().length();
 
             List<NshAutoCompleteCandidate> autoCompleteCandidates
-                    = fileContext.resolveAutoCompleteCandidates(cmdLine.getCommandName(), autoCompleteWords, pos.wordIndex(), cmdLine.toString());
+                    = fileContext.resolveAutoCompleteCandidates(cmdLine.commandName(), autoCompleteWords, pos.wordIndex(), cmdLine.toString());
             for (Object cmdCandidate0 : autoCompleteCandidates) {
                 NshAutoCompleteCandidate cmdCandidate = (NshAutoCompleteCandidate) cmdCandidate0;
                 if (cmdCandidate != null) {

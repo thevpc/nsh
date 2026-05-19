@@ -63,16 +63,16 @@ public class HistoryCommand extends NshBuiltinDefault {
         NArg a;
         if (cmdLine.next("-c", "--clear").isPresent()) {
             options.action = Action.CLEAR;
-            cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+            cmdLine.commandName(getName()).throwUnexpectedArgument();
             return true;
         } else if ((a = cmdLine.nextEntry("-d", "--delete").orNull()) != null) {
             options.action = Action.DELETE;
             options.ival = a.getValue().asInt().get();
-            cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+            cmdLine.commandName(getName()).throwUnexpectedArgument();
             return true;
         } else if ((a = cmdLine.next("-D", "--remove-duplicates").orNull()) != null) {
             options.action = Action.REMOVE_DUPLICATES;
-            cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+            cmdLine.commandName(getName()).throwUnexpectedArgument();
             return true;
         } else if ((a = cmdLine.next("-w", "--write").orNull()) != null) {
             options.action = Action.WRITE;
@@ -81,7 +81,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             } else if (!cmdLine.isEmpty()) {
                 options.sval = cmdLine.next().get().image();
             }
-            cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+            cmdLine.commandName(getName()).throwUnexpectedArgument();
             return true;
         } else if ((a = cmdLine.next("-r", "--read").orNull()) != null) {
             options.action = Action.READ;
@@ -90,7 +90,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             } else if (!cmdLine.isEmpty()) {
                 options.sval = cmdLine.next().get().image();
             }
-            cmdLine.setCommandName(getName()).throwUnexpectedArgument();
+            cmdLine.commandName(getName()).throwUnexpectedArgument();
             return true;
         } else {
             if (cmdLine.peek().get().getIntValue().orElse(0) != 0) {

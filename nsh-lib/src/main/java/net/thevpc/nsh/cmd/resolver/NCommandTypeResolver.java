@@ -51,7 +51,7 @@ public class NCommandTypeResolver implements NshCommandTypeResolver {
         NSession session = context.getSession();
         try(NExecutableInformation w = NExec.of().addCommand(item).which()) {
             if (w != null) {
-                return new NshCommandResolution(item, "nuts " + w.getType().toString().toLowerCase(), w.getValue(), w.getDescription());
+                return new NshCommandResolution(item, "nuts " + w.type().toString().toLowerCase(), w.value(), w.description());
             }
             if (NPath.of(path).exists()) {
                 return new NshCommandResolution(item, "path", path, item + " is " + path);

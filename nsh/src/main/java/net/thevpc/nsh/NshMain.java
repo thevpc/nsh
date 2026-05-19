@@ -32,7 +32,7 @@ public class NshMain  {
         NApp.of().runCmdLine(new NCmdLineRunner() {
             @Override
             public void init(NCmdLine cmdLine) {
-                cmdLine.setCommandName("nsh --nuts-exec-mode=install");
+                cmdLine.commandName("nsh --nuts-exec-mode=install");
             }
 
             @Override

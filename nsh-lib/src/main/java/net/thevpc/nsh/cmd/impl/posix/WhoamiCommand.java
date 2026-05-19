@@ -42,7 +42,6 @@ import net.thevpc.nuts.text.NTextStyle;
 import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NScore;
 import net.thevpc.nuts.util.NScorable;
@@ -126,7 +125,7 @@ public class WhoamiCommand extends NshBuiltinDefault {
                             )) {
                         RepoResult rt = new RepoResult();
                         rr.add(rt);
-                        rt.name = repository.getName();
+                        rt.name = repository.name();
                         Set<String> rgroups = new TreeSet<>((ruser.getGroups()));
                         Set<String> rrights = new TreeSet<>((ruser.getPermissions()));
                         Set<String> rinherited = new TreeSet<>((ruser.getInheritedPermissions()));
@@ -143,7 +142,7 @@ public class WhoamiCommand extends NshBuiltinDefault {
                         } else {
                             rt.rights = new String[]{"ALL"};
                         }
-                        NRepositoryAccess r = NSecurityManager.of().findRepositoryAccess(ruser.getUsername(), repository.getUuid()).get();
+                        NRepositoryAccess r = NSecurityManager.of().findRepositoryAccess(ruser.getUsername(), repository.uuid()).get();
                         rt.remoteId = r.getRemoteUserName();
                     }
                 }

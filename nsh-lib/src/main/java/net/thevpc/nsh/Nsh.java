@@ -268,13 +268,13 @@ public class Nsh {
             Set<String> uninstalled = new TreeSet<>();
             for (NCustomCmd command : NWorkspace.of().findCommandsByOwner(NApp.of().id().orNull())) {
                 try {
-                    NWorkspace.of().removeCommand(command.getName());
-                    uninstalled.add(command.getName());
+                    NWorkspace.of().removeCommand(command.name());
+                    uninstalled.add(command.name());
                 } catch (Exception ex) {
                     if (NSession.of().isPlainTrace()) {
                         NTexts factory = NTexts.of();
                         NSession.of().err().println(NMsg.ofC("unable to unregister %s.",
-                                factory.ofStyled(command.getName(), NTextStyle.primary3())
+                                factory.ofStyled(command.name(), NTextStyle.primary3())
                         ));
                     }
                 }
@@ -660,7 +660,7 @@ public class Nsh {
             if (appId != null) {
                 try {
                     resultDescriptor = NFetch.of(appId)
-                            .setDependencyFilter(NDependencyFilters.of().byRunnable())
+                            .dependencyFilter(NDependencyFilters.of().byRunnable())
                             .getResultDescriptor();
                 } catch (Exception ex) {
                     //just ignore
@@ -668,24 +668,24 @@ public class Nsh {
             }
             NDescriptorContributor contributor = null;
             if (resultDescriptor != null) {
-                for (NDescriptorContributor c : resultDescriptor.getDevelopers()) {
+                for (NDescriptorContributor c : resultDescriptor.developers()) {
                     contributor = c;
                     break;
                 }
             }
             String copyRight = null;
-            if (resultDescriptor != null && resultDescriptor.getLicenses() != null) {
-                for (NDescriptorLicense license : resultDescriptor.getLicenses()) {
-                    if (!NBlankable.isBlank(license.getDate())) {
-                        copyRight = license.getDate();
+            if (resultDescriptor != null && resultDescriptor.licenses() != null) {
+                for (NDescriptorLicense license : resultDescriptor.licenses()) {
+                    if (!NBlankable.isBlank(license.date())) {
+                        copyRight = license.date();
                         break;
                     }
                 }
             }
-            if (resultDescriptor != null && resultDescriptor.getLicenses() != null) {
-                for (NDescriptorLicense license : resultDescriptor.getLicenses()) {
-                    if (!NBlankable.isBlank(license.getName())) {
-                        copyRight = license.getName();
+            if (resultDescriptor != null && resultDescriptor.licenses() != null) {
+                for (NDescriptorLicense license : resultDescriptor.licenses()) {
+                    if (!NBlankable.isBlank(license.name())) {
+                        copyRight = license.name();
                         break;
                     }
                 }
@@ -699,9 +699,9 @@ public class Nsh {
                             getRootContext().getWorkspace().getRuntimeId().version() :
                             appId.version()
                     , NStringUtils.firstNonBlank(contributor == null ? null : NStringUtils.firstNonBlankTrimmed(
-                            contributor.getName(),
-                            contributor.getEmail(),
-                            contributor.getId()
+                            contributor.name(),
+                            contributor.email(),
+                            contributor.id()
                     ),"thevpc"),
                     copyRight
             );
@@ -1262,11 +1262,11 @@ public class Nsh {
                 // disable trace, summary will be traced later!
                 if (session.getWorkspace()
                         .addCommand(new NCommandConfig()
-                                .setFactoryId("nsh")
-                                .setName(command.getName())
-                                .setCommand(nshIdStr, "-c", command.getName())
-                                .setOwner(NApp.of().id().orNull())
-                                .setHelpCommand(nshIdStr, "-c", "help", "--ntf", command.getName())
+                                .factoryId("nsh")
+                                .name(command.getName())
+                                .command(nshIdStr, "-c", command.getName())
+                                .owner(NApp.of().id().orNull())
+                                .helpCommand(nshIdStr, "-c", "help", "--ntf", command.getName())
                         )) {
                     reinstalled.add(command.getName());
                 } else {
@@ -1302,10 +1302,10 @@ public class Nsh {
                 ));
             }
         }
-        if (NWorkspace.of().getBootOptions().getInitScripts()
+        if (NWorkspace.of().getBootOptions().initScripts()
                 .onEmpty(true)
                 .orElse(false)) {
-            boolean initLaunchers = NWorkspace.of().getBootOptions().getInitLaunchers()
+            boolean initLaunchers = NWorkspace.of().getBootOptions().initLaunchers()
                     .onEmpty(true)
                     .orElse(false);
             NWorkspace.of().addLauncher(

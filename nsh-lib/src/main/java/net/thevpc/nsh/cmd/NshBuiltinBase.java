@@ -121,7 +121,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
             if (best != null) {
                 best.autoComplete(this, context);
             } else {
-                String[] args = autoComplete.getWords().toArray(new String[0]);
+                String[] args = autoComplete.words().toArray(new String[0]);
                 try {
                     exec(args, context);
                 } catch (Exception ex) {
@@ -205,8 +205,8 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                 boolean conf = false;
                 int maxLoops = 1000;
                 boolean robustMode = false;
-                NCmdLine cmdLine = NCmdLine.of(args).setCommandName(getName())
-                        .setAutoComplete(context.getShellContext().getAutoComplete());
+                NCmdLine cmdLine = NCmdLine.of(args).commandName(getName())
+                        .autoComplete(context.getShellContext().getAutoComplete());
                 context.setOptions(optionsSupplier==null?null:optionsSupplier.get());
                 init(cmdLine, context);
                 while (cmdLine.hasNext()) {
@@ -268,7 +268,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
             } catch (NExecutionException ex) {
                 throw ex;
             } catch (NException ex) {
-                throw new NExecutionException(ex.getFormattedMessage(), ex, NExecutionException.ERROR_255);
+                throw new NExecutionException(ex.formattedMessage(), ex, NExecutionException.ERROR_255);
             } catch (Exception ex) {
                 throw new NExecutionException(
                         NMsg.ofNtf(NText.of(ex).toString())
@@ -280,7 +280,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
     protected NCmdLine cmdLine(String[] args, NshExecutionContext context) {
         NSession session = context.getSession();
         return NCmdLine.of(args)
-                .setAutoComplete(context.getShellContext().getAutoComplete())
-                .setCommandName(getName());
+                .autoComplete(context.getShellContext().getAutoComplete())
+                .commandName(getName());
     }
 }

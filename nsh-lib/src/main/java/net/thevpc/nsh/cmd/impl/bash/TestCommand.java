@@ -192,7 +192,7 @@ public class TestCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         NSession session = context.getSession();
-        cmdLine.setExpandSimpleOptions(false);
+        cmdLine.expandSimpleOptions(false);
         Options options=context.getOptions();
         NArg a = cmdLine.next().get();
         switch (a.asString().get()) {

@@ -152,14 +152,14 @@ public abstract class AbstractNshContext implements NshContext {
             command.autoComplete(new DefaultNshExecutionContext(this, command), autoComplete);
         } else {
             List<NId> nutsIds = NSearch.of()
-                    .setFetchStrategy(NFetchStrategy.OFFLINE)
+                    .fetchStrategy(NFetchStrategy.OFFLINE)
                     .addId(commandName)
                     .latest(true)
                     .getResultIds().toList();
             if (nutsIds.size() == 1) {
                 NId selectedId = nutsIds.get(0);
                 NDefinition def = NSearch.of()
-                        .setFetchStrategy(NFetchStrategy.OFFLINE)
+                        .fetchStrategy(NFetchStrategy.OFFLINE)
                         .addId(selectedId)
                         .getResultDefinitions().findFirst().get();
                 NDescriptor d = def.descriptor();
@@ -183,7 +183,7 @@ public abstract class AbstractNshContext implements NshContext {
                             if (s.length() > 0) {
                                 if (s.startsWith(NConstants.Apps.AUTO_COMPLETE_CANDIDATE_PREFIX)) {
                                     s = s.substring(NConstants.Apps.AUTO_COMPLETE_CANDIDATE_PREFIX.length()).trim();
-                                    NCmdLine args = NCmdLine.of(s, NShellFamily.BASH).setExpandSimpleOptions(false);
+                                    NCmdLine args = NCmdLine.of(s, NShellFamily.BASH).expandSimpleOptions(false);
                                     String value = null;
                                     String display = null;
                                     if (args.hasNext()) {
@@ -214,8 +214,8 @@ public abstract class AbstractNshContext implements NshContext {
 
         }
         List<NshAutoCompleteCandidate> all = new ArrayList<>();
-        for (NArgCandidate a : autoComplete.getCandidates()) {
-            all.add(new NshAutoCompleteCandidate(a.getValue(), a.getDisplay()));
+        for (NArgCandidate a : autoComplete.candidates()) {
+            all.add(new NshAutoCompleteCandidate(a.value(), a.display()));
         }
         return all;
     }

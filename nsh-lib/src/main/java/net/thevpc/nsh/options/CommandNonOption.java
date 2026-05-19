@@ -50,12 +50,12 @@ public class CommandNonOption implements NArgName {
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return name;
     }
 
     @Override
-    public List<NArgCandidate> getCandidates(NCmdLineAutoComplete context) {
+    public List<NArgCandidate> resolveCandidates(NCmdLineAutoComplete context) {
         List<NArgCandidate> all = new ArrayList<>();
         for (NshBuiltin command : this.context.builtins().getAll()) {
             all.add(new DefaultNArgCandidate(command.getName()));

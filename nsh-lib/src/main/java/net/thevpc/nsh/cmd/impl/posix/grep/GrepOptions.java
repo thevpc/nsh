@@ -46,7 +46,7 @@ class GrepOptions implements NCmdLineConfigurable {
 
     @Override
     public GrepOptions configure(boolean skipUnsupported, String... args) {
-        configure(skipUnsupported, NCmdLine.of(args).setCommandName("grep"));
+        configure(skipUnsupported, NCmdLine.of(args).commandName("grep"));
         return this;
     }
 
