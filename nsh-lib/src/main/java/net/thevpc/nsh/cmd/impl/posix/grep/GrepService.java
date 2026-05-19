@@ -164,7 +164,7 @@ public class GrepService {
     }
 
     private boolean processByLine(GrepOptions options, GrepFilter p, FileInfo f, GrepResultCollector results, NSession session) throws IOException {
-        try (Reader reader = (f == null ? new InputStreamReader(session.in()) : f.getPath().getReader())) {
+        try (Reader reader = (f == null ? new InputStreamReader(session.in()) : f.getPath().asReader())) {
             return processByText0(reader, null, options, p, f, results, session);
         }
     }
@@ -199,7 +199,7 @@ public class GrepService {
         NTextBuilder flattened = NText.ofCode(f.getHighlighter(), text).highlight()
                 .builder()
                 .flatten();
-        try (Reader in = f.getPath().getReader()) {
+        try (Reader in = f.getPath().asReader()) {
             return processByText0(in, flattened, options, p, f, results, session);
         }
     }

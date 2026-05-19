@@ -62,7 +62,7 @@ public class NshMain  {
     public void run() {
 
         //before loading Nsh check if we need to activate rich term
-        Map<String, String> sysEnv = NEnv.of().getEnv();
+        Map<String, String> sysEnv = NEnv.of().env();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
         NshOptions o = options.parse(NApp.of().cmdLine().toStringArray());
 

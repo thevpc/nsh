@@ -62,7 +62,7 @@ public class JpsCommand extends NshBuiltinDefault {
     }
 
     public static String resolveJavaToolCommand(NSession session, String javaHome, String javaCommand) {
-        String exe = NEnv.of().getOsFamily().equals(NOsFamily.WINDOWS) ? (javaCommand + ".exe") : javaCommand;
+        String exe = NEnv.of().osFamily().equals(NOsFamily.WINDOWS) ? (javaCommand + ".exe") : javaCommand;
         if (javaHome == null) {
             javaHome = System.getProperty("java.home");
         }

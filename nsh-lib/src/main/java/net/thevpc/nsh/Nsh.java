@@ -724,7 +724,7 @@ public class Nsh {
         if (appVarFolder == null) {
             appVarFolder = NPath.of(NStoreKey.ofVar(NId.get("net.thevpc.nsh:nsh").get()));
         }
-        NIO.of().getSystemTerminal()
+        NIO.of().systemTerminal()
                 .setCommandAutoCompleteResolver(new NshAutoCompleter())
                 .setCommandHistory(
                         NCmdLineHistory.of()
@@ -1084,7 +1084,7 @@ public class Nsh {
 //        } catch (IOException ex) {
 //            cwd = new File(".").getAbsolutePath();
 //        }
-        context.vars().set(NEnv.of().getEnv());
+        context.vars().set(NEnv.of().env());
         setUndefinedStartupEnv("USER", System.getProperty("user.name"), context);
         setUndefinedStartupEnv("LOGNAME", System.getProperty("user.name"), context);
         setUndefinedStartupEnv(Nsh.ENV_PATH, ".", context);
@@ -1310,11 +1310,11 @@ public class Nsh {
                     .orElse(false);
             NWorkspace.of().addLauncher(
                     new NLauncherOptions()
-                            .setId(NApp.of().id().orNull())
-                            .setCreateScript(true)
-                            .setCreateDesktopLauncher(initLaunchers ? NSupportMode.PREFERRED : NSupportMode.NEVER)
-                            .setCreateMenuLauncher(initLaunchers ? NSupportMode.SUPPORTED : NSupportMode.NEVER)
-                            .setOpenTerminal(true)
+                            .id(NApp.of().id().orNull())
+                            .createScript(true)
+                            .createDesktopLauncher(initLaunchers ? NSupportMode.PREFERRED : NSupportMode.NEVER)
+                            .createMenuLauncher(initLaunchers ? NSupportMode.SUPPORTED : NSupportMode.NEVER)
+                            .openTerminal(true)
             );
         }
         session.workspace().saveConfig(false);

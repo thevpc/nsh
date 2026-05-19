@@ -68,7 +68,7 @@ public class DefaultNshContext extends AbstractNshContext {
                 aliases().set(a, parentContext.aliases().get(a));
             }
         } else {
-            for (Map.Entry<String, String> entry : NEnv.of().getEnv().entrySet()) {
+            for (Map.Entry<String, String> entry : NEnv.of().env().entrySet()) {
                 vars().export(entry.getKey(), entry.getValue());
             }
             setBuiltins(new NBuiltinManager());

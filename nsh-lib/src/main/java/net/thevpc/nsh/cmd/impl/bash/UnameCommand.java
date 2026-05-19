@@ -86,9 +86,9 @@ public class UnameCommand extends NshBuiltinDefault {
         Options config = context.getOptions();
         Result rr = new Result();
         NEnv environment = NEnv.of();
-        rr.osDist = environment.getOsDist();
-        rr.os = environment.getOs();
-        rr.arch = environment.getArchFamily();
+        rr.osDist = environment.osDist();
+        rr.os = environment.os();
+        rr.arch = environment.archFamily();
         if (!config.farch && !config.fos && !config.fdist) {
             config.farch = true;
             config.fos = true;
