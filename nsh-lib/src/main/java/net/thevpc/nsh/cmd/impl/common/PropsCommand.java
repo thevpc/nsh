@@ -319,8 +319,8 @@ public class PropsCommand extends NshBuiltinDefault {
             switch (format) {
                 case AUTO: {
                     NObjectObjectWriter f = NObjectObjectWriter.of();
-                    f.configure(true, NWorkspace.of().getBootOptions().outputFormatOptions().orElseGet(Collections::emptyList).toArray(new String[0]));
-                    f.configure(true, session.getOutputFormatOptions().toArray(new String[0]));
+                    f.configure(true, NWorkspace.of().bootOptions().outputFormatOptions().orElseGet(Collections::emptyList).toArray(new String[0]));
+                    f.configure(true, session.outputFormatOptions().toArray(new String[0]));
                     f.println(p, session.out());
                     break;
                 }

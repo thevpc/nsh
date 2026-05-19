@@ -136,7 +136,7 @@ public class HistoryCommand extends NshBuiltinDefault {
 
                     shistory.save();
                 } else {
-                    shistory.save(NPath.of(options.sval).toAbsolute(NWorkspace.of().getWorkspaceLocation()));
+                    shistory.save(NPath.of(options.sval).toAbsolute(NWorkspace.of().workspaceLocation()));
                 }
                 return;
             }
@@ -145,7 +145,7 @@ public class HistoryCommand extends NshBuiltinDefault {
                     shistory.clear();
                     shistory.load();
                 } else {
-                    shistory.load(NPath.of(options.sval).toAbsolute(NWorkspace.of().getWorkspaceLocation()));
+                    shistory.load(NPath.of(options.sval).toAbsolute(NWorkspace.of().workspaceLocation()));
                 }
                 return;
             }

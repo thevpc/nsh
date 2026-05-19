@@ -105,7 +105,7 @@ public class AutocompleteCommand extends NshBuiltinDefault {
             }
             p.setProperty(value == null ? "" : value, dvalue == null ? "" : dvalue);
         }
-        switch (session.getOutputFormat().orDefault()) {
+        switch (session.outputFormat().orDefault()) {
             case PLAIN: {
                 NTexts text = NTexts.of();
                 for (String o : new TreeSet<String>((Set) p.keySet())) {

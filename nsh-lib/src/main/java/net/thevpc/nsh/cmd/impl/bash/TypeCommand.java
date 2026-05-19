@@ -112,7 +112,7 @@ public class TypeCommand extends NshBuiltinDefault {
                 }
             }
         }
-        switch (context.getSession().getOutputFormat().orDefault()) {
+        switch (context.getSession().outputFormat().orDefault()) {
             case PLAIN: {
                 for (ResultItem resultItem : result) {
                     NOut.println(resultItem.message);

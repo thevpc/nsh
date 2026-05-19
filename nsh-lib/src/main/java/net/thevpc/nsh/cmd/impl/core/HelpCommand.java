@@ -97,8 +97,8 @@ public class HelpCommand extends NshBuiltinCore {
         NSession session = context.getSession();
         Options options = context.getOptions();
         if (options.code) {
-            session.getTerminal().out(
-                    session.getTerminal().out().setTerminalMode(NTerminalMode.INHERITED)
+            session.terminal().out(
+                    session.terminal().out().setTerminalMode(NTerminalMode.INHERITED)
             );
         }
         final NTexts text = NTexts.of();

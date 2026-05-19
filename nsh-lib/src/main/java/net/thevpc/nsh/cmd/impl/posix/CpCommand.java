@@ -85,7 +85,7 @@ public class CpCommand extends NshBuiltinDefault {
         for (String value : options.files) {
             NAssert.requireNamedNonBlank(value, "file path");
             options.xfiles.add(NPath.of((value.contains("://") ? value :
-                    NPath.of(value).toAbsolute(NWorkspace.of().getWorkspaceLocation()).toString()
+                    NPath.of(value).toAbsolute(NWorkspace.of().workspaceLocation()).toString()
             )));
         }
         if (options.xfiles.size() < 2) {

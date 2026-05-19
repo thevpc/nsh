@@ -132,7 +132,7 @@ public class BaseNameCommand extends NshBuiltinDefault {
             }
             results.add(basename);
         }
-        switch (session.getOutputFormat().orDefault()) {
+        switch (session.outputFormat().orDefault()) {
             case PLAIN: {
                 for (int i = 0; i < results.size(); i++) {
                     String name = results.get(i);

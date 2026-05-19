@@ -160,7 +160,7 @@ public class PsCommand extends NshBuiltinDefault {
         } else {
             cols = new String[]{"pid", "tty", "time", "cmd"};
         }
-        switch (NSession.of().getOutputFormat().orDefault()) {
+        switch (NSession.of().outputFormat().orDefault()) {
             case PLAIN: {
                 NMutableTableModel model = NTableModel.of();
                 model.addHeaderRow(Arrays.stream(cols).map(NText::of).toArray(NText[]::new));

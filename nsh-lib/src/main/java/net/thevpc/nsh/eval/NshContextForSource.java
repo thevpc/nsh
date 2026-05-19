@@ -47,7 +47,7 @@ public class NshContextForSource extends AbstractNshContext {
 
     @Override
     public NWorkspace getWorkspace() {
-        return getSession().getWorkspace();
+        return getSession().workspace();
     }
 
     @Override

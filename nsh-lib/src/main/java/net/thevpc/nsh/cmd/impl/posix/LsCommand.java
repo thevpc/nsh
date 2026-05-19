@@ -170,7 +170,7 @@ public class LsCommand extends NshBuiltinDefault {
         if (success != null) {
             NPrintStream out = session.out();
             out.resetLine();
-            switch (session.getOutputFormat().orDefault()) {
+            switch (session.outputFormat().orDefault()) {
                 case XML:
                 case JSON:
                 case YAML:

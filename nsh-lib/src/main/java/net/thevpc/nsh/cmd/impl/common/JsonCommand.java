@@ -99,7 +99,7 @@ public class JsonCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         if (options.queries.isEmpty()) {
             NElement inputDocument = readJsonConvertElement(options.input, context.getShellContext());
-            if (session.getOutputFormat().orDefault() == NContentType.PLAIN) {
+            if (session.outputFormat().orDefault() == NContentType.PLAIN) {
                 session.out().println(NElementWriter.ofJson().setNtf(true).format(inputDocument));
             } else {
                 session.out().println(inputDocument);

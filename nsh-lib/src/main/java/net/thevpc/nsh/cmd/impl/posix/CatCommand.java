@@ -110,7 +110,7 @@ public class CatCommand extends NshBuiltinDefault {
 
             OutputStream os = null;
             boolean plain = true;
-            if (context.getSession().getOutputFormat().orDefault() == NContentType.PLAIN) {
+            if (context.getSession().outputFormat().orDefault() == NContentType.PLAIN) {
                 os = out.asOutputStream();
             } else {
                 plain = false;

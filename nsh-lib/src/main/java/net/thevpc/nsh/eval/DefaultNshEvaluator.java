@@ -25,7 +25,6 @@
  */
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nsh.err.DefaultErrorHandler;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminal;
@@ -111,7 +110,7 @@ public class DefaultNshEvaluator extends NshEvaluatorBase {
         session.setLogTermLevel(Level.OFF);
 
         NTerminal out = NTerminal.ofMem();
-        session.setTerminal(out);
+        session.terminal(out);
         context.nsh().evalNode(command, newCtx);
         String str = evalFieldSubstitutionAfterCommandSubstitution(out.out().toString(), context);
         String s = context.nsh().escapeString(str);

@@ -178,19 +178,19 @@ public class DefaultNshExecutionContext implements NshExecutionContext {
 
     @Override
     public NshExecutionContext setOut(PrintStream out) {
-        getSession().getTerminal().err(NPrintStream.of(out));
+        getSession().terminal().err(NPrintStream.of(out));
         return this;
     }
 
     @Override
     public NshExecutionContext setErr(PrintStream err) {
-        getSession().getTerminal().err(NPrintStream.of(err));
+        getSession().terminal().err(NPrintStream.of(err));
         return this;
     }
 
     @Override
     public NshExecutionContext setIn(InputStream in) {
-        getSession().getTerminal().in(in);
+        getSession().terminal().in(in);
         return this;
     }
 

@@ -103,7 +103,7 @@ public class UnameCommand extends NshBuiltinDefault {
         if (!config.fdist && rr.osDist != null) {
             rr.osDist = null;
         }
-        switch (context.getSession().getOutputFormat().orDefault()) {
+        switch (context.getSession().outputFormat().orDefault()) {
             case PLAIN: {
                 List<String> sb = new ArrayList<>();
                 if (rr.arch != null) {

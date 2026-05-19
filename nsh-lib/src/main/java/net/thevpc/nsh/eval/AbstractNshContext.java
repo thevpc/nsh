@@ -43,17 +43,17 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public InputStream in() {
-        return getSession().getTerminal().in();
+        return getSession().terminal().in();
     }
 
     @Override
     public NPrintStream out() {
-        return getSession().getTerminal().out();
+        return getSession().terminal().out();
     }
 
     @Override
     public NPrintStream err() {
-        return getSession().getTerminal().err();
+        return getSession().terminal().err();
     }
 
     @Override
@@ -113,7 +113,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public NshContext setOut(PrintStream out) {
-        getSession().getTerminal().out(
+        getSession().terminal().out(
                 NPrintStream.of(out)
         );
 //        commandContext.getTerminal().setOut(workspace.createPrintStream(out,
@@ -123,7 +123,7 @@ public abstract class AbstractNshContext implements NshContext {
     }
 
     public NshContext setErr(PrintStream err) {
-        getSession().getTerminal().err(
+        getSession().terminal().err(
                 NPrintStream.of(err)
         );
         return this;
@@ -131,7 +131,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public NshContext setIn(InputStream in) {
-        getSession().getTerminal().in(in);
+        getSession().terminal().in(in);
         return this;
     }
 
@@ -301,7 +301,7 @@ public abstract class AbstractNshContext implements NshContext {
 
     @Override
     public NWorkspace getWorkspace() {
-        return getSession().getWorkspace();
+        return getSession().workspace();
     }
 
 }

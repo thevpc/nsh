@@ -118,7 +118,7 @@ public class WhoamiCommand extends NshBuiltinDefault {
                     result.rights = new String[]{"ALL"};
                 }
                 List<RepoResult> rr = new ArrayList<>();
-                for (NRepository repository : NWorkspace.of().getRepositories()) {
+                for (NRepository repository : NWorkspace.of().repositories()) {
                     NUser ruser = NSecurityManager.of().findUser(login).orNull();
                     if (ruser != null && (ruser.getGroups().size() > 0
                             || ruser.getPermissions().size() > 0
@@ -149,7 +149,7 @@ public class WhoamiCommand extends NshBuiltinDefault {
                 result.repos = rr.isEmpty() ? null : rr.toArray(new RepoResult[0]);
             }
         }
-        switch (context.getSession().getOutputFormat().orDefault()) {
+        switch (context.getSession().outputFormat().orDefault()) {
             case PLAIN: {
                 NPrintStream out = context.getSession().out();
                 out.println(NMsg.ofC("%s", result.login));

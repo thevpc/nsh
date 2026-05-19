@@ -97,7 +97,7 @@ public class EnableCommand extends NshBuiltinDefault {
             for (NshBuiltin command : context.builtins().getAll()) {
                 result.put(command.getName(), command.isEnabled() ? "enabled" : "disabled");
             }
-            switch (context.getSession().getOutputFormat().orDefault()) {
+            switch (context.getSession().outputFormat().orDefault()) {
                 case PLAIN: {
                     for (Map.Entry<String, String> entry : result.entrySet()) {
                         NOut.println(entry.getValue() + " " + entry.getKey());

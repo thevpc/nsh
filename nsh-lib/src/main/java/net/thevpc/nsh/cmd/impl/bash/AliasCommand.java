@@ -99,7 +99,7 @@ public class AliasCommand extends NshBuiltinDefault {
                 outRes.add(new ResultItem(a, v));
             }
         }
-        switch (context.getSession().getOutputFormat().orDefault()) {
+        switch (context.getSession().outputFormat().orDefault()) {
             case PLAIN: {
                 for (ResultItem resultItem : outRes) {
                     if (resultItem.value == null) {

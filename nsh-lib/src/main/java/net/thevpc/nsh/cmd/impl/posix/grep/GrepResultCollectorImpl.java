@@ -80,7 +80,7 @@ class GrepResultCollectorImpl implements GrepResultCollector {
         if (results.isEmpty()) {
             return true;
         }
-        switch (session.getOutputFormat().orDefault()) {
+        switch (session.outputFormat().orDefault()) {
             case PLAIN: {
                 ColumnRuler ruler = new ColumnRuler();
                 for (GrepResultItem result : results) {

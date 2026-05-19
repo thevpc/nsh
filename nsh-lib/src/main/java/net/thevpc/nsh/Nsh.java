@@ -643,7 +643,7 @@ public class Nsh {
     }
 
     protected String readInteractiveLine(NshContext context) {
-        NTerminal terminal = context.getSession().getTerminal();
+        NTerminal terminal = context.getSession().terminal();
         return terminal.readLine(getPromptString(context));
     }
 
@@ -696,7 +696,7 @@ public class Nsh {
             m = NMsg.ofC("%s v%s (c) %s",
                     NMsg.ofStyledPrimary1(NStringUtils.firstNonNull(serviceName, "app")),
                     (appId == null || appId.version().isBlank()) ?
-                            getRootContext().getWorkspace().getRuntimeId().version() :
+                            getRootContext().getWorkspace().runtimeId().version() :
                             appId.version()
                     , NStringUtils.firstNonBlank(contributor == null ? null : NStringUtils.firstNonBlankTrimmed(
                             contributor.name(),
@@ -1260,7 +1260,7 @@ public class Nsh {
             if (!CONTEXTUAL_BUILTINS.contains(command.getName())) {
                 // avoid recursive definition!
                 // disable trace, summary will be traced later!
-                if (session.getWorkspace()
+                if (session.workspace()
                         .addCommand(new NCommandConfig()
                                 .factoryId("nsh")
                                 .name(command.getName())
@@ -1302,10 +1302,10 @@ public class Nsh {
                 ));
             }
         }
-        if (NWorkspace.of().getBootOptions().initScripts()
+        if (NWorkspace.of().bootOptions().initScripts()
                 .onEmpty(true)
                 .orElse(false)) {
-            boolean initLaunchers = NWorkspace.of().getBootOptions().initLaunchers()
+            boolean initLaunchers = NWorkspace.of().bootOptions().initLaunchers()
                     .onEmpty(true)
                     .orElse(false);
             NWorkspace.of().addLauncher(
@@ -1317,7 +1317,7 @@ public class Nsh {
                             .setOpenTerminal(true)
             );
         }
-        session.getWorkspace().saveConfig(false);
+        session.workspace().saveConfig(false);
     }
 
     private static class NshBuiltinPredicate implements Predicate<NshBuiltin> {

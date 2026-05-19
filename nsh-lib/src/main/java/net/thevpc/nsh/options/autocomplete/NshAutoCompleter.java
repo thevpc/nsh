@@ -21,7 +21,7 @@ public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
     @Override
     public List<NArgCandidate> resolveCandidates(NCmdLine cmdLine, Pos pos) {
         List<NArgCandidate> candidates = new ArrayList<>();
-        NshContext fileContext = (NshContext) NWorkspace.of().getProperties().get(NshContext.class.getName());
+        NshContext fileContext = (NshContext) NWorkspace.of().properties().get(NshContext.class.getName());
 
         if (pos.wordIndex() == 0) {
             for (NshBuiltin command : fileContext.builtins().getAll()) {

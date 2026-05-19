@@ -62,7 +62,7 @@ public class TestExportVar {
                         .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
         );
         NSession shellSession = c.getRootContext().getSession();
-        shellSession.setTerminal(NTerminal.ofMem());
+        shellSession.terminal(NTerminal.ofMem());
         c.getRootContext().setDirectory(tempFolder.toString());
         c.run();
         System.out.println("-------------------------------------");
