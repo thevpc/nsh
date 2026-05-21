@@ -443,7 +443,7 @@ public class Nsh {
 
         if (th instanceof NshException) {
             NshException je = (NshException) th;
-            int errorCode = je.getExitCode();
+            int errorCode = je.exitCode();
             String lastErrorMessage = getErrorHandler().errorToMessage(th);
             context.setLastResult(new NshResult(errorCode, lastErrorMessage, th));
             if (errorCode != NExecutionException.SUCCESS) {
@@ -725,10 +725,10 @@ public class Nsh {
             appVarFolder = NPath.of(NStoreKey.ofVar(NId.get("net.thevpc.nsh:nsh").get()));
         }
         NIO.of().systemTerminal()
-                .setCommandAutoCompleteResolver(new NshAutoCompleter())
-                .setCommandHistory(
+                .commandAutoCompleteResolver(new NshAutoCompleter())
+                .commandHistory(
                         NCmdLineHistory.of()
-                                .setPath(appVarFolder.resolve("nsh-history.hist"))
+                                .path(appVarFolder.resolve("nsh-history.hist"))
                 );
         prepareContext(getRootContext());
         printHeader(context.out());
@@ -754,7 +754,7 @@ public class Nsh {
                     if (getOptions().isLogin()) {
                         executeLogoutScripts();
                     }
-                    if (q.getExitCode() == NExecutionException.SUCCESS) {
+                    if (q.exitCode() == NExecutionException.SUCCESS) {
                         return;
                     }
                     onQuit(q);
@@ -805,10 +805,10 @@ public class Nsh {
 
     protected void onQuit(NshQuitException quitException) {
         getHistory().save();
-        if (quitException.getExitCode() == 0) {
+        if (quitException.exitCode() == 0) {
             return;
         }
-        throw new NExecutionException(NMsg.ofC("%s", quitException), quitException.getExitCode());
+        throw new NExecutionException(NMsg.ofC("%s", quitException), quitException.exitCode());
 //        throw quitException;
     }
 
@@ -904,7 +904,7 @@ public class Nsh {
 //        String wss = ws == null ? "" : new File(getRootContext().getAbsolutePath(ws.config().getWorkspaceLocation().toString())).getName();
         String login = null;
         if (session != null) {
-            login = NSecurityManager.of().getCurrentUsername();
+            login = NSecurityManager.of().currentUsername();
         }
         String prompt = ((login != null && login.length() > 0 && !"anonymous".equals(login)) ? (login + "@") : "");
         if (!NBlankable.isBlank(getRootContext().getServiceName())) {

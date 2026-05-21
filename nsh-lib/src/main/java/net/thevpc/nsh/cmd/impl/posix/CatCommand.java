@@ -169,7 +169,7 @@ public class CatCommand extends NshBuiltinDefault {
             NTextBuilder nutsText = NText.ofCode(info.getHighlighter(), text).highlight()
                     .builder()
                     .flatten();
-            List<NText> children = nutsText.getChildren();
+            List<NText> children = nutsText.children();
             Tracker tracker = new Tracker();
             boolean n = options.n;
             options.n = false;
@@ -227,7 +227,7 @@ public class CatCommand extends NshBuiltinDefault {
                     .builder()
                     .flatten();
             NPrintStream out = NPrintStream.of(os);
-            List<NText> children = nutsText.getChildren();
+            List<NText> children = nutsText.children();
             Tracker tracker = new Tracker();
             while (true) {
                 NText line = nextLine(children, session, tracker, options, false);
@@ -290,7 +290,7 @@ public class CatCommand extends NshBuiltinDefault {
     private NText nextNode(NText t, NSession session, Tracker tracker, Options options) {
         switch (t.type()) {
             case PLAIN: {
-                String text = ((NTextPlain) t).getValue();
+                String text = ((NTextPlain) t).value();
                 NTextBuilder tb = NTextBuilder.of();
                 if (options.n && tracker.wasNewline) {
                     tb.append(tracker.ruler.nextNum(tracker.line, session));
@@ -321,21 +321,21 @@ public class CatCommand extends NshBuiltinDefault {
                 if (options.n && tracker.wasNewline) {
                     tb.append(tracker.ruler.nextNum(tracker.line, session));
                 }
-                if(tt.getChild() instanceof NTextPlain) {
-                    NTextPlain pt = (NTextPlain) tt.getChild();
-                    String text = pt.getValue();
+                if(tt.child() instanceof NTextPlain) {
+                    NTextPlain pt = (NTextPlain) tt.child();
+                    String text = pt.value();
                     for (String s : ShellHelper.splitOn(text, '\t')) {
                         if (s.startsWith("\t")) {
                             tb.append("^I", NTextStyle.separator());
                         } else {
-                            tb.append(s, tt.getStyles());
+                            tb.append(s, tt.styles());
                         }
                     }
                     tracker.wasNewline = false;
                     return tb.build();
-                }else if(tt.getChild() instanceof NTextStyled){
-                    NTextStyled pt = (NTextStyled) tt.getChild();
-                    tb.append(nextNode(pt,session, tracker, options), tt.getStyles());
+                }else if(tt.child() instanceof NTextStyled){
+                    NTextStyled pt = (NTextStyled) tt.child();
+                    tb.append(nextNode(pt,session, tracker, options), tt.styles());
                     return tb.build();
                 }else{
                     throw new NUnsupportedOperationException();

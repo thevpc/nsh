@@ -46,10 +46,10 @@ public class DefaultErrorHandler implements NshErrorHandler {
     @Override
     public int errorToCode(Throwable th) {
         if (th instanceof NshException) {
-            return ((NshException) th).getExitCode();
+            return ((NshException) th).exitCode();
         }
         if (th instanceof NExecutionException) {
-            return ((NExecutionException) th).getExitCode();
+            return ((NExecutionException) th).exitCode();
         }
         return 1;
     }

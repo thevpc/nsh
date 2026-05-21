@@ -141,7 +141,7 @@ public class GrepService {
 
     private boolean isNewLine(NText t) {
         if (t.type() == NTextType.PLAIN) {
-            String txt = ((NTextPlain) t).getValue();
+            String txt = ((NTextPlain) t).value();
             return (txt.equals("\n") || txt.equals("\r\n"));
         }
         return false;

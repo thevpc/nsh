@@ -100,7 +100,7 @@ public class JsonCommand extends NshBuiltinDefault {
         if (options.queries.isEmpty()) {
             NElement inputDocument = readJsonConvertElement(options.input, context.getShellContext());
             if (session.outputFormat().orDefault() == NContentType.PLAIN) {
-                session.out().println(NElementWriter.ofJson().setNtf(true).format(inputDocument));
+                session.out().println(NElementWriter.ofJson().ntf(true).format(inputDocument));
             } else {
                 session.out().println(inputDocument);
             }

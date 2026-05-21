@@ -88,14 +88,14 @@ public class WhoamiCommand extends NshBuiltinDefault {
         if (!options.nutsUser) {
             result.login = System.getProperty("user.name");
         } else {
-            String login = NSecurityManager.of().getCurrentUsername();
+            String login = NSecurityManager.of().currentUsername();
             result.login = login;
             if (options.argAll) {
-                NUser user = NSecurityManager.of().findUser(login).get();
-                Set<String> groups = new TreeSet<>((user.getGroups()));
-                Set<String> rights = new TreeSet<>((user.getPermissions()));
-                Set<String> inherited = new TreeSet<>((user.getInheritedPermissions()));
-                result.loginStack = NSecurityManager.of().getCurrentLoginStack();
+                NUser user = NSecurityManager.of().getUser(login).get();
+                Set<String> groups = new TreeSet<>((user.groups()));
+                Set<String> rights = new TreeSet<>((user.permissions()));
+                Set<String> inherited = new TreeSet<>((user.inheritedPermissions()));
+                result.loginStack = NSecurityManager.of().currentLoginStack().toArray(new String[0]);
                 if (result.loginStack.length <= 1) {
                     result.loginStack = null;
                 }
@@ -119,16 +119,16 @@ public class WhoamiCommand extends NshBuiltinDefault {
                 }
                 List<RepoResult> rr = new ArrayList<>();
                 for (NRepository repository : NWorkspace.of().repositories()) {
-                    NUser ruser = NSecurityManager.of().findUser(login).orNull();
-                    if (ruser != null && (ruser.getGroups().size() > 0
-                            || ruser.getPermissions().size() > 0
+                    NUser ruser = NSecurityManager.of().getUser(login).orNull();
+                    if (ruser != null && (ruser.groups().size() > 0
+                            || ruser.permissions().size() > 0
                             )) {
                         RepoResult rt = new RepoResult();
                         rr.add(rt);
                         rt.name = repository.name();
-                        Set<String> rgroups = new TreeSet<>((ruser.getGroups()));
-                        Set<String> rrights = new TreeSet<>((ruser.getPermissions()));
-                        Set<String> rinherited = new TreeSet<>((ruser.getInheritedPermissions()));
+                        Set<String> rgroups = new TreeSet<>((ruser.groups()));
+                        Set<String> rrights = new TreeSet<>((ruser.permissions()));
+                        Set<String> rinherited = new TreeSet<>((ruser.inheritedPermissions()));
                         if (!rgroups.isEmpty()) {
                             rt.identities = rgroups.toArray(new String[0]);
                         }
@@ -142,8 +142,8 @@ public class WhoamiCommand extends NshBuiltinDefault {
                         } else {
                             rt.rights = new String[]{"ALL"};
                         }
-                        NRepositoryAccess r = NSecurityManager.of().findRepositoryAccess(ruser.getUsername(), repository.uuid()).get();
-                        rt.remoteId = r.getRemoteUserName();
+                        NRepositoryAccess r = NSecurityManager.of().getRepositoryAccess(ruser.username(), repository.uuid()).get();
+                        rt.remoteId = r.remoteUserName();
                     }
                 }
                 result.repos = rr.isEmpty() ? null : rr.toArray(new RepoResult[0]);

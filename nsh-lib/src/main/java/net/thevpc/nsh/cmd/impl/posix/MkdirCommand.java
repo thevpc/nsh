@@ -68,7 +68,7 @@ public class MkdirCommand extends NshBuiltinDefault {
 
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
-        String s= NExec.ofSystem("ls").getGrabbedAllString();
+        String s= NExec.ofSystem("ls").grabbedAll();
         Options options = context.getOptions();
         NSession session = context.getSession();
         options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory(), session);

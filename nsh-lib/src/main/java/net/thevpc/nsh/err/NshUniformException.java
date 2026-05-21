@@ -27,7 +27,7 @@ public class NshUniformException extends NshException {
         if (getCause() instanceof RuntimeException) {
             throw (RuntimeException) getCause();
         }
-        throw new NshQuitException(getCause(), getExitCode());
+        throw new NshQuitException(getCause(), exitCode());
     }
 
     public void throwAny() {
@@ -37,7 +37,7 @@ public class NshUniformException extends NshException {
         if (getCause() instanceof RuntimeException) {
             throw (RuntimeException) getCause();
         }
-        throw new NshException(formattedMessage(), getCause(),getExitCode());
+        throw new NshException(formattedMessage(), getCause(), exitCode());
     }
 
     public boolean isQuit() {

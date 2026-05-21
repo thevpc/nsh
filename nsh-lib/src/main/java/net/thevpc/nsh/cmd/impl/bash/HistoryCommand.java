@@ -67,7 +67,7 @@ public class HistoryCommand extends NshBuiltinDefault {
             return true;
         } else if ((a = cmdLine.nextEntry("-d", "--delete").orNull()) != null) {
             options.action = Action.DELETE;
-            options.ival = a.getValue().asInt().get();
+            options.ival = a.toLiteral().asInt().get();
             cmdLine.commandName(getName()).throwUnexpectedArgument();
             return true;
         } else if ((a = cmdLine.next("-D", "--remove-duplicates").orNull()) != null) {
