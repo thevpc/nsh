@@ -57,7 +57,7 @@ public class UnaliasCommand extends NshBuiltinDefault {
         NArg aa = cmdLine.peek().get();
         if (aa.isOption()) {
             if (aa.key().equals("-a")) {
-                return cmdLine.matcher().matchFlag((v) -> options.all= v.booleanValue()).anyMatch();
+                return cmdLine.matcher().withAny().matchFlag((v) -> options.all= v.booleanValue()).anyMatch();
             }
         } else {
             options.list.addAll(Arrays.asList(cmdLine.toStringArray()));

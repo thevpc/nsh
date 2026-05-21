@@ -68,12 +68,12 @@ public class CpCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         switch (cmdLine.peek().get().key()) {
             case "--mkdir": {
-                return cmdLine.matcher().matchFlag((v) -> options.mkdir = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().withAny().matchFlag((v) -> options.mkdir = v.booleanValue()).anyMatch();
             }
             case "-r":
             case "-R":
             case "--recursive": {
-                return cmdLine.matcher().matchFlag((v) -> options.recursive = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().withAny().matchFlag((v) -> options.recursive = v.booleanValue()).anyMatch();
             }
         }
         return false;
@@ -99,84 +99,12 @@ public class CpCommand extends NshBuiltinDefault {
     }
 
     public void copy(NPath from, NPath to, Options o, NshExecutionContext context) {
-        NSession session = context.getSession();
         NCp ccp = NCp.of()
                 .from(from)
                 .to(to)
                 .setRecursive(o.recursive)
                 .mkdirs(o.mkdir);
         ccp.run();
-//        if (from.getProtocol().equals("file") && to.getProtocol().equals("file")) {
-//            File from1 = ((JavaXFile) from).getFile();
-//            File to1 = ((JavaXFile) to).getFile();
-//            if (from1.isFile()) {
-//                if (to1.isDirectory() || to.getPath().endsWith("/") || to.getPath().endsWith("\\")) {
-//                    to1 = new File(to1, from1.getName());
-//                }
-//            } else if (to1.isDirectory()) {
-//                if (to.getPath().endsWith("/") || to.getPath().endsWith("\\")) {
-//                    to1 = new File(to1, from1.getName());
-//                }
-//            }
-//            if (o.mkdir) {
-//                FileUtils.createParents(to1);
-//            }
-//            if(from1.isDirectory()){
-//                if(o.recursive) {
-//                    copyFolder(from1, to1);
-//                }else{
-//                    copyFolder(from1, to1);
-//                }
-//            }
-//            if (context.getSession().isPlainTrace()) {
-//                context.out().print(NMsg.ofC("[[\\[CP\\]]] %s -> %s\n", from, to);
-//            }
-//            try {
-//                IOUtils.copy(from1, to1);
-//            } catch (IOException ex) {
-//                throw new UncheckedIOException(ex);
-//            }
-//        } else if (from.getProtocol().equals("file") && to.getProtocol().equals("ssh")) {
-//            SshPath to1 = ((SshXFile) to).getSshPath();
-//            String p = to1.getPath();
-//            if (p.endsWith("/") || p.endsWith("\\")) {
-//                p = p + "/" + FileUtils.getFileName(to1.getPath());
-//            }
-//
-//            try (SShConnection session = new SShConnection(to1.toAddress())
-//                    .addListener(o.sshlistener)) {
-//                copyLocalToRemote(((JavaXFile) from).getFile(), p, o.mkdir, session);
-//            }
-//        } else if (from.getProtocol().equals("ssh") && to.getProtocol().equals("file")) {
-//            SshPath from1 = ((SshXFile) from).getSshPath();
-//            File to1 = ((JavaXFile) to).getFile();
-//            if (to1.isDirectory() || to.getPath().endsWith("/") || to.getPath().endsWith("\\")) {
-//                to1 = new File(to1, FileUtils.getFileName(from1.getPath()));
-//            }
-//            try (SShConnection session = new SShConnection(from1.toAddress())
-//                    .addListener(o.sshlistener)) {
-//                session.copyRemoteToLocal(from1.getPath(), to1.getPath(), o.mkdir);
-//            }
-//        } else if (from.getProtocol().equals("url") && to.getProtocol().equals("file")) {
-//            URL from1 = ((JavaURLXFile) from).getURL();
-//            File to1 = ((JavaXFile) to).getFile();
-//            if (to1.isDirectory() || to.getPath().endsWith("/") || to.getPath().endsWith("\\")) {
-//                to1 = new File(to1, URLUtils.getURLName(from1));
-//            }
-//            if (o.mkdir) {
-//                FileUtils.createParents(to1);
-//            }
-//            if (context.getSession().isPlainTrace()) {
-//                context.out().print(NMsg.ofC("[[\\[CP\\]]] %s -> %s\n", from, to);
-//            }
-//            try {
-//                IOUtils.copy(from1, to1);
-//            } catch (IOException ex) {
-//                throw new UncheckedIOException(ex);
-//            }
-//        } else {
-//            throw new NutsIllegalArgumentException(context.getSession(), "cp: unsupported protocols " + from + "->" + to);
-//        }
     }
 
     public static class Options {

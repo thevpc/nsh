@@ -258,7 +258,7 @@ public class GrepCommand extends NshBuiltinDefault {
         } else if ((a = cmdLine.nextEntry("--jex-rows").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
             if (options.lastJavaExceptionWindowFilter != null) {
-                options.lastJavaExceptionWindowFilter.setRows(a.toLiteral().asInt().get());
+                options.lastJavaExceptionWindowFilter.setRows(a.literalValue().asInt().get());
             } else {
                 cmdLine.throwError(NMsg.ofPlain("expected --jex first"));
             }
@@ -266,7 +266,7 @@ public class GrepCommand extends NshBuiltinDefault {
         } else if ((a = cmdLine.nextEntry("--jex-include").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
             if (options.lastJavaExceptionWindowFilter != null) {
-                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.toLiteral().asString().get(), true));
+                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.literalValue().asString().get(), true));
             } else {
                 cmdLine.throwError(NMsg.ofPlain("expected --jex first"));
             }
@@ -274,7 +274,7 @@ public class GrepCommand extends NshBuiltinDefault {
         } else if ((a = cmdLine.nextEntry("--jex-exclude").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
             if (options.lastJavaExceptionWindowFilter != null) {
-                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.toLiteral().asString().get(), true));
+                options.lastJavaExceptionWindowFilter.getJexFilters().add(new JavaExceptionWindowFilter.JexFilter(a.literalValue().asString().get(), true));
             } else {
                 cmdLine.throwError(NMsg.ofPlain("expected --jex first"));
             }

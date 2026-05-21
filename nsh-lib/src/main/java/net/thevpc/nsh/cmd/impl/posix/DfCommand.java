@@ -62,11 +62,11 @@ public class DfCommand extends NshBuiltinDefault {
         switch (cmdLine.peek().get().key()) {
             case "-a":
             case "--all": {
-                return cmdLine.matcher().matchFlag((v) -> options.all = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().withAny().matchFlag((v) -> options.all = v.booleanValue()).anyMatch();
             }
             case "-h":
             case "--human-readable": {
-                return cmdLine.matcher().matchFlag((v) -> options.humanReadable = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().withAny().matchFlag((v) -> options.humanReadable = v.booleanValue()).anyMatch();
             }
         }
         return false;
