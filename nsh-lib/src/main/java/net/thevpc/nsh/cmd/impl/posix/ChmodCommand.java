@@ -59,7 +59,6 @@ public class ChmodCommand extends NshBuiltinDefault {
 
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
-        NSession session = context.getSession();
         Options options = context.getOptions();
         //invert processing order!
         if (context.configureFirst(cmdLine)) {
@@ -67,6 +66,11 @@ public class ChmodCommand extends NshBuiltinDefault {
         }
         NArg a = cmdLine.peek().get();
         String s = a.asString().get();
+        if(!a.isOption()){
+            cmdLine.next();
+            options.files.add(NPath.of(s));
+            return true;
+        }
         if (s.equals("-R") || s.equals("--recursive")) {
             cmdLine.skip();
             options.m.recursive = true;
