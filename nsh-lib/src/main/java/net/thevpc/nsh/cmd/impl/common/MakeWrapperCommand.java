@@ -5,16 +5,18 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.*;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.io.NPathPermission;
 import net.thevpc.nuts.platform.NEnv;
-import net.thevpc.nuts.platform.NShellFamily;
+import net.thevpc.nuts.platform.NOsFamily;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.*;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @NComponentScope(NScopeType.WORKSPACE)
 @NScore(fixed = NScorable.DEFAULT_SCORE)
@@ -34,16 +36,25 @@ public class MakeWrapperCommand extends NshBuiltinDefault {
             return true;
         }
         if ((a = cmdLine.nextEntry("--default").orNull()) != null) {
-            options.defaultExec = a.getStringValue().orNull();
-            return true;
-        }
-        if ((a = cmdLine.nextFlag("--cmd").orNull()) != null) {
             String value = a.getStringValue().orNull();
-            if (value == null) {
-                cmdLine.throwError(NMsg.ofC("--cmd requires a value (either <path> or <name>=<path>)"));
+            if (NBlankable.isBlank(value)) {
+                cmdLine.throwError(NMsg.ofC("--default requires format name=path"));
                 return false;
             }
-            options.cmds.add(value);
+//            if (value == null || !value.contains("=")) {
+//                cmdLine.throwError(NMsg.ofC("--default requires format name=path"));
+//                return false;
+//            }
+            options.defaultSpec = new NameAndPath(value);
+            return true;
+        }
+        if ((a = cmdLine.nextEntry("--cmd").orNull()) != null) {
+            String value = a.getStringValue().orNull();
+            if (NBlankable.isBlank(value)) {
+                cmdLine.throwError(NMsg.ofC("--cmd requires format name=path"));
+                return false;
+            }
+            options.cmdSpecs.add(new NameAndPath(value));
             return true;
         }
         return false;
@@ -56,166 +67,137 @@ public class MakeWrapperCommand extends NshBuiltinDefault {
             cmdLine.throwError(NMsg.ofC("--target is required"));
             return;
         }
-
-        NPath targetPath = NPath.of(options.target).toAbsolute(context.getDirectory());
-        Map<String, String> subcommands = new LinkedHashMap<>();
-
-        for (String cmdSpec : options.cmds) {
-            String name, execPath;
-            int eq = cmdSpec.indexOf('=');
-            if (eq >= 0) {
-                name = cmdSpec.substring(0, eq);
-                execPath = cmdSpec.substring(eq + 1);
-                if (name.isEmpty()) {
-                    cmdLine.throwError(NMsg.ofC("invalid --cmd: empty name in '%s'", cmdSpec));
-                    return;
-                }
-            } else {
-                NPath path = NPath.of(cmdSpec);
-                name = path.name();
-                execPath = cmdSpec;
-            }
-            NPath resolved = NPath.of(execPath).toAbsolute(context.getDirectory());
-            subcommands.put(name, resolved.toString());
+        if (options.defaultSpec == null) {
+            cmdLine.throwError(NMsg.ofC("--default is required"));
+            return;
         }
 
-        // Determine platform
-        NEnv env = NEnv.of();
-        switch (env.osFamily()) {
-            case WINDOWS: {
-                if(NEnv.of().shellFamily()== NShellFamily.WIN_POWER_SHELL){
-                    // Optionally generate PowerShell script as well
-                    generatePowerShellScript(targetPath, subcommands, options.defaultExec, context);
-                }else {
-                    generateBatchScript(targetPath, subcommands, options.defaultExec, context);
-                }
-                break;
+        Map<String, String> commands = new LinkedHashMap<>();
+        // parse default
+        NPath pp = options.defaultSpec.path.toAbsolute(context.getDirectory());
+        pp.addPermissions(NPathPermission.CAN_EXECUTE);
+        commands.put(options.defaultSpec.name, pp.toString());
+
+        // parse extra cmds
+        for (NameAndPath spec : options.cmdSpecs) {
+            if (commands.containsKey(spec.name)) {
+                cmdLine.throwError(NMsg.ofC("duplicate command name: %s", spec.name));
+                return;
             }
-            default: // LINUX, MACOS, etc.
-                generateUnixScript(targetPath, subcommands, options.defaultExec, context);
-                break;
+            pp = spec.path.toAbsolute(context.getDirectory());
+            pp.addPermissions(NPathPermission.CAN_EXECUTE);
+            commands.put(spec.name, pp.toString());
+        }
+
+        NPath targetPath = NPath.of(options.target).toAbsolute(context.getDirectory());
+        NEnv env = NEnv.of();
+        if (env.osFamily() == NOsFamily.WINDOWS) {
+            generateBatchScript(targetPath, commands, options.defaultSpec.name, context);
+        } else {
+            generateUnixScript(targetPath, commands, options.defaultSpec.name, context);
         }
     }
 
-    private void generateUnixScript(NPath targetPath, Map<String, String> subcommands, String defaultExec, NshExecutionContext context) {
-        NStringBuilder script = NStringBuilder.of();
-        script.println("#!/usr/bin/env bash");
-        script.println("# Auto-generated by make-wrapper");
-        script.println("WRAPPER_NAME=\"$(basename \"$0\")\"");
-        script.println();
-        script.println("if [ \"$WRAPPER_NAME\" = \"" + targetPath.name() + "\" ]; then");
-        script.println("    if [ $# -eq 0 ]; then");
-        if (defaultExec != null) {
-            script.println("        exec \"" + NPath.of(defaultExec).toAbsolute(context.getDirectory()) + "\" \"$@\"");
-        } else {
-            script.println("        echo \"No subcommand specified and no default command defined.\" >&2");
-            script.println("        echo \"Usage: $0 <subcommand> [args...]\" >&2");
-            script.println("        exit 1");
+    private void generateUnixScript(NPath targetPath, Map<String, String> commands, String defaultCmd, NshExecutionContext context) {
+        NStringBuilder sb = NStringBuilder.of();
+        sb.println("#!/usr/bin/env bash");
+        sb.println("# Auto-generated by make-wrapper");
+        sb.println();
+        sb.println("DEFAULT_CMD=\"" + defaultCmd + "\"");
+        sb.println("DEFAULT_PATH=\"" + commands.get(defaultCmd) + "\"");
+        for (Map.Entry<String, String> e : commands.entrySet()) {
+            sb.println(e.getKey().toUpperCase() + "_PATH=\"" + e.getValue() + "\"");
         }
-        script.println("    else");
-        script.println("        CMD=\"$1\"; shift");
-        script.println("        case \"$CMD\" in");
-        for (Map.Entry<String, String> e : subcommands.entrySet()) {
-            script.println("            " + e.getKey() + ") exec \"" + e.getValue() + "\" \"$@\" ;;");
+        sb.println();
+        sb.println("# Show help if requested");
+        sb.println("if [ \"$1\" = \"--help\" ] || [ \"$1\" = \"-h\" ]; then");
+        sb.println("    echo \"Usage: $(basename \"$0\") [<command>] [args...]\"");
+        sb.println("    echo \"Commands:\"");
+        for (String name : commands.keySet()) {
+            sb.println("    echo \"  " + name + "\"");
         }
-        script.println("            *) echo \"Unknown subcommand: $CMD\" >&2; exit 1 ;;");
-        script.println("        esac");
-        script.println("    fi");
-        script.println("else");
-        script.println("    case \"$WRAPPER_NAME\" in");
-        for (Map.Entry<String, String> e : subcommands.entrySet()) {
-            script.println("        " + e.getKey() + ") exec \"" + e.getValue() + "\" \"$@\" ;;");
+        sb.println("    echo \"If no command is given, the default command '$defaultCmd' is used.\"");
+        sb.println("    exit 0");
+        sb.println("fi");
+        sb.println();
+        sb.println("if [ \"$1\" = \"--version\" ]; then");
+        sb.println("    echo \"$(basename \"$0\") version " + NWorkspace.of().runtimeId().version() + "\"");
+        sb.println("    exit 0");
+        sb.println("fi");
+        sb.println();
+        sb.println("if [ $# -eq 0 ]; then");
+        sb.println("    exec \"$DEFAULT_PATH\"");
+        sb.println("else");
+        sb.println("    CMD=\"$1\"; shift");
+        sb.println("    case \"$CMD\" in");
+        for (Map.Entry<String, String> e : commands.entrySet()) {
+            sb.println("        " + e.getKey() + ") exec \"" + e.getValue() + "\" \"$@\" ;;");
         }
-        script.println("        *) echo \"Unknown subcommand: $WRAPPER_NAME\" >&2; exit 1 ;;");
-        script.println("    esac");
-        script.println("fi");
+        sb.println("        *)      exec \"$DEFAULT_PATH\" \"$CMD\" \"$@\" ;;");
+        sb.println("    esac");
+        sb.println("fi");
 
-        targetPath.writeString(script.toString());
+        targetPath.writeString(sb.toString());
         targetPath.addPermissions(NPathPermission.CAN_EXECUTE);
         context.out().println(NMsg.ofC("Created Unix wrapper: %s", targetPath));
     }
 
-    private void generateBatchScript(NPath targetPath, Map<String, String> subcommands, String defaultExec, NshExecutionContext context) {
-        // Change extension to .bat if target ends with no extension or .sh
+    private void generateBatchScript(NPath targetPath, Map<String, String> commands, String defaultCmd, NshExecutionContext context) {
         NPath batPath = targetPath;
         if (!batPath.toString().toLowerCase().endsWith(".bat")) {
-            batPath = NPath.of(batPath.toString() + ".bat");
+            batPath = NPath.of(batPath + ".bat");
         }
-        NStringBuilder script = NStringBuilder.of();
-        script.println("@echo off");
-        script.println("REM Auto-generated by make-wrapper");
-        script.println("set WRAPPER_NAME=%~n0");
-        script.println();
-        script.println("if \"%WRAPPER_NAME%\"==\"" + batPath.name().replace(".bat", "") + "\" (");
-        script.println("    if \"%*\"==\"\" (");
-        if (defaultExec != null) {
-            script.println("        \"" + NPath.of(defaultExec).toAbsolute(context.getDirectory()) + "\" %*");
-        } else {
-            script.println("        echo No subcommand specified and no default command defined.");
-            script.println("        echo Usage: %0 ^<subcommand^> [args...]");
-            script.println("        exit /b 1");
+        String defaultPath = commands.get(defaultCmd);
+        NStringBuilder sb = NStringBuilder.of();
+        sb.println("@echo off");
+        sb.println("REM Auto-generated by make-wrapper");
+        sb.println("setlocal enabledelayedexpansion");
+        sb.println("set DEFAULT_CMD=" + defaultCmd);
+        sb.println("set DEFAULT_PATH=" + defaultPath);
+        for (Map.Entry<String, String> e : commands.entrySet()) {
+            sb.println("set " + e.getKey().toUpperCase() + "_PATH=" + e.getValue());
         }
-        script.println("    ) else (");
-        script.println("        set CMD=%1");
-        script.println("        shift");
-        script.println("        goto dispatch_%CMD% 2>nul");
-        script.println("        echo Unknown subcommand: %CMD%");
-        script.println("        exit /b 1");
-        script.println("    )");
-        script.println(") else (");
-        script.println("    set CMD=%WRAPPER_NAME%");
-        script.println("    goto dispatch_%CMD% 2>nul");
-        script.println("    echo Unknown subcommand: %CMD%");
-        script.println("    exit /b 1");
-        script.println(")");
-        script.println();
-        for (Map.Entry<String, String> e : subcommands.entrySet()) {
-            script.println(":dispatch_" + e.getKey());
-            script.println("\"" + e.getValue() + "\" %*");
-            script.println("exit /b %errorlevel%");
+        sb.println();
+        sb.println("if \"%1\"==\"--help\" goto :help");
+        sb.println("if \"%1\"==\"-h\" goto :help");
+        sb.println("if \"%1\"==\"--version\" goto :version");
+        sb.println();
+        sb.println("if \"%*\"==\"\" goto :run_default");
+        sb.println("set CMD=%1");
+        sb.println("shift");
+        sb.println("for %%A in (" + String.join(" ", commands.keySet()) + ") do (");
+        sb.println("    if /i \"!CMD!\"==\"%%A\" goto :dispatch_%%A");
+        sb.println(")");
+        sb.println("rem fallback to default with first argument as part of args");
+        sb.println("\"%DEFAULT_PATH%\" %CMD% %*");
+        sb.println("exit /b %errorlevel%");
+        sb.println();
+        sb.println(":run_default");
+        sb.println("\"%DEFAULT_PATH%\" %*");
+        sb.println("exit /b %errorlevel%");
+        sb.println();
+        sb.println(":help");
+        sb.println("echo Usage: %~n0 [command] [args...]");
+        sb.println("echo Commands:");
+        for (String name : commands.keySet()) {
+            sb.println("echo   " + name);
+        }
+        sb.println("echo If no command is given, the default command '" + defaultCmd + "' is used.");
+        sb.println("exit /b 0");
+        sb.println();
+        sb.println(":version");
+        sb.println("echo %~n0 version " + NWorkspace.of().runtimeId().version());
+        sb.println("exit /b 0");
+        sb.println();
+        for (Map.Entry<String, String> e : commands.entrySet()) {
+            sb.println(":dispatch_" + e.getKey());
+            sb.println("\"" + e.getValue() + "\" %*");
+            sb.println("exit /b %errorlevel%");
         }
 
-        batPath.writeString(script.toString());
-        // No executable flag on Windows
+        batPath.writeString(sb.toString());
+        // no executable flag needed on Windows
         context.out().println(NMsg.ofC("Created Batch wrapper: %s", batPath));
-    }
-
-    private void generatePowerShellScript(NPath targetPath, Map<String, String> subcommands, String defaultExec, NshExecutionContext context) {
-        NPath psPath = NPath.of(targetPath.toString() + ".ps1");
-        NStringBuilder script = NStringBuilder.of();
-        script.println("# Auto-generated by make-wrapper");
-        script.println("$WRAPPER_NAME = (Get-Item $MyInvocation.MyCommand.Path).BaseName");
-        script.println();
-        script.println("if ($WRAPPER_NAME -eq \"" + targetPath.name() + "\") {");
-        script.println("    if ($args.Count -eq 0) {");
-        if (defaultExec != null) {
-            script.println("        & \"" + NPath.of(defaultExec).toAbsolute(context.getDirectory()) + "\" @args");
-        } else {
-            script.println("        Write-Host \"No subcommand specified and no default command defined.\"");
-            script.println("        Write-Host \"Usage: $($MyInvocation.MyCommand.Name) <subcommand> [args...]\"");
-            script.println("        exit 1");
-        }
-        script.println("    } else {");
-        script.println("        $CMD = $args[0]");
-        script.println("        $script:args = $args[1..$args.Count]");
-        script.println("        switch ($CMD) {");
-        for (Map.Entry<String, String> e : subcommands.entrySet()) {
-            script.println("            \"" + e.getKey() + "\" { & \"" + e.getValue() + "\" @args; break }");
-        }
-        script.println("            default { Write-Host \"Unknown subcommand: $CMD\"; exit 1 }");
-        script.println("        }");
-        script.println("    }");
-        script.println("} else {");
-        script.println("    switch ($WRAPPER_NAME) {");
-        for (Map.Entry<String, String> e : subcommands.entrySet()) {
-            script.println("        \"" + e.getKey() + "\" { & \"" + e.getValue() + "\" @args; break }");
-        }
-        script.println("        default { Write-Host \"Unknown subcommand: $WRAPPER_NAME\"; exit 1 }");
-        script.println("    }");
-        script.println("}");
-
-        psPath.writeString(script.toString());
-        context.out().println(NMsg.ofC("Created PowerShell wrapper: %s", psPath));
     }
 
     @Override
@@ -224,9 +206,34 @@ public class MakeWrapperCommand extends NshBuiltinDefault {
         return false;
     }
 
+    public static class NameAndPath {
+        String name;
+        NPath path;
+
+        public NameAndPath(String name, NPath path) {
+            this.name = name;
+            this.path = path;
+        }
+
+        public NameAndPath(String nameAndPath) {
+            int i = nameAndPath.indexOf('=');
+            if (i >= 0) {
+                this.name = nameAndPath.substring(0, i);
+                this.path = NPath.of(nameAndPath.substring(i + 1));
+            }else{
+                this.path = NPath.of(nameAndPath);
+                this.name = path.name();
+                if(NBlankable.isBlank(name)){
+                    throw new NIllegalArgumentException(NMsg.ofC("invalid cmd name"));
+                }
+            }
+        }
+
+    }
+
     public static class Options {
         String target;
-        String defaultExec;
-        List<String> cmds = new ArrayList<>();
+        NameAndPath defaultSpec;
+        java.util.List<NameAndPath> cmdSpecs = new java.util.ArrayList<>();
     }
 }
