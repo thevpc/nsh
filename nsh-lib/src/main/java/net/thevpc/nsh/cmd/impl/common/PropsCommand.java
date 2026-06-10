@@ -271,7 +271,7 @@ public class PropsCommand extends NshBuiltinDefault {
     private Map<String, String> readProperties(Options o, NshExecutionContext context) {
         Map<String, String> p = new LinkedHashMap<>();
         String sourceFile = o.sourceFile;
-        NPath filePath = ShellHelper.xfileOf(sourceFile, context.getDirectory(), context.getSession());
+        NPath filePath = ShellHelper.xfileOf(sourceFile, context.getDirectory());
         try (InputStream is = filePath.inputStream()) {
 
             Format sourceFormat = o.sourceFormat;
@@ -340,7 +340,7 @@ public class PropsCommand extends NshBuiltinDefault {
                 }
             }
         } else {
-            NPath filePath = ShellHelper.xfileOf(targetFile, context.getDirectory(), session);
+            NPath filePath = ShellHelper.xfileOf(targetFile, context.getDirectory());
             try (OutputStream os = filePath.outputStream()) {
                 Format format = o.targetFormat;
                 if (format == Format.AUTO) {

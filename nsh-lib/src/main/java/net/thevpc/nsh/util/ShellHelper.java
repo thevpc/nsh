@@ -1,14 +1,10 @@
 package net.thevpc.nsh.util;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.io.NInputStreamMonitor;
 import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.io.NTerminal;
 //import net.thevpc.nuts.ext.ssh.SshListener;
 import net.thevpc.nsh.util.bundles._IOUtils;
@@ -16,19 +12,19 @@ import net.thevpc.nuts.text.NMsg;
 
 public class ShellHelper {
 
-    public static List<NPath> xfilesOf(List<String> all, String cwd, NSession session) {
+    public static List<NPath> xfilesOf(List<String> all, String cwd) {
         List<NPath> xall = new ArrayList<>();
         for (String v : all) {
-            xall.add(xfileOf(v, cwd,session));
+            xall.add(xfileOf(v, cwd));
         }
         return xall;
     }
 
-    public static NPath xfileOf(String expression, String cwd, NSession session) {
+    public static NPath xfileOf(String expression, String cwd) {
         if (expression.startsWith("file:") || expression.contains("://")) {
             return NPath.of(expression);
         }
-        return NPath.of(_IOUtils.getAbsoluteFile2(expression, cwd, session));
+        return NPath.of(_IOUtils.getAbsoluteFile2(expression, cwd));
     }
 
     public static String[] splitNameAndValue(String arg) {

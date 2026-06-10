@@ -1,7 +1,6 @@
 package net.thevpc.nsh.util.bundles;
 
 import net.thevpc.nuts.io.NPath;
-import net.thevpc.nuts.core.NSession;
 
 import java.io.*;
 import java.net.URL;
@@ -106,7 +105,7 @@ public class _IOUtils {
 
     }
 
-    public static String getAbsoluteFile2(String path, String cwd, NSession session) {
+    public static String getAbsoluteFile2(String path, String cwd) {
         NPath np = NPath.of(path);
         if (np.isAbsolute()) {
             return path;

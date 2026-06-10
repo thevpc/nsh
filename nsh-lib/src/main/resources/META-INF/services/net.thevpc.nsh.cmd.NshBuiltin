@@ -26,6 +26,7 @@ net.thevpc.nsh.cmd.impl.posix.grep.GrepCommand
 net.thevpc.nsh.cmd.impl.bash.UnameCommand
 net.thevpc.nsh.cmd.impl.posix.UnzipCommand
 net.thevpc.nsh.cmd.impl.posix.ZipCommand
+net.thevpc.nsh.cmd.impl.posix.TarCommand
 net.thevpc.nsh.cmd.impl.posix.TailCommand
 net.thevpc.nsh.cmd.impl.posix.extra.HostsCommand
 net.thevpc.nsh.cmd.impl.posix.HeadCommand
@@ -51,6 +52,7 @@ net.thevpc.nsh.cmd.impl.bash.CommandCommand
 net.thevpc.nsh.cmd.impl.bash.TestCommand
 net.thevpc.nsh.cmd.impl.common.JsonCommand
 net.thevpc.nsh.cmd.impl.common.XmlCommand
+net.thevpc.nsh.cmd.impl.common.MakeWrapperCommand
 net.thevpc.nsh.cmd.impl.bash.ClearCommand
 
 net.thevpc.nsh.cmd.impl.posix.JpsCommand

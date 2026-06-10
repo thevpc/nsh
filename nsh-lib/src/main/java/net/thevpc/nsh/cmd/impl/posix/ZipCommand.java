@@ -53,7 +53,6 @@ public class ZipCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         if (cmdLine.next("-r").isPresent()) {
             options.r = true;
             return true;

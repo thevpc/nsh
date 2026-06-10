@@ -53,7 +53,6 @@ public class EchoCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         switch (cmdLine.peek().get().key()) {
             case "-n": {
                 return cmdLine.matcher().withAny().matchFlag((v) -> options.newLine = v.booleanValue()).anyMatch();

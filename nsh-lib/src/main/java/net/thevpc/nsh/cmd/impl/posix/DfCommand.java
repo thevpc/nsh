@@ -32,7 +32,6 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
@@ -155,7 +154,7 @@ public class DfCommand extends NshBuiltinDefault {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         NSession session = context.getSession();
-        options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory(), session);
+        options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory());
         List<UInfo> result = new ArrayList<>();
         NTextFormat<Number> formatter = NTextFormat.ofBytes( "");
         List<FileStore> stores = NCollections.list(FileSystems.getDefault().getFileStores());

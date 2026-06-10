@@ -28,12 +28,16 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NSession;
+import net.thevpc.nuts.io.NAsk;
+import net.thevpc.nuts.io.NIOException;
+import net.thevpc.nuts.io.NIn;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
+import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.util.NScore;
 import net.thevpc.nuts.util.NScorable;
@@ -54,15 +58,26 @@ public class RmCommand extends NshBuiltinDefault {
 
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
-        NSession session = context.getSession();
         Options options = context.getOptions();
         NArg a;
-        if ((a = cmdLine.nextFlag("-R").orNull()) != null) {
-            options.R = a.getBooleanValue().get();
+        // recursive flags
+        if ((a = cmdLine.nextFlag("-r", "-R", "--recursive").orNull()) != null) {
+            options.recursive = a.getBooleanValue().get();
             return true;
-        } else if (cmdLine.peek().get().isNonOption()) {
-            options.files.add(ShellHelper.xfileOf(cmdLine.next().get().image(),
-                    context.getDirectory(), session));
+        }
+        // force
+        if ((a = cmdLine.nextFlag("-f", "--force").orNull()) != null) {
+            options.force = a.getBooleanValue().get();
+            return true;
+        }
+        // interactive
+        if ((a = cmdLine.nextFlag("-i", "--interactive").orNull()) != null) {
+            options.interactive = a.getBooleanValue().get();
+            return true;
+        }
+        // verbose
+        if ((a = cmdLine.nextFlag("-v", "--verbose").orNull()) != null) {
+            options.verbose = a.getBooleanValue().get();
             return true;
         }
         return false;
@@ -71,30 +86,58 @@ public class RmCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         NAssert.requireNamedNonBlank(options.files, "parameters");
-//        ShellHelper.WsSshListener listener = options.verbose ? new ShellHelper.WsSshListener(context.getSession()) : null;
+
         for (NPath p : options.files) {
-//            if (p instanceof SshXFile) {
-//                ((SshXFile) p).setListener(listener);
-//            }
-            if (options.R) {
-                p.deleteTree();
-            } else {
-                p.delete();
+            // Check existence (unless force)
+            if (!options.force && !p.exists()) {
+                context.err().println(NMsg.ofC("rm: cannot remove '%s': No such file or directory", p));
+                continue;
+            }
+            // Interactive prompt
+            if (options.interactive && p.exists()) {
+                if(!NIn.ask().forBoolean(NMsg.ofC("rm: remove %s? ", p)).defaultValue(false).booleanValue()){
+                    continue;
+                }
+            }
+            try {
+                if (options.recursive) {
+                    if (options.verbose) {
+                        context.out().println(NMsg.ofC("removed directory: %s", p));
+                    }
+                    p.deleteTree();
+                } else {
+                    if (p.isDirectory() && !options.force) {
+                        context.err().println(NMsg.ofC("rm: cannot remove '%s': Is a directory", p));
+                        continue;
+                    }
+                    if (options.verbose) {
+                        context.out().println(NMsg.ofC("removed: %s", p));
+                    }
+                    p.delete();
+                }
+            } catch (NIOException e) {
+                if (!options.force) {
+                    context.err().println(NMsg.ofC("rm: cannot remove '%s': %s", p, e.getMessage()));
+                }
             }
         }
     }
 
     public static class Options {
 
-        boolean R = false;
+        boolean recursive = false;
+        boolean force = false;
+        boolean interactive = false;
         boolean verbose = false;
         List<NPath> files = new ArrayList<>();
     }
 
     @Override
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
-        return nextOption(arg, cmdLine, context);
+        Options options = context.getOptions();
+        options.files.add(ShellHelper.xfileOf(cmdLine.next().get().image(),
+                context.getDirectory()));
+        return true;
     }
 }

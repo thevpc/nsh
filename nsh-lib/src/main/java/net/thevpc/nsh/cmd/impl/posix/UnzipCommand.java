@@ -64,6 +64,8 @@ public class UnzipCommand extends NshBuiltinDefault {
                 case "zip": {
                     if ((a = cmdLine.nextFlag("-l").orNull()) != null) {
                         options.l = a.getBooleanValue().get();
+                    }else if ((a = cmdLine.nextFlag("-o").orNull()) != null) {
+                        options.o = a.getBooleanValue().get();
                     } else if ((a = cmdLine.nextEntry("-d").orNull()) != null) {
                         options.dir = a.getStringValue().get();
                     } else if ((a = cmdLine.nextFlag("--skip-root").orNull()) != null) {
@@ -162,6 +164,7 @@ public class UnzipCommand extends NshBuiltinDefault {
     private static class Options {
 
         boolean l = false;
+        boolean o = false;
         boolean skipRoot = false;
         String dir = null;
         List<String> zfiles = new ArrayList<>();

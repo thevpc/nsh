@@ -71,7 +71,7 @@ public class MkdirCommand extends NshBuiltinDefault {
         String s= NExec.ofSystem("ls").grabbedAll();
         Options options = context.getOptions();
         NSession session = context.getSession();
-        options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory(), session);
+        options.xfiles = ShellHelper.xfilesOf(options.files, context.getDirectory());
         if (options.xfiles.size() < 1) {
             cmdLine.throwMissingArgument();
         }
