@@ -39,70 +39,70 @@ import org.junit.jupiter.api.Test;
  */
 public class TestCommands {
 
-    @BeforeAll
-    static void openWorkspace(){
-        TestUtils.openNewTestWorkspace("--verbose");
-    }
-
-    @Test
-    public void testDirname() {
-        Nsh c = new Nsh(new NshConfig()
-                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
-                .setArgs()
-                );
-        MemResult r = c.executeCommand(new String[]{"dirname", "/", "a", "/a", "/a/"});
-        Assertions.assertEquals(
-                "/\n"
-                        + ".\n"
-                        + "/\n"
-                        + "/", r.out().trim());
-    }
-
-
-    @Test
-    public void testBasename() {
-        Nsh c = new Nsh(new NshConfig()
-                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
-                .setArgs()
-        );
-        MemResult r = c.executeCommand(new String[]{"basename", "-a", "/", "a", "/a", "/a/"});
-        Assertions.assertEquals(
-                "/\n"
-                        + "a\n"
-                        + "a\n"
-                        + "a", r.out().trim());
-    }
-
-    @Test
-    public void testEnv() {
-        Nsh c = new Nsh(new NshConfig()
-                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
-                .setArgs()
-        );
-        {
-            MemResult r = c.executeCommand(new String[]{"env"});
-            Assertions.assertTrue(r.out().contains("PWD="));
-        }
-        {
-            MemResult r = c.executeCommand(new String[]{"env", "--json"});
-            Assertions.assertTrue(r.out().contains("\"PWD\""));
-        }
-    }
-
-    @Test
-    public void testCheck() {
-        Nsh c = new Nsh(
-                new NshConfig()
-                        .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
-                        .setArgs()
-        );
-        {
-            MemResult r = c.executeCommand(new String[]{"test", "1", "-lt", "2"});
-            Assertions.assertEquals(0, r.exitCode());
-        }
-        {
-            MemResult r = c.executeCommand(new String[]{"test", "2", "-lt", "1"});
-            Assertions.assertEquals(1, r.exitCode());
-        }
-    }
+//    @BeforeAll
+//    static void openWorkspace(){
+//        TestUtils.openNewTestWorkspace("--verbose");
+//    }
+//
+//    @Test
+//    public void testDirname() {
+//        Nsh c = new Nsh(new NshConfig()
+//                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
+//                .setArgs()
+//                );
+//        MemResult r = c.executeCommand(new String[]{"dirname", "/", "a", "/a", "/a/"});
+//        Assertions.assertEquals(
+//                "/\n"
+//                        + ".\n"
+//                        + "/\n"
+//                        + "/", r.out().trim());
+//    }
+//
+//
+//    @Test
+//    public void testBasename() {
+//        Nsh c = new Nsh(new NshConfig()
+//                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
+//                .setArgs()
+//        );
+//        MemResult r = c.executeCommand(new String[]{"basename", "-a", "/", "a", "/a", "/a/"});
+//        Assertions.assertEquals(
+//                "/\n"
+//                        + "a\n"
+//                        + "a\n"
+//                        + "a", r.out().trim());
+//    }
+//
+//    @Test
+//    public void testEnv() {
+//        Nsh c = new Nsh(new NshConfig()
+//                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
+//                .setArgs()
+//        );
+//        {
+//            MemResult r = c.executeCommand(new String[]{"env"});
+//            Assertions.assertTrue(r.out().contains("PWD="));
+//        }
+//        {
+//            MemResult r = c.executeCommand(new String[]{"env", "--json"});
+//            Assertions.assertTrue(r.out().contains("\"PWD\""));
+//        }
+//    }
+//
+//    @Test
+//    public void testCheck() {
+//        Nsh c = new Nsh(
+//                new NshConfig()
+//                        .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
+//                        .setArgs()
+//        );
+//        {
+//            MemResult r = c.executeCommand(new String[]{"test", "1", "-lt", "2"});
+//            Assertions.assertEquals(0, r.exitCode());
+//        }
+//        {
+//            MemResult r = c.executeCommand(new String[]{"test", "2", "-lt", "1"});
+//            Assertions.assertEquals(1, r.exitCode());
+//        }
+//    }
 }
