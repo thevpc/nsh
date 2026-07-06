@@ -217,7 +217,7 @@ public class PsCommand extends NshBuiltinDefault {
                     break;
                 }
                 case "tty": {
-                    l.put(col, NStringUtils.trim(nPsInfo.terminal()));
+                    l.put(col, NStringUtils.strip(nPsInfo.terminal()));
                     break;
                 }
                 case "stat": {

@@ -27,7 +27,6 @@ package net.thevpc.nsh.cmd.impl.bash;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -72,7 +71,7 @@ public class EchoCommand extends NshBuiltinDefault {
             case "-H":
             case "--highlight":
             case "--highlighter": {
-                return cmdLine.matcher().withAny().matchEntry((v) -> options.highlighter = NStringUtils.trim(v.stringValue())).anyMatch();
+                return cmdLine.matcher().withAny().matchEntry((v) -> options.highlighter = NStringUtils.strip(v.stringValue())).anyMatch();
             }
             default: {
                 if (cmdLine.peek().get().isNonOption()) {

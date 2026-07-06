@@ -237,11 +237,11 @@ public class GrepCommand extends NshBuiltinDefault {
             return true;
         } else if ((a = cmdLine.next("-H", "--highlight", "--highlighter").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
-            options.highlighter = NStringUtils.trim(a.getStringValue().get());
+            options.highlighter = NStringUtils.strip(a.getStringValue().get());
             return true;
         } else if ((a = cmdLine.next("-S", "--selection-style").orNull()) != null) {
             processRequireNutsOption(a, cmdLine, options);
-            options.selectionStyle = NStringUtils.trimToNull(a.getStringValue().get());
+            options.selectionStyle = NStringUtils.stripToNull(a.getStringValue().get());
             return true;
         } else if (parseJex(cmdLine, options)) {
             return true;

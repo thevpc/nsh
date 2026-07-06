@@ -83,7 +83,7 @@ public class CatCommand extends NshBuiltinDefault {
             options.E = a.getBooleanValue().get();
             return true;
         } else if ((a = cmdLine.next("-H", "--highlight", "--highlighter").orNull()) != null) {
-            options.highlighter = NStringUtils.trim(a.getStringValue().orNull());
+            options.highlighter = NStringUtils.strip(a.getStringValue().orNull());
             return true;
         }
         return false;

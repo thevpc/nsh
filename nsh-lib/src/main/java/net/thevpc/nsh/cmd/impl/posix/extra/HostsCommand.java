@@ -161,7 +161,7 @@ public class HostsCommand extends NshBuiltinDefault {
     private static class HostLinesService {
 
         private void writeHostLines(HostLines value, Options options) {
-            String hostsFile = NStringUtils.firstNonBlankTrimmed(options.hostsFile, "/etc/hosts");
+            String hostsFile = NStringUtils.firstNonBlankStripped(options.hostsFile, "/etc/hosts");
             NPath nPath = NPath.of(hostsFile);
             try (PrintStream out = nPath.getPrintStream()) {
                 for (HostLine line : value.lines) {
@@ -176,7 +176,7 @@ public class HostsCommand extends NshBuiltinDefault {
         }
 
         private HostLines readHostLines(Options options) {
-            String hostsFile = NStringUtils.firstNonBlankTrimmed(options.hostsFile, "/etc/hosts");
+            String hostsFile = NStringUtils.firstNonBlankStripped(options.hostsFile, "/etc/hosts");
             NPath nPath = NPath.of(hostsFile);
             NRef<HostLineComment> lastComment = NRef.ofNull();
             HostLines hosts = new HostLines();

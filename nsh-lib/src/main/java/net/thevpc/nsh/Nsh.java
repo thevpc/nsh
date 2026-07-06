@@ -698,7 +698,7 @@ public class Nsh {
                     (appId == null || appId.version().isBlank()) ?
                             getRootContext().getWorkspace().runtimeId().version() :
                             appId.version()
-                    , NStringUtils.firstNonBlank(contributor == null ? null : NStringUtils.firstNonBlankTrimmed(
+                    , NStringUtils.firstNonBlank(contributor == null ? null : NStringUtils.firstNonBlankStripped(
                             contributor.name(),
                             contributor.email(),
                             contributor.id()

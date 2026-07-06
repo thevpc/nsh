@@ -243,8 +243,8 @@ public class LsCommand extends NshBuiltinDefault {
 
     private void printPlain(ResultItem item, Options options, NPrintStream out, Map<String, Integer> sizes, NSession session) {
         if (options.l) {
-            String owner = String.format("%-" + (Math.max(4, Math.max(NUtils.firstNonNull(sizes.get("owner"), 0), NStringUtils.trim(item.owner).length()))) + "s", NStringUtils.trim(item.owner));
-            String group = String.format("%-" + (Math.max(4, Math.max(NUtils.firstNonNull(sizes.get("group"), 0), NStringUtils.trim(item.group).length()))) + "s", NStringUtils.trim(item.group));
+            String owner = String.format("%-" + (Math.max(4, Math.max(NUtils.firstNonNull(sizes.get("owner"), 0), NStringUtils.strip(item.owner).length()))) + "s", NStringUtils.strip(item.owner));
+            String group = String.format("%-" + (Math.max(4, Math.max(NUtils.firstNonNull(sizes.get("group"), 0), NStringUtils.strip(item.group).length()))) + "s", NStringUtils.strip(item.group));
             out.print(NMsg.ofC("%s%s  %s %s %s %s ",
                     item.type, item.uperms != null ? item.uperms : item.jperms,
                     owner,
