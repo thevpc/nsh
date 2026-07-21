@@ -165,7 +165,7 @@ public class EnvCommand extends NshBuiltinDefault {
                 NOut.println(env);
             }
         } else {
-            final NExec e = NExec.of().addCommand(options.command)
+            final NExec e = NExec.of().command(options.command)
                     .env(env)
                     .failFast(true);
             if (!NBlankable.isBlank(options.dir)) {

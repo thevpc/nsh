@@ -125,7 +125,7 @@ public class JpsCommand extends NshBuiltinDefault {
 
         NExec e = NExec.of()
                 .system()
-                .addCommand(resolveJpsCommand(context.getSession()), "-l", "-v", "-m")
+                .command(resolveJpsCommand(context.getSession()), "-l", "-v", "-m")
                 .grabAll()
                 .failFast(true).run();
         String resultString = e.grabbedOut();

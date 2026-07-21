@@ -169,12 +169,12 @@ public abstract class AbstractNshContext implements NshContext {
                         || "supported".equalsIgnoreCase(nuts_autocomplete_support)) {
                     NExec t = NExec.of()
                             .grabAll()
-                            .addCommand(
+                            .command(
                                     selectedId
                                             .longName(),
                                     "--nuts-exec-mode=auto-complete " + wordIndex
                             )
-                            .addCommand(autoCompleteWords)
+                            .command(autoCompleteWords)
                             .run();
                     if (t.exitCode() == 0) {
                         String rr = t.grabbedOut();
