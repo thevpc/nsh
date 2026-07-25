@@ -35,7 +35,7 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NMemoryPrintStream;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPrintStream;
-import net.thevpc.nuts.io.NServiceLoader;
+import net.thevpc.nuts.ext.NServiceLoader;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nsh.options.autocomplete.NCommandAutoCompleteComponent;
 import net.thevpc.nsh.eval.NshExecutionContext;

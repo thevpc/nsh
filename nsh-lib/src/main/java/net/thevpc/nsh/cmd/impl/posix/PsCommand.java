@@ -32,6 +32,8 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.reflect.NScorable;
+import net.thevpc.nuts.reflect.NScore;
 import net.thevpc.nuts.text.NMutableTableModel;
 import net.thevpc.nuts.text.NTableModel;
 import net.thevpc.nuts.io.*;

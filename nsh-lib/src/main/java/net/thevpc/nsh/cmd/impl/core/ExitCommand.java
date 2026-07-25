@@ -33,8 +33,8 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.err.NshQuitException;
-import net.thevpc.nuts.util.NScorable;
-import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.reflect.NScorable;
+import net.thevpc.nuts.reflect.NScore;
 
 /**
  * Created by vpc on 1/7/17.

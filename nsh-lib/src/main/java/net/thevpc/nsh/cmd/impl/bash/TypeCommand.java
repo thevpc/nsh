@@ -36,8 +36,8 @@ import net.thevpc.nsh.Nsh;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.cmd.resolver.NshCommandResolution;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NScore;
-import net.thevpc.nuts.util.NScorable;
+import net.thevpc.nuts.reflect.NScore;
+import net.thevpc.nuts.reflect.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;

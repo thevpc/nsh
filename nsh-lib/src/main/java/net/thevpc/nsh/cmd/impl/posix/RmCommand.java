@@ -27,8 +27,6 @@ package net.thevpc.nsh.cmd.impl.posix;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.io.NAsk;
 import net.thevpc.nuts.io.NIOException;
 import net.thevpc.nuts.io.NIn;
 import net.thevpc.nuts.io.NPath;
@@ -39,8 +37,8 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NAssert;
-import net.thevpc.nuts.util.NScore;
-import net.thevpc.nuts.util.NScorable;
+import net.thevpc.nuts.reflect.NScore;
+import net.thevpc.nuts.reflect.NScorable;
 
 import java.util.ArrayList;
 import java.util.List;

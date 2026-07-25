@@ -48,13 +48,14 @@ import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.elem.NDescribables;
 
 import net.thevpc.nuts.ext.NExtensions;
+import net.thevpc.nuts.ext.NServiceLoader;
 import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.platform.NLauncherOptions;
 import net.thevpc.nuts.io.*;
 
 import net.thevpc.nuts.log.NMsgIntent;
 import net.thevpc.nuts.security.NSecurityManager;
-import net.thevpc.nuts.util.NScorableContext;
+import net.thevpc.nuts.reflect.NScorableContext;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
 import net.thevpc.nsh.cmd.resolver.NCommandTypeResolver;
 import net.thevpc.nsh.cmd.resolver.NshCommandTypeResolver;
@@ -209,7 +210,7 @@ public class Nsh {
 
         Predicate<NshBuiltin> filter = new NshBuiltinPredicate(configuration);
         NExtensions extensions = NExtensions.of();
-        for (NshBuiltin command : NServiceLoader.of(NshBuiltin.class, Nsh.class, NshBuiltin.class.getClassLoader())
+        for (NshBuiltin command : NServiceLoader.of(NshBuiltin.class, Nsh.class, Thread.currentThread().getContextClassLoader())
                 .loadAll(this)) {
             NshBuiltin old = _rootContext.builtins().find(command.getName());
             if (old != null && extensions.getInstanceScorable(old,NshBuiltin.class).get().getScore(constraints) >= extensions.getInstanceScorable(command,NshBuiltin.class).get().getScore(constraints)) {

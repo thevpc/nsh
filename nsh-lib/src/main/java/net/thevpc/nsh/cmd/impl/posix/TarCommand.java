@@ -9,8 +9,8 @@ import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.util.NBlankable;
-import net.thevpc.nuts.util.NScorable;
-import net.thevpc.nuts.util.NScore;
+import net.thevpc.nuts.reflect.NScorable;
+import net.thevpc.nuts.reflect.NScore;
 
 import java.io.InputStream;
 import java.io.UncheckedIOException;

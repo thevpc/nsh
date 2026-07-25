@@ -32,8 +32,8 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
-import net.thevpc.nuts.util.NScore;
-import net.thevpc.nuts.util.NScorable;
+import net.thevpc.nuts.reflect.NScore;
+import net.thevpc.nuts.reflect.NScorable;
 
 import java.util.Arrays;
 
