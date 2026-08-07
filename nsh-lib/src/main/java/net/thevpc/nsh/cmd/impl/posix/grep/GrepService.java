@@ -1,7 +1,7 @@
 package net.thevpc.nsh.cmd.impl.posix.grep;
 
 import net.thevpc.nuts.io.NOut;
-import net.thevpc.nuts.util.NMaps;
+import net.thevpc.nuts.collections.NMaps;
 import net.thevpc.nuts.util.NBlankable;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.text.NMsg;

@@ -35,7 +35,7 @@ import net.thevpc.nuts.spi.NScopeType;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.ShellHelper;
-import net.thevpc.nuts.util.NCollections;
+import net.thevpc.nuts.collections.NCollections;
 import net.thevpc.nuts.reflect.NScore;
 import net.thevpc.nuts.reflect.NScorable;
 
