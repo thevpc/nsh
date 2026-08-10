@@ -741,6 +741,8 @@ public class Nsh {
             String line = null;
             try {
                 line = readInteractiveLine(context);
+            } catch (NCancelException ex) {
+                throw ex;
             } catch (Exception ex) {
                 onResult(ex, context);
                 break;
@@ -751,6 +753,9 @@ public class Nsh {
             if (line.trim().length() > 0) {
                 try {
                     executeLine(line, true, context);
+                } catch (NCancelException ex) {
+                    onQuit(new NshQuitException(NExecutionException.INTERRUPT));
+                    return;
                 } catch (NshQuitException q) {
                     if (getOptions().isLogin()) {
                         executeLogoutScripts();

@@ -70,7 +70,6 @@ public class ShowerrCommand extends NshBuiltinCore {
     @Override
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        NSession session = context.getSession();
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
