@@ -116,7 +116,7 @@ public class TarCommand extends NshBuiltinDefault {
                         .skipRoot(options.skipRoot);
 
                 for (NPath file : options.files) {
-                    compress.addSource(file);
+                    compress.source(file);
                 }
                 compress.run();
 

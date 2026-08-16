@@ -85,7 +85,7 @@ public class ZipCommand extends NshBuiltinDefault {
         NCompress aa = NCompress.of()
                 .target(options.outZip);
         for (NPath file : options.files) {
-            aa.addSource(file);
+            aa.source(file);
         }
         aa.run();
     }
