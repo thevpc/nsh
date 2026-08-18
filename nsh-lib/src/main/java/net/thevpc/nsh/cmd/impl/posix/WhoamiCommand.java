@@ -38,8 +38,8 @@ import net.thevpc.nuts.security.NUser;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
+import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.text.NMsg;
@@ -154,66 +154,65 @@ public class WhoamiCommand extends NshBuiltinDefault {
                 NPrintStream out = context.getSession().out();
                 out.println(NMsg.ofC("%s", result.login));
                 if (options.nutsUser) {
-                    NTexts factory = NTexts.of();
                     if (result.loginStack != null) {
                         out.print(NMsg.ofC("%s      :",
-                                factory.ofStyled("stack", NTextStyle.primary5())
+                                NText.ofStyled("stack", NTextStyle.primary5())
                         ));
                         for (String log : result.loginStack) {
                             out.print(NMsg.ofC(" %s",
-                                    factory.ofStyled(log, NTextStyle.primary3())
+                                    NText.ofStyled(log, NTextStyle.primary3())
                             ));
                         }
                         out.println();
                     }
                     if (result.groups != null && result.groups.length > 0) {
                         out.println(NMsg.ofC("%s : %s",
-                                factory.ofStyled("identities", NTextStyle.primary5()),
+                                NText.ofStyled("identities", NTextStyle.primary5()),
                                 Arrays.toString(result.groups)));
                     }
                     if (result.rights != null && result.rights.length > 0) {
                         out.println(NMsg.ofC("%s     : %s",
-                                factory.ofStyled("rights", NTextStyle.primary5()),
+                                NText.ofStyled("rights", NTextStyle.primary5()),
                                 Arrays.toString(result.rights)));
                     }
                     if (result.inherited != null && result.inherited.length > 0) {
                         out.println(NMsg.ofC("%s  : %s",
-                                factory.ofStyled("inherited", NTextStyle.primary5()),
+                                NText.ofStyled("inherited", NTextStyle.primary5()),
                                 Arrays.toString(result.inherited)));
                     } else {
                         out.println(NMsg.ofC("%s  : %s",
-                                factory.ofStyled("inherited", NTextStyle.primary5()),
+                                NText.ofStyled("inherited", NTextStyle.primary5()),
                                 "NONE"));
                     }
                     if (result.remoteId != null) {
                         out.println(NMsg.ofC("%s  : %s",
-                                factory.ofStyled("remote-id", NTextStyle.primary5()),
+                                NText.ofStyled("remote-id", NTextStyle.primary5()),
                                 result.remoteId));
                     }
                     if (result.repos != null) {
                         for (RepoResult repo : result.repos) {
                             out.println(NMsg.ofC(
                                     "[ %s ]: ",
-                                    factory.ofStyled(repo.name, NTextStyle.primary4())
+                                    NText.ofStyled(repo.name, NTextStyle.primary4())
                             ));
                             if (repo.identities.length > 0) {
                                 out.println(NMsg.ofC("    %s : %s",
-                                        factory.ofStyled("identities", NTextStyle.primary5()),
+                                        NText.ofStyled("identities", NTextStyle.primary5()),
                                         Arrays.toString(repo.identities)));
                             }
                             if (result.rights != null && repo.rights.length > 0) {
                                 out.println(NMsg.ofC("    %s     : %s",
-                                        factory.ofStyled("rights", NTextStyle.primary5()),
+                                        NText.ofStyled("rights", NTextStyle.primary5()),
                                         Arrays.toString(repo.rights)));
                             }
                             if (repo.inherited != null && repo.inherited.length > 0) {
                                 out.println(NMsg.ofC("    %s  : %s",
-                                        factory.ofStyled("inherited", NTextStyle.primary5()),
+                                        NText.ofStyled("inherited", NTextStyle.primary5()),
                                         Arrays.toString(repo.inherited)));
                             }
                             if (repo.remoteId != null) {
                                 out.println(NMsg.ofC("    %s  : %s",
-                                        factory.ofStyled("remote-id", NTextStyle.primary5()),
+                                        NText.ofStyled("remote-id", NTextStyle.primary5()),
                                         repo.remoteId));
                             }
                         }

@@ -32,7 +32,6 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminalMode;
 import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.eval.NshExecutionContext;
@@ -101,11 +100,10 @@ public class HelpCommand extends NshBuiltinCore {
                     session.terminal().out().terminalMode(NTerminalMode.INHERITED)
             );
         }
-        final NTexts text = NTexts.of();
         Function<String, String> ss = options.code ? new Function<String, String>() {
             @Override
             public String apply(String t) {
-                return text.ofPlain(t).toString();
+                return NText.ofPlain(t).toString();
             }
         } : x -> x;
         if (cmdLine.isExecMode()) {
@@ -147,7 +145,7 @@ public class HelpCommand extends NshBuiltinCore {
                     }
                 }
                 for (NshBuiltin cmd : commands) {
-                    context.out().print(NMsg.ofC("%s : ", text.ofStyled(_StringUtils.formatLeft(cmd.getName(), max), NTextStyle.primary4())));
+                    context.out().print(NMsg.ofC("%s : ", NText.ofStyled(_StringUtils.formatLeft(cmd.getName(), max), NTextStyle.primary4())));
                     context.out().println(ss.apply(cmd.getHelpHeader())); //formatted
                 }
             } else {
@@ -155,11 +153,11 @@ public class HelpCommand extends NshBuiltinCore {
                 for (String commandName : options.commandNames) {
                     NshBuiltin command1 = context.builtins().find(commandName);
                     if (command1 == null) {
-                        context.err().println(NMsg.ofC("command not found : %s", text.ofStyled(commandName, NTextStyle.error())));
+                        context.err().println(NMsg.ofC("command not found : %s", NText.ofStyled(commandName, NTextStyle.error())));
                         x = 1;
                     } else {
                         String help = command1.getHelp();
-                        context.out().print(NMsg.ofC("%s : %s\f", text.ofStyled("COMMAND", NTextStyle.primary4()), "commandName"));
+                        context.out().print(NMsg.ofC("%s : %s\f", NText.ofStyled("COMMAND", NTextStyle.primary4()), "commandName"));
                         context.out().println(ss.apply(help));
                     }
                 }

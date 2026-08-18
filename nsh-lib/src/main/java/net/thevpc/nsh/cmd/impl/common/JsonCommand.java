@@ -29,10 +29,7 @@ import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.elem.NElement;
-import net.thevpc.nuts.elem.NElementReader;
-import net.thevpc.nuts.elem.NElementWriter;
-import net.thevpc.nuts.elem.NElements;
+import net.thevpc.nuts.elem.*;
 import net.thevpc.nuts.text.NContentType;
 import net.thevpc.nuts.io.NPath;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -130,7 +127,7 @@ public class JsonCommand extends NshBuiltinDefault {
                             throw new NExecutionException(NMsg.ofC("%s", ex), ex, NExecutionException.ERROR_2);
                         }
                     }
-                    NElement json = NElements.of().toElement(resultDocument);
+                    NElement json = NElement.of(resultDocument);
                     session.out().println(json);
                     break;
                 }
@@ -138,13 +135,12 @@ public class JsonCommand extends NshBuiltinDefault {
                     NElement inputDocument = readJsonConvertElement(options.input, context.getShellContext());
                     List<NElement> all = new ArrayList<>();
                     for (String query : options.queries) {
-                        all.addAll(NElements.of()
-                                .compileSelector(query)
+                        all.addAll(NElementSelector.of(query)
                                 .filter(inputDocument)
                         );
                     }
                     Object result = all.size() == 1 ? all.get(0) : all;
-                    NElement json = NElements.of().toElement(result);
+                    NElement json = NElement.of(result);
                     session.out().println(json);
                     break;
                 }

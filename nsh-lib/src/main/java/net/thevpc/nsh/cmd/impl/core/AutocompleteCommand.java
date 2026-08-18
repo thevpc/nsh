@@ -32,8 +32,8 @@ import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
+import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nsh.options.autocomplete.NshAutoCompleteCandidate;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
@@ -107,16 +107,15 @@ public class AutocompleteCommand extends NshBuiltinDefault {
         }
         switch (session.outputFormat().orDefault()) {
             case PLAIN: {
-                NTexts text = NTexts.of();
                 for (String o : new TreeSet<String>((Set) p.keySet())) {
                     if (o.startsWith("-")) {
                         // option
-                        NOut.println(NMsg.ofC("%s", text.ofStyled(o, NTextStyle.primary4())));
+                        NOut.println(NMsg.ofC("%s", NText.ofStyled(o, NTextStyle.primary4())));
                     } else if (o.startsWith("<")) {
-                        NOut.println(NMsg.ofC("%s", text.ofStyled(o, NTextStyle.primary1())));
+                        NOut.println(NMsg.ofC("%s", NText.ofStyled(o, NTextStyle.primary1())));
                     } else {
                         NOut.println(NMsg.ofC("%s",
-                                text.ofStyled(o, NTextStyle.pale())
+                                NText.ofStyled(o, NTextStyle.pale())
                         ));
                     }
                 }

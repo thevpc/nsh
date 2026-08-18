@@ -31,16 +31,12 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.elem.NDescribables;
 import net.thevpc.nuts.elem.NElement;
-import net.thevpc.nuts.elem.NElements;
 import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.reflect.NScorable;
 import net.thevpc.nuts.reflect.NScore;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
-import net.thevpc.nuts.text.NMsg;
-import net.thevpc.nuts.text.NTextFormat;
-import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
+import net.thevpc.nuts.text.*;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.util.*;
@@ -190,7 +186,7 @@ public class LsCommand extends NshBuiltinDefault {
                             .flatMap(x ->
                                     x.children == null ? Stream.empty() :
                                             x.children.stream().map(y -> {
-                                                Map m = (Map) NElements.of().toSimple(y);
+                                                Map m = (Map) NElement.simpleOf(y);
                                                 m.put("group", x.name);
                                                 return m;
                                             })).collect(Collectors.toList()));
@@ -256,23 +252,22 @@ public class LsCommand extends NshBuiltinDefault {
             ));
         }
         String name = NPath.of(item.path).name();
-        NTexts text = NTexts.of();
         if (item.hidden) {
-            out.print(text.ofStyled(name, NTextStyle.pale()));
+            out.print(NText.ofStyled(name, NTextStyle.pale()));
         } else if (item.type == 'd') {
-            out.print(text.ofStyled(name, NTextStyle.primary3()));
+            out.print(NText.ofStyled(name, NTextStyle.primary3()));
         } else if (item.exec2 || item.jperms.charAt(2) == 'x') {
-            out.print(text.ofStyled(name, NTextStyle.primary4()));
+            out.print(NText.ofStyled(name, NTextStyle.primary4()));
         } else if (item.config) {
-            out.print(text.ofStyled(name, NTextStyle.primary5()));
+            out.print(NText.ofStyled(name, NTextStyle.primary5()));
         } else if (item.archive) {
-            out.print(text.ofStyled(name, NTextStyle.primary1()));
+            out.print(NText.ofStyled(name, NTextStyle.primary1()));
         } else {
-            out.print(text.ofPlain(name));
+            out.print(NText.ofPlain(name));
         }
         if (item.targetPath != null) {
-            out.print(text.ofStyled(" -> ", NTextStyle.operator()));
-            out.print(text.ofStyled(item.targetPath, NTextStyle.path()));
+            out.print(NText.ofStyled(" -> ", NTextStyle.operator()));
+            out.print(NText.ofStyled(item.targetPath, NTextStyle.path()));
         }
         out.println();
     }

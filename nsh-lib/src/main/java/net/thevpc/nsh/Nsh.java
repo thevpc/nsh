@@ -72,8 +72,8 @@ import net.thevpc.nsh.sys.NshExternalExecutor;
 import net.thevpc.nsh.util.ByteArrayPrintStream;
 import net.thevpc.nsh.util.MemResult;
 import net.thevpc.nuts.text.NMsg;
+import net.thevpc.nuts.text.NText;
 import net.thevpc.nuts.text.NTextStyle;
-import net.thevpc.nuts.text.NTexts;
 import net.thevpc.nuts.time.NClock;
 import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.util.*;
@@ -273,9 +273,8 @@ public class Nsh {
                     uninstalled.add(command.name());
                 } catch (Exception ex) {
                     if (NSession.of().isPlainTrace()) {
-                        NTexts factory = NTexts.of();
                         NSession.of().err().println(NMsg.ofC("unable to unregister %s.",
-                                factory.ofStyled(command.name(), NTextStyle.primary3())
+                                NText.ofStyled(command.name(), NTextStyle.primary3())
                         ));
                     }
                 }
@@ -661,7 +660,7 @@ public class Nsh {
             if (appId != null) {
                 try {
                     resultDescriptor = NFetch.of(appId)
-                            .dependencyFilter(NDependencyFilters.of().byRunnable())
+                            .dependencyFilter(NDependencyFilter.ofRunnable())
                             .getResultDescriptor();
                 } catch (Exception ex) {
                     //just ignore
@@ -1294,17 +1293,16 @@ public class Nsh {
             );
         }
         if (session.isPlainTrace()) {
-            NTexts factory = NTexts.of();
             if (!firstInstalled.isEmpty()) {
                 NOut.println(NMsg.ofC("registered %s nsh commands : %s",
-                        factory.ofStyled("" + firstInstalled.size(), NTextStyle.primary3()),
-                        factory.ofStyled(String.join(", ", firstInstalled), NTextStyle.primary3())
+                        NText.ofStyled("" + firstInstalled.size(), NTextStyle.primary3()),
+                        NText.ofStyled(String.join(", ", firstInstalled), NTextStyle.primary3())
                 ));
             }
             if (!reinstalled.isEmpty()) {
                 NOut.println(NMsg.ofC("re-registered %s nsh commands : %s",
-                        factory.ofStyled("" + reinstalled.size(), NTextStyle.primary3()),
-                        factory.ofStyled(String.join(", ", reinstalled), NTextStyle.primary3())
+                        NText.ofStyled("" + reinstalled.size(), NTextStyle.primary3()),
+                        NText.ofStyled(String.join(", ", reinstalled), NTextStyle.primary3())
                 ));
             }
         }
