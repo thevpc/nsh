@@ -56,7 +56,7 @@ import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.log.NMsgIntent;
 import net.thevpc.nuts.security.NSecurityManager;
 import net.thevpc.nuts.reflect.NScorableContext;
-import net.thevpc.nsh.options.autocomplete.NshAutoCompleter;
+import net.thevpc.nsh.options.autocomplete.NshCompleter;
 import net.thevpc.nsh.cmd.resolver.NCommandTypeResolver;
 import net.thevpc.nsh.cmd.resolver.NshCommandTypeResolver;
 import net.thevpc.nsh.cmd.NshBuiltin;
@@ -593,7 +593,7 @@ public class Nsh {
 
     public void run() {
         try {
-            if (NApp.of().autoComplete() != null) {
+            if (NApp.of().complete() != null) {
                 return;
             }
             NshContext rootContext = getRootContext();
@@ -725,7 +725,7 @@ public class Nsh {
             appVarFolder = NPath.of(NStoreKey.ofVar(NId.get("net.thevpc.nsh:nsh").get()));
         }
         NIO.of().systemTerminal()
-                .commandAutoCompleteResolver(new NshAutoCompleter())
+                .commandAutoCompleteResolver(new NshCompleter())
                 .commandHistory(
                         NCmdLineHistory.of()
                                 .path(appVarFolder.resolve("nsh-history.hist"))

@@ -1,7 +1,7 @@
 package net.thevpc.nsh.eval;
 
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NPrintStream;
@@ -90,5 +90,5 @@ public interface NshExecutionContext {
 
     NshExecutionContext setSession(NSession session);
 
-    NCmdLineAutoComplete getAutoComplete();
+    NCmdLineComplete getAutoComplete();
 }

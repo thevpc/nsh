@@ -5,7 +5,7 @@
  */
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nsh.cmd.alias.DefaultNshAliasManager;
 import net.thevpc.nsh.cmd.alias.NshAliasManager;
 import net.thevpc.nsh.cmd.DefaultNshCommandManager;
@@ -43,7 +43,7 @@ public class DefaultNshContext extends AbstractNshContext {
     private NshBuiltinManager builtinManager;
     private String cwd = System.getProperty("user.dir");
     private NshFileSystem fileSystem;
-    private NCmdLineAutoComplete autoComplete;
+    private NCmdLineComplete autoComplete;
 
     public DefaultNshContext(Nsh shell, NshNode rootNode, NshNode parentNode,
                              NshContext parentContext, NshVariables vars,
@@ -259,12 +259,12 @@ public class DefaultNshContext extends AbstractNshContext {
 
 
     @Override
-    public NCmdLineAutoComplete getAutoComplete() {
+    public NCmdLineComplete complete() {
         return autoComplete;
     }
 
     @Override
-    public void setAutoComplete(NCmdLineAutoComplete autoComplete) {
+    public void setAutoComplete(NCmdLineComplete autoComplete) {
         this.autoComplete = autoComplete;
     }
 

@@ -29,7 +29,6 @@ package net.thevpc.nsh.cmd;
 import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NMemoryPrintStream;
@@ -52,6 +51,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -109,8 +109,8 @@ public abstract class NshBuiltinBase implements NshBuiltin {
     }
 
     @Override
-    public void autoComplete(NshExecutionContext context, NCmdLineAutoComplete autoComplete) {
-        NCmdLineAutoComplete oldAutoComplete = context.getShellContext().getAutoComplete();
+    public void autoComplete(NshExecutionContext context, NCmdLineComplete autoComplete, String commandName, List<String> autoCompleteWords, String autoCompleteLine) {
+        NCmdLineComplete oldAutoComplete = context.getShellContext().complete();
         context.getShellContext().setAutoComplete(autoComplete);
         try {
             if (autoComplete == null) {
@@ -121,7 +121,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
             if (best != null) {
                 best.autoComplete(this, context);
             } else {
-                String[] args = autoComplete.words().toArray(new String[0]);
+                String[] args = autoCompleteWords.toArray(new String[0]);
                 try {
                     exec(args, context);
                 } catch (Exception ex) {
@@ -206,7 +206,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                 int maxLoops = 1000;
                 boolean robustMode = false;
                 NCmdLine cmdLine = NCmdLine.of(args).commandName(getName())
-                        .autoComplete(context.getShellContext().getAutoComplete());
+                        .complete(context.getShellContext().complete());
                 context.setOptions(optionsSupplier==null?null:optionsSupplier.get());
                 init(cmdLine, context);
                 while (cmdLine.hasNext()) {
@@ -253,7 +253,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                     }
                 }
                 this.validate(cmdLine, context);
-                if (cmdLine.isAutoCompleteMode()) {
+                if (cmdLine.isCompleteMode()) {
                     return;
                 }
                 if (context.isAskHelp()) {
@@ -280,7 +280,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
     protected NCmdLine cmdLine(String[] args, NshExecutionContext context) {
         NSession session = context.getSession();
         return NCmdLine.of(args)
-                .autoComplete(context.getShellContext().getAutoComplete())
+                .complete(context.getShellContext().complete())
                 .commandName(getName());
     }
 }

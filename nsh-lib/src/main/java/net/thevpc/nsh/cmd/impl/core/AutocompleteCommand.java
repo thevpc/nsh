@@ -26,6 +26,7 @@
 package net.thevpc.nsh.cmd.impl.core;
 
 import net.thevpc.nuts.cmdline.NArg;
+import net.thevpc.nuts.cmdline.NArgCompletePos;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
@@ -93,8 +94,7 @@ public class AutocompleteCommand extends NshBuiltinDefault {
             options.items.add("");
         }
         List<NshAutoCompleteCandidate> aa = context.getShellContext().resolveAutoCompleteCandidates(
-                options.cmd, options.items, options.index,
-                NCmdLine.of(options.items).toString()
+                options.cmd, options.items, NCmdLine.of(options.items).toString(), NArgCompletePos.of(options.index,-1)
         );
         Properties p = new Properties();
         for (NshAutoCompleteCandidate autoCompleteCandidate : aa) {

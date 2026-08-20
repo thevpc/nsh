@@ -1,5 +1,7 @@
 package net.thevpc.nsh.eval;
 
+import net.thevpc.nsh.cmd.DefaultNCmdLineComplete;
+import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nsh.err.DefaultErrorHandler;
 import net.thevpc.nuts.artifact.NDefinition;
 import net.thevpc.nuts.artifact.NDescriptor;
@@ -143,13 +145,13 @@ public abstract class AbstractNshContext implements NshContext {
     }
 
     @Override
-    public List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, int wordIndex, String autoCompleteLine) {
+    public List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, String autoCompleteLine, NArgCompletePos wordPos) {
         NshBuiltin command = this.builtins().find(commandName);
-        NCmdLineAutoComplete autoComplete = new DefaultNCmdLineAutoComplete()
-                .setLine(autoCompleteLine).setWords(autoCompleteWords).setCurrentWordIndex(wordIndex);
+        NCmdLineComplete autoComplete = new DefaultNCmdLineComplete()
+                .setLine(autoCompleteLine).setWords(autoCompleteWords).setCurrentPos(wordPos);
 
         if (command != null) {
-            command.autoComplete(new DefaultNshExecutionContext(this, command), autoComplete);
+            command.autoComplete(new DefaultNshExecutionContext(this, command), autoComplete, commandName, autoCompleteWords, autoCompleteLine);
         } else {
             List<NId> nutsIds = NSearch.of()
                     .fetchStrategy(NFetchStrategy.OFFLINE)
@@ -172,7 +174,7 @@ public abstract class AbstractNshContext implements NshContext {
                             .command(
                                     selectedId
                                             .longName(),
-                                    "--nuts-exec-mode=auto-complete " + wordIndex
+                                    "--nuts-exec-mode=auto-complete, " + wordPos
                             )
                             .command(autoCompleteWords)
                             .run();
@@ -197,7 +199,7 @@ public abstract class AbstractNshContext implements NshContext {
                                             display = value;
                                         }
                                         autoComplete.addCandidate(
-                                                new DefaultNArgCandidate(
+                                                NArgCompleteCandidate.of(
                                                         value
                                                 )
                                         );
@@ -214,7 +216,7 @@ public abstract class AbstractNshContext implements NshContext {
 
         }
         List<NshAutoCompleteCandidate> all = new ArrayList<>();
-        for (NArgCandidate a : autoComplete.candidates()) {
+        for (NArgCompleteCandidate a : autoComplete.candidates()) {
             all.add(new NshAutoCompleteCandidate(a.value(), a.display()));
         }
         return all;

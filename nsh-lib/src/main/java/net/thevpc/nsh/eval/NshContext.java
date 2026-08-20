@@ -1,6 +1,7 @@
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nuts.cmdline.NArgCompletePos;
+import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
@@ -57,7 +58,7 @@ public interface NshContext {
 
     NshExecutionContext createCommandContext(NshBuiltin command);
 
-    List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, int wordIndex, String autoCompleteLine);
+    List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, String autoCompleteLine, NArgCompletePos wordIndex);
 
     NshContext setEnv(Map<String, String> env);
 
@@ -115,9 +116,9 @@ public interface NshContext {
 
     NWorkspace getWorkspace();
 
-    NCmdLineAutoComplete getAutoComplete();
+    NCmdLineComplete complete();
 
-    void setAutoComplete(NCmdLineAutoComplete value);
+    void setAutoComplete(NCmdLineComplete value);
 
     void setFunctionManager(NshFunctionManager functionManager);
 

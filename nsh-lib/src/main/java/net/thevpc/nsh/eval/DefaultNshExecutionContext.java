@@ -3,7 +3,7 @@ package net.thevpc.nsh.eval;
 
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nuts.io.NPrintStream;
@@ -282,7 +282,7 @@ public class DefaultNshExecutionContext implements NshExecutionContext {
     }
 
     @Override
-    public NCmdLineAutoComplete getAutoComplete() {
-        return shellContext.getAutoComplete();
+    public NCmdLineComplete getAutoComplete() {
+        return shellContext.complete();
     }
 }

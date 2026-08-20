@@ -31,9 +31,10 @@
 */
 package net.thevpc.nsh.cmd;
 
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nuts.spi.NComponent;
 import net.thevpc.nsh.eval.NshExecutionContext;
+
+import java.util.List;
 
 /**
  * @author thevpc (taha.bensalah@gmail.com)
@@ -58,7 +59,7 @@ public interface NshBuiltin extends NComponent {
 
     String getHelpHeader();
 
-    default void autoComplete(NshExecutionContext context, NCmdLineAutoComplete autoComplete) {
+    default void autoComplete(NshExecutionContext context, NCmdLineComplete autoComplete, String commandName, List<String> autoCompleteWords, String autoCompleteLine) {
 
     }
 }

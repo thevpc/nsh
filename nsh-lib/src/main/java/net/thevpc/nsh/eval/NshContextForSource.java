@@ -1,6 +1,6 @@
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
+import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.core.NWorkspace;
 import net.thevpc.nsh.cmd.alias.NshAliasManager;
@@ -143,12 +143,12 @@ public class NshContextForSource extends AbstractNshContext {
     }
 
     @Override
-    public NCmdLineAutoComplete getAutoComplete() {
-        return other.getAutoComplete();
+    public NCmdLineComplete complete() {
+        return other.complete();
     }
 
     @Override
-    public void setAutoComplete(NCmdLineAutoComplete value) {
+    public void setAutoComplete(NCmdLineComplete value) {
         other.setAutoComplete(value);
     }
 

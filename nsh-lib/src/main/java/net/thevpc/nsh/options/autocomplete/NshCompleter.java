@@ -1,9 +1,6 @@
 package net.thevpc.nsh.options.autocomplete;
 
-import net.thevpc.nuts.cmdline.DefaultNArgCandidate;
-import net.thevpc.nuts.cmdline.NArgCandidate;
-import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.cmdline.NCmdLineAutoCompleteResolver;
+import net.thevpc.nuts.cmdline.*;
 
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.eval.NshContext;
@@ -14,25 +11,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
-    public NshAutoCompleter() {
+public class NshCompleter implements NArgCompleteResolver {
+    public NshCompleter() {
     }
 
     @Override
-    public List<NArgCandidate> resolveCandidates(NCmdLine cmdLine, Pos pos) {
-        List<NArgCandidate> candidates = new ArrayList<>();
+    public NArgCompleteResult resolveCandidates(NCmdLine cmdLine, NArgCompletePos pos) {
+        List<NArgCompleteCandidate> candidates = new ArrayList<>();
         NshContext fileContext = (NshContext) NWorkspace.of().properties().get(NshContext.class.getName());
-
         if (pos.wordIndex() == 0) {
             for (NshBuiltin command : fileContext.builtins().getAll()) {
-                candidates.add(new DefaultNArgCandidate(command.getName()));
+                candidates.add(NArgCompleteCandidate.of(command.getName()));
             }
         } else {
             List<String> autoCompleteWords = new ArrayList<>(Arrays.asList(cmdLine.toStringArray()));
             int x = cmdLine.commandName().length();
 
             List<NshAutoCompleteCandidate> autoCompleteCandidates
-                    = fileContext.resolveAutoCompleteCandidates(cmdLine.commandName(), autoCompleteWords, pos.wordIndex(), cmdLine.toString());
+                    = fileContext.resolveAutoCompleteCandidates(cmdLine.commandName(), autoCompleteWords, cmdLine.toString(), pos);
             for (Object cmdCandidate0 : autoCompleteCandidates) {
                 NshAutoCompleteCandidate cmdCandidate = (NshAutoCompleteCandidate) cmdCandidate0;
                 if (cmdCandidate != null) {
@@ -42,11 +38,11 @@ public class NshAutoCompleter implements NCmdLineAutoCompleteResolver {
                         if (NBlankable.isBlank(display)) {
                             display = value;
                         }
-                        candidates.add(new DefaultNArgCandidate(value,display));
+                        candidates.add(NArgCompleteCandidate.of(value,display));
                     }
                 }
             }
         }
-        return candidates;
+        return NArgCompleteResult.of(candidates,null);
     }
 }

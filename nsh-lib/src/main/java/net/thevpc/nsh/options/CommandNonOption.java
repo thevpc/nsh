@@ -28,10 +28,10 @@ package net.thevpc.nsh.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.thevpc.nuts.cmdline.DefaultNArgCandidate;
-import net.thevpc.nuts.cmdline.NArgCandidate;
+import net.thevpc.nuts.cmdline.DefaultNArgCompleteCandidate;
+import net.thevpc.nuts.cmdline.NArgCompleteCandidate;
+import net.thevpc.nuts.cmdline.NArgCompleteResult;
 import net.thevpc.nuts.cmdline.NArgName;
-import net.thevpc.nuts.cmdline.NCmdLineAutoComplete;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.eval.NshContext;
 
@@ -55,12 +55,12 @@ public class CommandNonOption implements NArgName {
     }
 
     @Override
-    public List<NArgCandidate> resolveCandidates(NCmdLineAutoComplete context) {
-        List<NArgCandidate> all = new ArrayList<>();
+    public NArgCompleteResult resolveCandidates() {
+        List<NArgCompleteCandidate> all = new ArrayList<>();
         for (NshBuiltin command : this.context.builtins().getAll()) {
-            all.add(new DefaultNArgCandidate(command.getName()));
+            all.add(NArgCompleteCandidate.of(command.getName()));
         }
-        return all;
+        return NArgCompleteResult.of(all,null);
     }
 
 }
