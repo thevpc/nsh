@@ -28,10 +28,8 @@ package net.thevpc.nsh.cmd.impl.posix;
 import net.thevpc.nsh.cmd.NshBuiltinDefault;
 import net.thevpc.nsh.err.NshException;
 import net.thevpc.nsh.eval.NshExecutionContext;
+import net.thevpc.nuts.cmdline.*;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgName;
-import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.io.NPs;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -61,7 +59,7 @@ public class KillCommand extends NshBuiltinDefault {
             options.signal = -9;
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
-            String pid = cmdLine.next(NArgName.of("file"))
+            String pid = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
                     .flatMap(NArg::asString).get();
             options.pids.add(pid);
             cmdLine.skip();

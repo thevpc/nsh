@@ -147,9 +147,7 @@ public abstract class AbstractNshContext implements NshContext {
     @Override
     public List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, String autoCompleteLine, NArgCompletePos wordPos) {
         NshBuiltin command = this.builtins().find(commandName);
-        NCmdLineComplete autoComplete = new DefaultNCmdLineComplete()
-                .setLine(autoCompleteLine).setWords(autoCompleteWords).setCurrentPos(wordPos);
-
+        NCmdLineComplete autoComplete = new DefaultNCmdLineComplete(wordPos);
         if (command != null) {
             command.autoComplete(new DefaultNshExecutionContext(this, command), autoComplete, commandName, autoCompleteWords, autoCompleteLine);
         } else {

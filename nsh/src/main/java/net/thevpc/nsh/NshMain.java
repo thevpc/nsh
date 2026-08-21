@@ -1,6 +1,7 @@
 package net.thevpc.nsh;
 
 import net.thevpc.nuts.app.*;
+import net.thevpc.nuts.cmdline.NArgCompletePos;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineRunner;
 
@@ -17,7 +18,7 @@ import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.text.NMsg;
 
 @NAppDefinition
-public class NshMain  {
+public class NshMain {
 
     public static void main(String[] args) {
         NApp.builder(args).run();
@@ -63,8 +64,14 @@ public class NshMain  {
 
         //before loading Nsh check if we need to activate rich term
         Map<String, String> sysEnv = NEnv.of().env();
+        NArgCompletePos pos = NApp.of().completePosition();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
-        NshOptions o = options.parse(NApp.of().cmdLine().toStringArray());
+        NCmdLine cmdLine = NApp.of().cmdLine();
+        NshOptions o = options.parse(cmdLine);
+        if (pos != null) {
+            cmdLine.printCompleteResult();
+            return;
+        }
 
 //        if (o.isEffectiveInteractive()) {
 //            session.getWorkspace().io().term().enableRichTerm(session);

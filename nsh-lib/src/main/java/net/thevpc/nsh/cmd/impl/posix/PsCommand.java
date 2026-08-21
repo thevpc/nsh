@@ -30,7 +30,6 @@ import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.reflect.NScorable;
 import net.thevpc.nuts.reflect.NScore;
@@ -73,7 +72,7 @@ public class PsCommand extends NshBuiltinDefault {
                     options.negate = true;
                 })
                 .withNonOption().matchAny(v -> {
-                    String path = cmdLine.next(NArgName.of("options"))
+                    String path = cmdLine.nextNonOption("options",null)
                             .flatMap(NArg::asString).get();
                     Options options = context.getOptions();
                     for (char c : path.toCharArray()) {

@@ -25,9 +25,7 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgName;
-import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.cmdline.*;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NCompress;
 import net.thevpc.nuts.io.NPath;
@@ -59,7 +57,7 @@ public class ZipCommand extends NshBuiltinDefault {
         } else if (cmdLine.isNextOption()) {
             return false;
         } else if (cmdLine.peek().get().isNonOption()) {
-            String path = cmdLine.nextNonOption(NArgName.of("file"))
+            String path = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
                     .flatMap(NArg::asString).get();
             NPath file = NPath.of(path).toAbsolute(context.getDirectory());
             if (options.outZip == null) {

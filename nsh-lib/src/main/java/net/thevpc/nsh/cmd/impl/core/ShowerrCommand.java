@@ -26,9 +26,7 @@
 package net.thevpc.nsh.cmd.impl.core;
 
 import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.spi.NComponentScope;
 import net.thevpc.nuts.spi.NScopeType;
@@ -56,10 +54,10 @@ public class ShowerrCommand extends NshBuiltinCore {
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
-                options.login = cmdLine.next(NArgName.of("username")).flatMap(NArg::asString).get();
+                options.login = cmdLine.nextNonOption("username",null).flatMap(NArg::asString).get();
                 return true;
             } else if (options.password == null) {
-                options.password = cmdLine.next(NArgName.of("password"))
+                options.password = cmdLine.nextNonOption("password",null)
                         .flatMap(NArg::asString).get().toCharArray();
                 return true;
             }
@@ -73,10 +71,10 @@ public class ShowerrCommand extends NshBuiltinCore {
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
-                options.login = cmdLine.next(NArgName.of("username")).flatMap(NArg::asString).get();
+                options.login = cmdLine.nextNonOption("username",null).flatMap(NArg::asString).get();
                 return true;
             } else if (options.password == null) {
-                options.password = cmdLine.next(NArgName.of("password"))
+                options.password = cmdLine.nextNonOption("password",null)
                         .flatMap(NArg::asString).get().toCharArray();
                 return true;
             }

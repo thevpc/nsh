@@ -1,13 +1,6 @@
 package net.thevpc.nsh.options;
 
-import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nsh.err.NshException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class DefaultNshOptionsParser implements NshOptionsParser {
 
@@ -19,12 +12,9 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
     }
 
     @Override
-    public NshOptions parse(String[] args) {
+    public NshOptions parse(NCmdLine args) {
         NshOptions options = createOptions();
-        List<String> args0 = new ArrayList<>(Arrays.asList(args));
-        while (!args0.isEmpty()) {
-            parseNextArgument(args0, options);
-        }
+        createMatcher(args, options).requireAllDefaults();
         postParse(options);
         return options;
     }
@@ -39,172 +29,64 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
         }
     }
 
-    protected void parseNextArgument(List<String> args, NshOptions options) {
-        String arg = args.get(0);
-        switch (arg) {
-            case "-?":
-            case "--help": {
-                args.remove(0);
-                options.setHelp(true);
-                break;
+    protected NCmdLine.Matcher createMatcher(NCmdLine args, NshOptions options) {
+        NCmdLine.Matcher m = args.matcher();
+        m.with("-?", "--help").matchTrueFlag(a -> options.setHelp(true));
+        m.with("--version").matchTrueFlag(a -> options.setVersion(true));
+        m.with("-v", "--verbose").matchFlag(a -> options.setVerbose(a.booleanValue()));
+        m.with("-x").matchFlag(a -> options.setXtrace(a.booleanValue()));
+        m.with("-i").matchFlag(a -> options.setInteractive(a.booleanValue()));
+        m.with("-s").matchFlag(a -> options.setReadCommandsFromStdIn(a.booleanValue()));
+        m.with("-r", "--restricted").matchFlag(a -> options.setRestricted(a.booleanValue()));
+        m.with("-l").matchFlag(a -> options.setLogin(a.booleanValue()));
+        m.with("-D", "--dump-strings").matchFlag(a -> options.setDumpStrings(a.booleanValue()));
+        m.with("--dump-po-strings").matchFlag(a -> options.setDumpPoStrings(a.booleanValue()));
+        m.with("--noediting").matchFlag(a -> options.setNoEditing(a.booleanValue()));
+        m.with("--noprofile").matchFlag(a -> options.setNoProfile(a.booleanValue()));
+        m.with("--norc").matchFlag(a -> options.setNoRc(a.booleanValue()));
+        m.with("--posix").matchFlag(a -> options.setPosix(a.booleanValue()));
+        m.with("--bash").matchFlag(a -> options.setBash(a.booleanValue()));
+        m.with("-c").matchAnyMultiple(a -> {
+            options.setBash(a.nextFlag().get().booleanValue());
+            options.setCommand(true);
+            if (!a.isEmpty()) {
+                options.setServiceName(a.next().get().image());
             }
-            case "--version": {
-                args.remove(0);
-                options.setVersion(true);
-                break;
-            }
-            case "-v":
-            case "--verbose": {
-                args.remove(0);
-                options.setVerbose(true);
-                break;
-            }
-            case "-x": {
-                args.remove(0);
-                options.setXtrace(true);
-                break;
-            }
-            case "-i": {
-                args.remove(0);
-                options.setInteractive(true);
-                break;
-            }
-            case "-s": {
-                args.remove(0);
-                options.setReadCommandsFromStdIn(true);
-                break;
-            }
-            case "-r": {
-                args.remove(0);
-                options.setRestricted(true);
-                break;
-            }
-            case "-l":
-            case "--login": {
-                args.remove(0);
-                options.setLogin(true);
-                break;
-            }
-            case "-D":
-            case "--dump-strings": {
-                args.remove(0);
-                options.setDumpStrings(true);
-                break;
-            }
-            case "--dump-po-strings": {
-                args.remove(0);
-                options.setDumpPoStrings(true);
-                break;
-            }
-            case "--noediting": {
-                args.remove(0);
-                options.setNoEditing(true);
-                break;
-            }
-            case "--noprofile": {
-                args.remove(0);
-                options.setNoProfile(true);
-                break;
-            }
-            case "--norc": {
-                args.remove(0);
-                options.setNoRc(true);
-                break;
-            }
-            case "--posix": {
-                args.remove(0);
-                options.setPosix(true);
-                break;
-            }
-            case "--bash": {
-                args.remove(0);
-                options.setBash(true);
-                break;
-            }
-            case "-c": {
-                args.remove(0);
-                if (!args.isEmpty()) {
-                    options.setServiceName(args.get(0));
-                }
-                options.setCommand(true);
-                options.setCommandArgs(Arrays.asList(args.toArray(new String[0])));
-                args.clear();
-                break;
-            }
-            case "--rcfile":
-            case "--init-file": {
-                args.remove(0);
-                if (!args.isEmpty()) {
-                    options.setRcFile(args.remove(0));
-                }
-                break;
-            }
-            case "--restricted": {
-                args.remove(0);
-                options.setRestricted(true);
-                break;
-            }
-            case "--startup-script": {
-                args.remove(0);
-                if (!args.isEmpty()) {
-                    options.setStartupScript(args.remove(0));
-                }
-                break;
-            }
-            case "--shutdown-script": {
-                args.remove(0);
-                if (!args.isEmpty()) {
-                    options.setShutdownScript(args.remove(0));
-                }
-                break;
-            }
-            case "--": {
-                args.remove(0);
-                if (options.isReadCommandsFromStdIn()) {
-                    options.getCommandArgs().addAll(Arrays.asList(args.toArray(new String[0])));
-                    args.clear();
-                } else {
-                    options.getFiles().addAll(Arrays.asList(args.toArray(new String[0])));
-                    args.clear();
-                }
-                break;
-            }
-            case "-": {
-                args.remove(0);
-                options.setLogin(true);
-                if (options.isReadCommandsFromStdIn()) {
-                    options.getCommandArgs().addAll(Arrays.asList(args.toArray(new String[0])));
-                    args.clear();
-                } else {
-                    options.getFiles().addAll(Arrays.asList(args.toArray(new String[0])));
-                    args.clear();
-                }
-                break;
-            }
-            default: {
-                if (arg.startsWith("-")) {
-                    parseUnsupportedNextArgument(args, options);
-                } else {
-                    options.getFiles().add(args.remove(0));
-                    options.getCommandArgs().addAll(Arrays.asList(args.toArray(new String[0])));
-                    args.clear();
-                    options.setExitAfterProcessingLines(true);
-                }
-                break;
-            }
-        }
+            options.setCommandArgs(a.toStringList());
+            a.skipAll();
+        });
+        m.with("--rcfile", "--init-file").matchEntry(a -> options.setRcFile(a.stringValue()));
+        m.with("--startup-script").matchEntry(a -> options.setStartupScript(a.stringValue()));
+        m.with("--shutdown-script").matchEntry(a -> options.setShutdownScript(a.stringValue()));
 
-    }
+        m.with("--").matchAnyMultiple(a -> {
+            a.next().get();
+            if (options.isReadCommandsFromStdIn()) {
+                options.getCommandArgs().addAll(a.toStringList());
+            } else {
+                options.getFiles().addAll(a.toStringList());
+            }
+            a.skipAll();
+        });
 
-    protected void parseUnsupportedNextArgument(List<String> args, NshOptions options) {
-        NCmdLine a = NCmdLine.of(args);
-        if (NSession.of().configureFirst(a)) {
-            //replace remaining...
-            args.clear();
-            args.addAll(Arrays.asList(a.toStringArray()));
-        } else {
-            throw new NshException(NMsg.ofC("unsupported option %s", args.get(0)), 1);
-        }
+        m.with("--").matchAnyMultiple(a -> {
+            a.next().get();
+            options.setLogin(true);
+            if (options.isReadCommandsFromStdIn()) {
+                options.getCommandArgs().addAll(a.toStringList());
+            } else {
+                options.getFiles().addAll(a.toStringList());
+            }
+            a.skipAll();
+        });
+        m.withNonOption().matchAnyMultiple(a -> {
+            options.getFiles().add(a.next().get().image());
+            options.getCommandArgs().addAll(a.toStringList());
+            a.skipAll();
+            options.setExitAfterProcessingLines(true);
+        });
+        m.withDefaults();
+        return m;
     }
 
 }

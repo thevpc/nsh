@@ -25,7 +25,6 @@
 package net.thevpc.nsh.cmd.impl.common;
 
 import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgName;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.core.NConstants;
 import net.thevpc.nuts.core.NSession;
@@ -59,11 +58,11 @@ public class LoginCommand extends NshBuiltinDefault {
         NArg a = cmdLine.peek().get();
         if (!a.isOption()) {
             if (options.login == null) {
-                options.login = cmdLine.next(NArgName.of("username"))
+                options.login = cmdLine.nextNonOption("username",null)
                         .flatMap(NArg::asString).get();
                 return true;
             } else if (options.password == null) {
-                options.password = cmdLine.next(NArgName.of("password"))
+                options.password = cmdLine.nextNonOption("password",null)
                         .flatMap(NArg::asString).get().toCharArray();
                 return true;
             }

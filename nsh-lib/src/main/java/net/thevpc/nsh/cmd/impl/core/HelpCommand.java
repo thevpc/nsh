@@ -12,13 +12,13 @@
  * <br>
  * <p>
  * Copyright [2020] [thevpc]
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 3 (the "License"); 
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 3 (the "License");
  * you may  not use this file except in compliance with the License. You may obtain
  * a copy of the License at https://www.gnu.org/licenses/lgpl-3.0.en.html
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
- * either express or implied. See the License for the specific language 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  * <br>
  * ====================================================================
@@ -26,8 +26,7 @@
 package net.thevpc.nsh.cmd.impl.core;
 
 import net.thevpc.nuts.app.NApp;
-import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.cmdline.*;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminalMode;
 import net.thevpc.nuts.text.NText;
@@ -36,7 +35,6 @@ import net.thevpc.nsh.cmd.NshBuiltinCore;
 import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.eval.NshExecutionContext;
 import net.thevpc.nsh.util.bundles._StringUtils;
-import net.thevpc.nsh.options.CommandNonOption;
 import net.thevpc.nuts.text.NMsg;
 import net.thevpc.nuts.reflect.NScorable;
 import net.thevpc.nuts.reflect.NScore;
@@ -46,6 +44,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by vpc on 1/7/17.
@@ -66,7 +65,8 @@ public class HelpCommand extends NshBuiltinCore {
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
             options.commandNames.add(
-                    cmdLine.nextNonOption(new CommandNonOption("command", context.getShellContext()))
+                    cmdLine.nextNonOption(
+                                    "command", (p, s) -> NArgCompleteResult.ofSimpleCandidates(Arrays.stream(context.builtins().getAll()).map(x -> x.getName()).filter(x -> x.startsWith(p) && x.endsWith(s)).collect(Collectors.toList())))
                             .get().asString().get());
             return true;
         } else {
@@ -83,7 +83,8 @@ public class HelpCommand extends NshBuiltinCore {
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
             options.commandNames.add(
-                    cmdLine.nextNonOption(new CommandNonOption("command", context.getShellContext()))
+                    cmdLine.nextNonOption("command",
+                                    NArgCompleteValueComplete.ofSimpleCandidatesStreamSupplier(() -> Arrays.stream(context.builtins().getAll()).map(x -> x.getName())))
                             .get().asString().get());
             return true;
         } else {
@@ -108,7 +109,7 @@ public class HelpCommand extends NshBuiltinCore {
         } : x -> x;
         if (cmdLine.isExecMode()) {
             if (options.commandNames.isEmpty()) {
-                NText n=null;
+                NText n = null;
                 try {
                     if (context.getSession() != null) {
                         n = NApp.of().helpText().orNull();

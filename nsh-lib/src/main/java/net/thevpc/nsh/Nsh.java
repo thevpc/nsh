@@ -186,7 +186,7 @@ public class Nsh {
         if (nshOptionsParser == null) {
             nshOptionsParser = new DefaultNshOptionsParser();
         }
-        this.options = nshOptionsParser.parse(args);
+        this.options = nshOptionsParser.parse(NCmdLine.of(args));
         if (externalExecutor == null) {
             boolean includeExternalExecutor = configuration.getIncludeExternalExecutor() != null && configuration.getIncludeExternalExecutor();
             if (includeExternalExecutor) {
@@ -593,7 +593,7 @@ public class Nsh {
 
     public void run() {
         try {
-            if (NApp.of().complete() != null) {
+            if (NApp.of().completePosition() != null) {
                 return;
             }
             NshContext rootContext = getRootContext();

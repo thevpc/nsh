@@ -25,9 +25,7 @@
  */
 package net.thevpc.nsh.cmd.impl.posix;
 
-import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgName;
-import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.cmdline.*;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.elem.NDescribables;
 import net.thevpc.nuts.elem.NElement;
@@ -85,7 +83,7 @@ public class LsCommand extends NshBuiltinDefault {
             options.h = a.getBooleanValue().get();
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
-            String path = cmdLine.next(NArgName.of("file"))
+            String path = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
                     .flatMap(NArg::asString).get();
             options.paths.add(path);
             options.paths.addAll(Arrays.asList(cmdLine.toStringArray()));
