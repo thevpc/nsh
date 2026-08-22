@@ -58,7 +58,7 @@ public class PsCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         return cmdLine.matcher()
-                .with("-e", "-A").matchTrueFlag((a) -> {
+                .when("-e", "-A").asTrueFlag((a) -> {
                     Options options = context.getOptions();
                     options.flags.add(a.key());
                     options.associatedWithTerminal = null;
@@ -66,12 +66,12 @@ public class PsCommand extends NshBuiltinDefault {
                     options.sessionLeader = null;
                     options.owned = null;
                 })
-                .with("-N").matchTrueFlag((v) -> {
+                .when("-N").asTrueFlag((v) -> {
                     Options options = context.getOptions();
                     options.flags.add(v.key());
                     options.negate = true;
                 })
-                .withNonOption().matchAny(v -> {
+                .whenNonOption().asArg(v -> {
                     String path = cmdLine.nextNonOption("options",null)
                             .flatMap(NArg::asString).get();
                     Options options = context.getOptions();

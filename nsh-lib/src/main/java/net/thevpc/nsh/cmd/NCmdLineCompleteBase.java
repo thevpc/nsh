@@ -28,7 +28,7 @@ package net.thevpc.nsh.cmd;
 
 import net.thevpc.nuts.cmdline.NArgCompleteCandidate;
 import net.thevpc.nuts.cmdline.NArgCompleteFlag;
-import net.thevpc.nuts.cmdline.NArgCompletePos;
+import net.thevpc.nuts.cmdline.NArgCompletePosition;
 import net.thevpc.nuts.cmdline.NArgCompleteResult;
 import net.thevpc.nuts.util.NAssert;
 import net.thevpc.nuts.util.NStringUtils;
@@ -52,14 +52,14 @@ public abstract class NCmdLineCompleteBase implements NCmdLineComplete {
      */
     private final LinkedHashMap<String, NArgCompleteCandidate> candidates = new LinkedHashMap<>();
     private final LinkedHashSet<NArgCompleteFlag> flags = new LinkedHashSet<>();
-    private final NArgCompletePos currentPos;
+    private final NArgCompletePosition currentPos;
 
-    public NCmdLineCompleteBase(NArgCompletePos currentPos) {
+    public NCmdLineCompleteBase(NArgCompletePosition currentPos) {
         this.currentPos = NAssert.requireNamedNonNull(currentPos, "currentPos");
     }
 
     @Override
-    public NArgCompletePos currentPos() {
+    public NArgCompletePosition currentPos() {
         return currentPos;
     }
 

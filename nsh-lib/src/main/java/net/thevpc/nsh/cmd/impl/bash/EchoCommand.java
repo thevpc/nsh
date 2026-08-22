@@ -54,24 +54,24 @@ public class EchoCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         switch (cmdLine.peek().get().key()) {
             case "-n": {
-                return cmdLine.matcher().withAny().matchFlag((v) -> options.newLine = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().whenAny().asFlag((v) -> options.newLine = v.booleanValue()).anyMatch();
             }
             case "-e":
             case "--escape":
             {
-                return cmdLine.matcher().withAny().matchFlag((v) -> options.escape = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().whenAny().asFlag((v) -> options.escape = v.booleanValue()).anyMatch();
             }
             case "-E": {
-                return cmdLine.matcher().withAny().matchFlag((v) -> options.escape = !v.booleanValue()).anyMatch();
+                return cmdLine.matcher().whenAny().asFlag((v) -> options.escape = !v.booleanValue()).anyMatch();
             }
             case "-p":
             case "--plain": {
-                return cmdLine.matcher().withAny().matchTrueFlag((v) -> options.highlighter = null).anyMatch();
+                return cmdLine.matcher().whenAny().asTrueFlag((v) -> options.highlighter = null).anyMatch();
             }
             case "-H":
             case "--highlight":
             case "--highlighter": {
-                return cmdLine.matcher().withAny().matchEntry((v) -> options.highlighter = NStringUtils.strip(v.stringValue())).anyMatch();
+                return cmdLine.matcher().whenAny().asEntry((v) -> options.highlighter = NStringUtils.strip(v.stringValue())).anyMatch();
             }
             default: {
                 if (cmdLine.peek().get().isNonOption()) {

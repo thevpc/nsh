@@ -83,7 +83,7 @@ public class LsCommand extends NshBuiltinDefault {
             options.h = a.getBooleanValue().get();
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
-            String path = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
+            String path = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
                     .flatMap(NArg::asString).get();
             options.paths.add(path);
             options.paths.addAll(Arrays.asList(cmdLine.toStringArray()));

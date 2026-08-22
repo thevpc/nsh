@@ -68,12 +68,12 @@ public class CpCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
         switch (cmdLine.peek().get().key()) {
             case "--mkdir": {
-                return cmdLine.matcher().withAny().matchFlag((v) -> options.mkdir = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().whenAny().asFlag((v) -> options.mkdir = v.booleanValue()).anyMatch();
             }
             case "-r":
             case "-R":
             case "--recursive": {
-                return cmdLine.matcher().withAny().matchFlag((v) -> options.recursive = v.booleanValue()).anyMatch();
+                return cmdLine.matcher().whenAny().asFlag((v) -> options.recursive = v.booleanValue()).anyMatch();
             }
         }
         return false;

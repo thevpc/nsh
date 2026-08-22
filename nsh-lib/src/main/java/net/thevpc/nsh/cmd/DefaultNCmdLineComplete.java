@@ -24,7 +24,7 @@
  */
 package net.thevpc.nsh.cmd;
 
-import net.thevpc.nuts.cmdline.NArgCompletePos;
+import net.thevpc.nuts.cmdline.NArgCompletePosition;
 
 /**
  * @author thevpc
@@ -32,7 +32,7 @@ import net.thevpc.nuts.cmdline.NArgCompletePos;
 public class DefaultNCmdLineComplete extends NCmdLineCompleteBase {
 
 
-    public DefaultNCmdLineComplete(NArgCompletePos currentPos) {
+    public DefaultNCmdLineComplete(NArgCompletePosition currentPos) {
         super(currentPos);
     }
 

@@ -38,7 +38,7 @@ import java.util.List;
  * @since 0.5.5
  */
 public interface NCmdLineComplete {
-    static NCmdLineComplete of(NArgCompletePos currentPos) {
+    static NCmdLineComplete of(NArgCompletePosition currentPos) {
         return new DefaultNCmdLineComplete(currentPos);
     }
 
@@ -66,7 +66,7 @@ public interface NCmdLineComplete {
      * @return candidates index
      */
     @NGetter
-    NArgCompletePos currentPos();
+    NArgCompletePosition currentPos();
 
     /**
      * add candidate

@@ -1,6 +1,6 @@
 package net.thevpc.nsh.eval;
 
-import net.thevpc.nuts.cmdline.NArgCompletePos;
+import net.thevpc.nuts.cmdline.NArgCompletePosition;
 import net.thevpc.nsh.cmd.NCmdLineComplete;
 import net.thevpc.nuts.io.NPrintStream;
 import net.thevpc.nuts.core.NSession;
@@ -58,7 +58,7 @@ public interface NshContext {
 
     NshExecutionContext createCommandContext(NshBuiltin command);
 
-    List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, String autoCompleteLine, NArgCompletePos wordIndex);
+    List<NshAutoCompleteCandidate> resolveAutoCompleteCandidates(String commandName, List<String> autoCompleteWords, String autoCompleteLine, NArgCompletePosition wordIndex);
 
     NshContext setEnv(Map<String, String> env);
 

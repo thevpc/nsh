@@ -25,7 +25,7 @@ public class TarCommand extends NshBuiltinDefault {
     @Override
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        String path = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+        String path = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
         NPath file = NPath.of(path).toAbsolute(context.getDirectory());
         options.files.add(file);
         return true;

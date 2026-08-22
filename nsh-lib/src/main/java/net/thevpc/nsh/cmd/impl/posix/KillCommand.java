@@ -59,7 +59,7 @@ public class KillCommand extends NshBuiltinDefault {
             options.signal = -9;
             return true;
         } else if (cmdLine.peek().get().isNonOption()) {
-            String pid = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
+            String pid = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
                     .flatMap(NArg::asString).get();
             options.pids.add(pid);
             cmdLine.skip();

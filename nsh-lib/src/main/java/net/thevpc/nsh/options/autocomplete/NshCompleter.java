@@ -16,7 +16,7 @@ public class NshCompleter implements NArgCompleteResolver {
     }
 
     @Override
-    public NArgCompleteResult resolveCandidates(NCmdLine cmdLine, NArgCompletePos pos) {
+    public NArgCompleteResult resolveCandidates(NCmdLine cmdLine, NArgCompletePosition pos) {
         List<NArgCompleteCandidate> candidates = new ArrayList<>();
         NshContext fileContext = (NshContext) NWorkspace.of().properties().get(NshContext.class.getName());
         if (pos.wordIndex() == 0) {

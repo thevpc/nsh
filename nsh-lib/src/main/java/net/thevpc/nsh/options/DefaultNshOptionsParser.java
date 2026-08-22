@@ -1,6 +1,7 @@
 package net.thevpc.nsh.options;
 
 import net.thevpc.nuts.cmdline.NCmdLine;
+import net.thevpc.nuts.cmdline.NCmdLineMatcher;
 
 public class DefaultNshOptionsParser implements NshOptionsParser {
 
@@ -14,7 +15,8 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
     @Override
     public NshOptions parse(NCmdLine args) {
         NshOptions options = createOptions();
-        createMatcher(args, options).requireAllDefaults();
+        createMatcher(args, options)
+                .requireAll();
         postParse(options);
         return options;
     }
@@ -29,24 +31,24 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
         }
     }
 
-    protected NCmdLine.Matcher createMatcher(NCmdLine args, NshOptions options) {
-        NCmdLine.Matcher m = args.matcher();
-        m.with("-?", "--help").matchTrueFlag(a -> options.setHelp(true));
-        m.with("--version").matchTrueFlag(a -> options.setVersion(true));
-        m.with("-v", "--verbose").matchFlag(a -> options.setVerbose(a.booleanValue()));
-        m.with("-x").matchFlag(a -> options.setXtrace(a.booleanValue()));
-        m.with("-i").matchFlag(a -> options.setInteractive(a.booleanValue()));
-        m.with("-s").matchFlag(a -> options.setReadCommandsFromStdIn(a.booleanValue()));
-        m.with("-r", "--restricted").matchFlag(a -> options.setRestricted(a.booleanValue()));
-        m.with("-l").matchFlag(a -> options.setLogin(a.booleanValue()));
-        m.with("-D", "--dump-strings").matchFlag(a -> options.setDumpStrings(a.booleanValue()));
-        m.with("--dump-po-strings").matchFlag(a -> options.setDumpPoStrings(a.booleanValue()));
-        m.with("--noediting").matchFlag(a -> options.setNoEditing(a.booleanValue()));
-        m.with("--noprofile").matchFlag(a -> options.setNoProfile(a.booleanValue()));
-        m.with("--norc").matchFlag(a -> options.setNoRc(a.booleanValue()));
-        m.with("--posix").matchFlag(a -> options.setPosix(a.booleanValue()));
-        m.with("--bash").matchFlag(a -> options.setBash(a.booleanValue()));
-        m.with("-c").matchAnyMultiple(a -> {
+    protected NCmdLineMatcher createMatcher(NCmdLine args, NshOptions options) {
+        NCmdLineMatcher m = args.matcher();
+        m.when("-?", "--help").asTrueFlag(a -> options.setHelp(true));
+        m.when("--version").asTrueFlag(a -> options.setVersion(true));
+        m.when("-v", "--verbose").asFlag(a -> options.setVerbose(a.booleanValue()));
+        m.when("-x").asFlag(a -> options.setXtrace(a.booleanValue()));
+        m.when("-i").asFlag(a -> options.setInteractive(a.booleanValue()));
+        m.when("-s").asFlag(a -> options.setReadCommandsFromStdIn(a.booleanValue()));
+        m.when("-r", "--restricted").asFlag(a -> options.setRestricted(a.booleanValue()));
+        m.when("-l").asFlag(a -> options.setLogin(a.booleanValue()));
+        m.when("-D", "--dump-strings").asFlag(a -> options.setDumpStrings(a.booleanValue()));
+        m.when("--dump-po-strings").asFlag(a -> options.setDumpPoStrings(a.booleanValue()));
+        m.when("--noediting").asFlag(a -> options.setNoEditing(a.booleanValue()));
+        m.when("--noprofile").asFlag(a -> options.setNoProfile(a.booleanValue()));
+        m.when("--norc").asFlag(a -> options.setNoRc(a.booleanValue()));
+        m.when("--posix").asFlag(a -> options.setPosix(a.booleanValue()));
+        m.when("--bash").asFlag(a -> options.setBash(a.booleanValue()));
+        m.when("-c").asRaw(a -> {
             options.setBash(a.nextFlag().get().booleanValue());
             options.setCommand(true);
             if (!a.isEmpty()) {
@@ -55,11 +57,11 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             options.setCommandArgs(a.toStringList());
             a.skipAll();
         });
-        m.with("--rcfile", "--init-file").matchEntry(a -> options.setRcFile(a.stringValue()));
-        m.with("--startup-script").matchEntry(a -> options.setStartupScript(a.stringValue()));
-        m.with("--shutdown-script").matchEntry(a -> options.setShutdownScript(a.stringValue()));
+        m.when("--rcfile", "--init-file").asEntry(a -> options.setRcFile(a.stringValue()));
+        m.when("--startup-script").asEntry(a -> options.setStartupScript(a.stringValue()));
+        m.when("--shutdown-script").asEntry(a -> options.setShutdownScript(a.stringValue()));
 
-        m.with("--").matchAnyMultiple(a -> {
+        m.when("--").asRaw(a -> {
             a.next().get();
             if (options.isReadCommandsFromStdIn()) {
                 options.getCommandArgs().addAll(a.toStringList());
@@ -69,7 +71,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             a.skipAll();
         });
 
-        m.with("--").matchAnyMultiple(a -> {
+        m.when("--").asRaw(a -> {
             a.next().get();
             options.setLogin(true);
             if (options.isReadCommandsFromStdIn()) {
@@ -79,7 +81,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             }
             a.skipAll();
         });
-        m.withNonOption().matchAnyMultiple(a -> {
+        m.whenNonOption().asRaw(a -> {
             options.getFiles().add(a.next().get().image());
             options.getCommandArgs().addAll(a.toStringList());
             a.skipAll();

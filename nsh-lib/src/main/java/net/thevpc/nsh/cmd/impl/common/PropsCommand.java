@@ -65,7 +65,7 @@ public class PropsCommand extends NshBuiltinDefault {
                 if (cmdLine.next("--xml").isPresent()) {
                     o.sourceFormat = Format.XML;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--system").isPresent()) {
                     o.sourceFormat = Format.PROPS;
@@ -75,12 +75,12 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--props").isPresent()) {
                     o.sourceFormat = Format.PROPS;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--file").isPresent()) {
                     o.sourceFormat = Format.AUTO;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
                 } else {
                     cmdLine.commandName(getName()).throwUnexpectedArgument();
                 }
@@ -98,16 +98,16 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--to-props-file").isPresent()) {
                     o.targetFormat = Format.PROPS;
                     o.targetType = TargetType.FILE;
-                    o.targetFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.targetFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--to-xml-file").isPresent()) {
                     o.targetFormat = Format.XML;
                     o.targetType = TargetType.FILE;
-                    o.targetFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.targetFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
                 } else if (cmdLine.next("--to-file").isPresent()) {
                     o.targetFormat = Format.AUTO;
                     o.targetType = TargetType.FILE;
-                    o.targetFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.targetFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--print-props").isPresent()) {
                     o.targetFormat = Format.PROPS;
@@ -129,7 +129,7 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--xml").isPresent()) {
                     o.sourceFormat = Format.XML;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--system").isPresent()) {
                     o.sourceFormat = Format.PROPS;
@@ -139,11 +139,11 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--props").isPresent()) {
                     o.sourceFormat = Format.PROPS;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
                 } else if (cmdLine.next("--file").isPresent()) {
                     o.sourceFormat = Format.AUTO;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
                 } else {
                     cmdLine.commandName(getName()).throwUnexpectedArgument();
                 }
@@ -155,7 +155,7 @@ public class PropsCommand extends NshBuiltinDefault {
                 if (cmdLine.next("--xml").isPresent()) {
                     o.sourceFormat = Format.XML;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--system").isPresent()) {
                     o.sourceFormat = Format.PROPS;
@@ -165,12 +165,12 @@ public class PropsCommand extends NshBuiltinDefault {
                 } else if (cmdLine.next("--props").isPresent()) {
                     o.sourceFormat = Format.PROPS;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
 
                 } else if (cmdLine.next("--file").isPresent()) {
                     o.sourceFormat = Format.AUTO;
                     o.sourceType = SourceType.FILE;
-                    o.sourceFile = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
+                    o.sourceFile = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES)).flatMap(NArg::asString).get();
                 } else if (cmdLine.next("--sort").isPresent()) {
                     o.sort = true;
                     session.addOutputFormatOptions("--sort");

@@ -57,7 +57,7 @@ public class ZipCommand extends NshBuiltinDefault {
         } else if (cmdLine.isNextOption()) {
             return false;
         } else if (cmdLine.peek().get().isNonOption()) {
-            String path = cmdLine.nextNonOption("file", NArgCompleteValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
+            String path = cmdLine.nextNonOption("file", NArgValueComplete.ofFlags(NArgCompleteFlag.FILENAMES))
                     .flatMap(NArg::asString).get();
             NPath file = NPath.of(path).toAbsolute(context.getDirectory());
             if (options.outZip == null) {

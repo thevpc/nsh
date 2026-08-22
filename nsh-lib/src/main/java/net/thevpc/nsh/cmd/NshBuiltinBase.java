@@ -28,11 +28,9 @@ package net.thevpc.nsh.cmd;
 
 import net.thevpc.nuts.artifact.NId;
 import net.thevpc.nuts.cmdline.NArg;
-import net.thevpc.nuts.cmdline.NArgCompleteResult;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.command.NExecutionException;
 import net.thevpc.nuts.core.NSession;
-import net.thevpc.nuts.io.NIO;
 import net.thevpc.nuts.io.NMemoryPrintStream;
 import net.thevpc.nuts.io.NOut;
 import net.thevpc.nuts.io.NPrintStream;
@@ -208,7 +206,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                 int maxLoops = 1000;
                 boolean robustMode = false;
                 NCmdLine cmdLine = NCmdLine.of(args).commandName(getName())
-                        .complete(context.getShellContext().complete().currentPos());
+                        .completePosition(context.getShellContext().complete().currentPos());
                 context.setOptions(optionsSupplier==null?null:optionsSupplier.get());
                 init(cmdLine, context);
                 while (cmdLine.hasNext()) {
@@ -279,7 +277,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
     protected NCmdLine cmdLine(String[] args, NshExecutionContext context) {
         NSession session = context.getSession();
         return NCmdLine.of(args)
-                .complete(context.getShellContext().complete().currentPos())
+                .completePosition(context.getShellContext().complete().currentPos())
                 .commandName(getName());
     }
 }

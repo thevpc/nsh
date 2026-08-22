@@ -44,7 +44,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created by vpc on 1/7/17.
@@ -66,7 +65,7 @@ public class HelpCommand extends NshBuiltinCore {
         } else if (cmdLine.peek().get().isNonOption()) {
             options.commandNames.add(
                     cmdLine.nextNonOption(
-                                    "command", (p, s) -> NArgCompleteResult.ofSimpleCandidates(Arrays.stream(context.builtins().getAll()).map(x -> x.getName()).filter(x -> x.startsWith(p) && x.endsWith(s)).collect(Collectors.toList())))
+                                    "command", NArgValueComplete.ofSimpleCandidatesStreamSupplier(() -> Arrays.stream(context.builtins().getAll()).map(NshBuiltin::getName)))
                             .get().asString().get());
             return true;
         } else {
@@ -84,7 +83,7 @@ public class HelpCommand extends NshBuiltinCore {
         } else if (cmdLine.peek().get().isNonOption()) {
             options.commandNames.add(
                     cmdLine.nextNonOption("command",
-                                    NArgCompleteValueComplete.ofSimpleCandidatesStreamSupplier(() -> Arrays.stream(context.builtins().getAll()).map(x -> x.getName())))
+                                    NArgValueComplete.ofSimpleCandidatesStreamSupplier(() -> Arrays.stream(context.builtins().getAll()).map(NshBuiltin::getName)))
                             .get().asString().get());
             return true;
         } else {

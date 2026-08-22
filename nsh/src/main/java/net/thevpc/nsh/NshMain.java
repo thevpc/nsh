@@ -1,7 +1,7 @@
 package net.thevpc.nsh;
 
 import net.thevpc.nuts.app.*;
-import net.thevpc.nuts.cmdline.NArgCompletePos;
+import net.thevpc.nuts.cmdline.NArgCompletePosition;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineRunner;
 
@@ -64,7 +64,7 @@ public class NshMain {
 
         //before loading Nsh check if we need to activate rich term
         Map<String, String> sysEnv = NEnv.of().env();
-        NArgCompletePos pos = NApp.of().completePosition();
+        NArgCompletePosition pos = NApp.of().completePosition();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
         NCmdLine cmdLine = NApp.of().cmdLine();
         NshOptions o = options.parse(cmdLine);
