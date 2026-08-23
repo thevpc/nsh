@@ -34,6 +34,7 @@ import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.reflect.NScorable;
 import net.thevpc.nuts.reflect.NScore;
 import net.thevpc.nuts.text.NMutableTableModel;
+import net.thevpc.nuts.text.NTableCell;
 import net.thevpc.nuts.text.NTableModel;
 import net.thevpc.nuts.io.*;
 import net.thevpc.nuts.spi.NComponentScope;
@@ -164,10 +165,10 @@ public class PsCommand extends NshBuiltinDefault {
         switch (NSession.of().outputFormat().orDefault()) {
             case PLAIN: {
                 NMutableTableModel model = NTableModel.of();
-                model.addHeaderRow(Arrays.stream(cols).map(NText::of).toArray(NText[]::new));
+                model.addHeaderRow(Arrays.stream(cols).map(x-> NTableCell.of(NText.of(x))).toArray(NTableCell[]::new));
                 for (NPsInfo nPsInfo : list) {
                     model.addRow(
-                            mapOf(nPsInfo, cols).values().stream().map(NText::of).toArray(NText[]::new)
+                            mapOf(nPsInfo, cols).values().stream().map(x-> NTableCell.of(NText.of(x))).toArray(NTableCell[]::new)
                     );
                 }
                 NOut.println(model);
