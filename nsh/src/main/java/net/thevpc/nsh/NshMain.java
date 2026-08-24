@@ -2,7 +2,6 @@ package net.thevpc.nsh;
 
 import net.thevpc.nuts.app.*;
 import net.thevpc.nuts.cmdline.NCmdLine;
-import net.thevpc.nuts.cmdline.NCmdLineRunner;
 
 import net.thevpc.nsh.options.DefaultNshOptionsParser;
 import net.thevpc.nsh.options.NshOptions;
@@ -27,20 +26,12 @@ public class NshMain {
         log.log(NMsg.ofPlain("[nsh] Installation...")
                 .withLevel(Level.CONFIG).withIntent(NMsgIntent.START)
         );
-        NApplication.of().runCmdLine(new NCmdLineRunner() {
-            @Override
-            public void init(NCmdLine cmdLine) {
-                cmdLine.commandName("nsh --nuts-exec-mode=install");
-            }
-
-            @Override
-            public void run(NCmdLine cmdLine) {
-                Nsh c = new Nsh(new NshConfig()
-                        .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
-                );
-                c.installToNuts();
-            }
-        });
+        NCmdLine cmdLine = NApplication.of().cmdLine().commandName("nsh --nuts-exec-mode=install");
+        cmdLine.matcher().whenAny().skip().require();
+        Nsh c = new Nsh(new NshConfig()
+                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
+        );
+        c.installToNuts();
     }
 
     @NAppUpdate
