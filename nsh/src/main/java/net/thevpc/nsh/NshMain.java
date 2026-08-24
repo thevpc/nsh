@@ -1,7 +1,6 @@
 package net.thevpc.nsh;
 
 import net.thevpc.nuts.app.*;
-import net.thevpc.nuts.cmdline.NArgCompletePosition;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineRunner;
 
@@ -11,26 +10,24 @@ import net.thevpc.nsh.options.NshOptions;
 import net.thevpc.nuts.log.NLog;
 import net.thevpc.nuts.log.NMsgIntent;
 
-import java.util.Map;
 import java.util.logging.Level;
 
-import net.thevpc.nuts.platform.NEnv;
 import net.thevpc.nuts.text.NMsg;
 
-@NAppDefinition
+@NApp
 public class NshMain {
 
     public static void main(String[] args) {
-        NApp.builder(args).run();
+        NApplication.builder(args).run();
     }
 
-    @NAppInstaller
+    @NAppInstall
     public void onInstallApplication() {
         NLog log = NLog.of(NshMain.class);
         log.log(NMsg.ofPlain("[nsh] Installation...")
                 .withLevel(Level.CONFIG).withIntent(NMsgIntent.START)
         );
-        NApp.of().runCmdLine(new NCmdLineRunner() {
+        NApplication.of().runCmdLine(new NCmdLineRunner() {
             @Override
             public void init(NCmdLine cmdLine) {
                 cmdLine.commandName("nsh --nuts-exec-mode=install");
@@ -46,7 +43,7 @@ public class NshMain {
         });
     }
 
-    @NAppUpdater
+    @NAppUpdate
     public void onUpdateApplication() {
         NLog log = NLog.of(NshMain.class);
         log.log(NMsg.ofPlain("[nsh] update...")
@@ -54,31 +51,29 @@ public class NshMain {
         onInstallApplication();
     }
 
-    @NAppUninstaller
+    @NAppUninstall
     public void onUninstallApplication() {
         Nsh.uninstallFromNuts();
     }
 
-    @NAppRunner
+    @NAppRun
     public void run() {
 
         //before loading Nsh check if we need to activate rich term
-        Map<String, String> sysEnv = NEnv.of().env();
-        NArgCompletePosition pos = NApp.of().completePosition();
         DefaultNshOptionsParser options = new DefaultNshOptionsParser();
-        NCmdLine cmdLine = NApp.of().cmdLine();
+        NCmdLine cmdLine = NApplication.of().cmdLine();
         NshOptions o = options.parse(cmdLine);
-        if (pos != null) {
-            cmdLine.printCompleteResult();
-            return;
-        }
-
-//        if (o.isEffectiveInteractive()) {
-//            session.getWorkspace().io().term().enableRichTerm(session);
-//        }
         new Nsh(new NshConfig()
                 .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
         ).run();
+    }
+
+    @NAppComplete
+    public void complete() {
+        DefaultNshOptionsParser options = new DefaultNshOptionsParser();
+        NCmdLine cmdLine = NApplication.of().cmdLine();
+        options.parse(cmdLine);
+        cmdLine.printCompleteResult();
     }
 
 }

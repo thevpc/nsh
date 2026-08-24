@@ -25,7 +25,7 @@
  */
 package net.thevpc.nsh.cmd.impl.core;
 
-import net.thevpc.nuts.app.NApp;
+import net.thevpc.nuts.app.NApplication;
 import net.thevpc.nuts.cmdline.NArg;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.text.NVersionWriter;
@@ -69,11 +69,11 @@ public class VersionCommand extends NshBuiltinCore {
             options.version = NVersionWriter.of();
         }
         if(context.getSession().isPlainOut()){
-            context.out().println( NApp.of().id().get().version().value());
+            context.out().println( NApplication.of().id().get().version().value());
         }else {
             options.version
-                    .addProperty("app-version", NApp.of().id().get().version().value())
-                    .println(NApp.of().id().get().version(), context.out());
+                    .addProperty("app-version", NApplication.of().id().get().version().value())
+                    .println(NApplication.of().id().get().version(), context.out());
         }
     }
 

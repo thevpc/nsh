@@ -107,7 +107,7 @@ public class DefaultNshEvaluator extends NshEvaluatorBase {
         DefaultNshContext newCtx = (DefaultNshContext) context.nsh().createNewContext(context);
         NSession session = newCtx.getSession().copy();
         newCtx.setSession(session);
-        session.setLogTermLevel(Level.OFF);
+        session.logTermLevel(Level.OFF);
 
         NTerminal out = NTerminal.ofMem();
         session.terminal(out);

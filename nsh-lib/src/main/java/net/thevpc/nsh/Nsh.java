@@ -34,7 +34,7 @@ import net.thevpc.nsh.eval.*;
 import net.thevpc.nsh.history.NoHistory;
 import net.thevpc.nsh.options.NshOptions;
 import net.thevpc.nsh.parser.nodes.*;
-import net.thevpc.nuts.app.NApp;
+import net.thevpc.nuts.app.NApplication;
 import net.thevpc.nuts.artifact.*;
 import net.thevpc.nuts.cmdline.NCmdLine;
 import net.thevpc.nuts.cmdline.NCmdLineHistory;
@@ -136,10 +136,10 @@ public class Nsh {
         NId appId = configuration.getAppId();
 
         this.appId = appId;
-        this.bootStartMillis = NApp.of().startTime();
+        this.bootStartMillis = NApplication.of().startTime();
         //super.setCwd(workspace.getConfigManager().getCwd());
         if (this.appId == null) {
-            this.appId = NApp.of().id().orNull();
+            this.appId = NApplication.of().id().orNull();
             if (this.appId == null) {
                 this.appId = NId.getForClass(Nsh.class).orNull();
             }
@@ -244,7 +244,7 @@ public class Nsh {
         if (args != null) {
             return args;
         }
-        return NApp.of().arguments().toArray(new String[0]);
+        return NApplication.of().arguments().toArray(new String[0]);
     }
 
     private static String resolveServiceName(String serviceName, NId appId) {
@@ -267,7 +267,7 @@ public class Nsh {
                 //ignore!
             }
             Set<String> uninstalled = new TreeSet<>();
-            for (NCustomCmd command : NWorkspace.of().findCommandsByOwner(NApp.of().id().orNull())) {
+            for (NCustomCmd command : NWorkspace.of().findCommandsByOwner(NApplication.of().id().orNull())) {
                 try {
                     NWorkspace.of().removeCommand(command.name());
                     uninstalled.add(command.name());
@@ -593,7 +593,7 @@ public class Nsh {
 
     public void run() {
         try {
-            if (NApp.of().completePosition() != null) {
+            if (NApplication.of().completePosition() != null) {
                 return;
             }
             NshContext rootContext = getRootContext();
@@ -715,12 +715,12 @@ public class Nsh {
     }
 
     protected void executeVersion(NshContext context) {
-        context.out().println(NApp.of().id().get().version());
+        context.out().println(NApplication.of().id().get().version());
     }
 
     protected void executeInteractive(NshContext context) {
         NSystemTerminal.enableRichTerm();
-        NPath appVarFolder = NApp.of().varFolder();
+        NPath appVarFolder = NApplication.of().varFolder();
         if (appVarFolder == null) {
             appVarFolder = NPath.of(NStoreKey.ofVar(NId.get("net.thevpc.nsh:nsh").get()));
         }
@@ -1257,7 +1257,7 @@ public class Nsh {
                     .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE)
             );
         }
-        String nshIdStr = NApp.of().id().get().shortName();
+        String nshIdStr = NApplication.of().id().get().shortName();
         NshBuiltin[] commands = getRootContext().builtins().getAll();
         Set<String> reinstalled = new TreeSet<>();
         Set<String> firstInstalled = new TreeSet<>();
@@ -1270,7 +1270,7 @@ public class Nsh {
                                 .factoryId("nsh")
                                 .name(command.getName())
                                 .command(nshIdStr, "-c", command.getName())
-                                .owner(NApp.of().id().orNull())
+                                .owner(NApplication.of().id().orNull())
                                 .helpCommand(nshIdStr, "-c", "help", "--ntf", command.getName())
                         )) {
                     reinstalled.add(command.getName());
@@ -1314,7 +1314,7 @@ public class Nsh {
                     .orElse(false);
             NWorkspace.of().addLauncher(
                     new NLauncherOptions()
-                            .id(NApp.of().id().orNull())
+                            .id(NApplication.of().id().orNull())
                             .createScript(true)
                             .createDesktopLauncher(initLaunchers ? NSupportMode.PREFERRED : NSupportMode.NEVER)
                             .createMenuLauncher(initLaunchers ? NSupportMode.SUPPORTED : NSupportMode.NEVER)

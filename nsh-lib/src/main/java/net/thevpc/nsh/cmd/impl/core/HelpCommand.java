@@ -25,7 +25,7 @@
  */
 package net.thevpc.nsh.cmd.impl.core;
 
-import net.thevpc.nuts.app.NApp;
+import net.thevpc.nuts.app.NApplication;
 import net.thevpc.nuts.cmdline.*;
 import net.thevpc.nuts.core.NSession;
 import net.thevpc.nuts.io.NTerminalMode;
@@ -111,7 +111,7 @@ public class HelpCommand extends NshBuiltinCore {
                 NText n = null;
                 try {
                     if (context.getSession() != null) {
-                        n = NApp.of().helpText().orNull();
+                        n = NApplication.of().helpText().orNull();
                     }
                 } catch (Exception ex) {
                     //
