@@ -84,7 +84,7 @@ public class TailCommand extends NshBuiltinDefault {
         NSession session = context.getSession();
 
         if (options.files.isEmpty()) {
-            throw new NExecutionException(NMsg.ofPlain("not yet supported"), NExecutionException.ERROR_2);
+            throw new NExecutionException(NMsg.ofP("not yet supported"), NExecutionException.ERROR_2);
         }
         for (NPath file : options.files) {
             tail(file, options.max, context);

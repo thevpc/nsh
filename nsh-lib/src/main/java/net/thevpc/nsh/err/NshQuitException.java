@@ -49,7 +49,7 @@ public class NshQuitException extends NshException {
     }
 
     public NshQuitException(Throwable cause, int result) {
-        super(NMsg.ofPlain("quit"), cause,result);
+        super(NMsg.ofP("quit"), cause,result);
     }
     
 }

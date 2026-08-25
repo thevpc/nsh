@@ -89,7 +89,7 @@ public class MvCommand extends NshBuiltinDefault {
 
         if (options.paths.size() < 2) {
             context.err().println(NMsg.ofC("mv: missing file operand"));
-            throw new net.thevpc.nuts.command.NExecutionException(NMsg.ofPlain("mv: missing file operand"), 1);
+            throw new net.thevpc.nuts.command.NExecutionException(NMsg.ofP("mv: missing file operand"), 1);
         }
 
         // Last argument is the destination
@@ -107,7 +107,7 @@ public class MvCommand extends NshBuiltinDefault {
             if (!dest.isDirectory()) {
                 context.err().println(NMsg.ofC("mv: target '%s' is not a directory", destPath));
                 throw new net.thevpc.nuts.command.NExecutionException(
-                    NMsg.ofPlain("mv: target is not a directory"), 1);
+                    NMsg.ofP("mv: target is not a directory"), 1);
             }
             destIsDirectory = true; // Cache the result since we know it's a directory
         }

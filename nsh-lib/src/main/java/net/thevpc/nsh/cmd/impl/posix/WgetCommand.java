@@ -75,7 +75,7 @@ public class WgetCommand extends NshBuiltinDefault {
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
         if (options.files.isEmpty()) {
-            throw new NExecutionException(NMsg.ofPlain("wget: Missing Files"), NExecutionException.ERROR_2);
+            throw new NExecutionException(NMsg.ofP("wget: Missing Files"), NExecutionException.ERROR_2);
         }
         for (String file : options.files) {
             download(file, options.outputDocument, context);

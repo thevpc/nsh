@@ -81,15 +81,15 @@ public class TarCommand extends NshBuiltinDefault {
         // 1. Validate mutually exclusive main modes
         int modes = (options.create ? 1 : 0) + (options.extract ? 1 : 0) + (options.list ? 1 : 0);
         if (modes == 0) {
-            cmdLine.throwError(NMsg.ofPlain("tar: you must specify one of the main operation modes: -c (create), -x (extract), or -t (list)"));
+            cmdLine.throwError(NMsg.ofP("tar: you must specify one of the main operation modes: -c (create), -x (extract), or -t (list)"));
         }
         if (modes > 1) {
-            cmdLine.throwError(NMsg.ofPlain("tar: you may only specify one of the main operation modes: -c, -x, or -t"));
+            cmdLine.throwError(NMsg.ofP("tar: you may only specify one of the main operation modes: -c, -x, or -t"));
         }
 
         // 2. Validate archive file
         if (NBlankable.isBlank(options.archiveFile)) {
-            cmdLine.throwError(NMsg.ofPlain("tar: you must specify the archive file with -f <archive>"));
+            cmdLine.throwError(NMsg.ofP("tar: you must specify the archive file with -f <archive>"));
         }
 
         NPath archivePath = NPath.of(options.archiveFile).toAbsolute(context.getDirectory());
@@ -105,7 +105,7 @@ public class TarCommand extends NshBuiltinDefault {
         try {
             if (options.create) {
                 if (options.files.isEmpty()) {
-                    cmdLine.throwError(NMsg.ofPlain("tar: missing input files to archive"));
+                    cmdLine.throwError(NMsg.ofP("tar: missing input files to archive"));
                 }
 
                 NCompress compress = NCompress.of()

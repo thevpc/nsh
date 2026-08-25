@@ -90,7 +90,7 @@ class GrepResultCollectorImpl implements GrepResultCollector {
                         } else {
                             if (options.byLine) {
                                 String v = NIn.ask()
-                                        .forString(NMsg.ofPlain("continue"))
+                                        .forString(NMsg.ofP("continue"))
                                         .defaultValue("y")
                                         .value();
                                 if (!NLiteral.of(v).asBoolean().orElse(false)) {

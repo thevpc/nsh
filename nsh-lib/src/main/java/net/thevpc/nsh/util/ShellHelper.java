@@ -92,7 +92,7 @@ public class ShellHelper {
 
     public static boolean readAccept(NTerminal t) {
         while (true) {
-            String v = t.readLine(NMsg.ofPlain("Accept (y/n) : ?"));
+            String v = t.readLine(NMsg.ofP("Accept (y/n) : ?"));
             if (v == null) {
                 return false;
             }

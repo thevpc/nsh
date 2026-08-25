@@ -96,7 +96,7 @@ public class SshCommand extends NshBuiltinDefault {
         Options o = context.getOptions();
         // address --nuts [nuts options] args
         NAssert.requireNamedNonBlank(o.address, "ssh address");
-        NAssert.requireNonBlank(o.cmd, () -> NMsg.ofPlain("missing ssh command. Interactive ssh is not yet supported!"));
+        NAssert.requireNonBlank(o.cmd, () -> NMsg.ofP("missing ssh command. Interactive ssh is not yet supported!"));
 //        NSession session = context.getSession();
 //        ShellHelper.WsSshListener listener = new ShellHelper.WsSshListener(session);
 //        try (SshConnection sshSession = SshConnectionPool.of().acquire(o.address)

@@ -90,7 +90,7 @@ public class XmlCommand extends NshBuiltinDefault {
         try {
             dBuilder = dbFactory.newDocumentBuilder();
         } catch (Exception ex) {
-            throw new NExecutionException(NMsg.ofPlain("unable to initialize xml system"), ex, NExecutionException.ERROR_2);
+            throw new NExecutionException(NMsg.ofP("unable to initialize xml system"), ex, NExecutionException.ERROR_2);
         }
 
         Document doc = null;
@@ -113,7 +113,7 @@ public class XmlCommand extends NshBuiltinDefault {
                 try {
                     line = reader.readLine();
                 } catch (IOException ex) {
-                    throw new NExecutionException(NMsg.ofPlain("broken Input"), NExecutionException.ERROR_2);
+                    throw new NExecutionException(NMsg.ofP("broken Input"), NExecutionException.ERROR_2);
                 }
                 if (line == null) {
                     try {

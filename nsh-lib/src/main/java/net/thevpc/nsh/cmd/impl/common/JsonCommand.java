@@ -111,7 +111,7 @@ public class JsonCommand extends NshBuiltinDefault {
                     try {
                         resultDocument = documentFactory.newDocumentBuilder().newDocument();
                     } catch (ParserConfigurationException ex) {
-                        throw new NExecutionException(NMsg.ofPlain("failed to create xml document"), ex, NExecutionException.ERROR_1);
+                        throw new NExecutionException(NMsg.ofP("failed to create xml document"), ex, NExecutionException.ERROR_1);
                     }
                     Element resultElement = resultDocument.createElement("result");
                     resultDocument.appendChild(resultElement);
@@ -174,7 +174,7 @@ public class JsonCommand extends NshBuiltinDefault {
                 try {
                     line = reader.readLine();
                 } catch (IOException ex) {
-                    throw new NExecutionException(NMsg.ofPlain("broken Input"), NExecutionException.ERROR_2);
+                    throw new NExecutionException(NMsg.ofP("broken Input"), NExecutionException.ERROR_2);
                 }
                 if (line == null) {
                     inputDocument = NElementReader.ofJson().read(new StringReader(sb.toString()), cls);

@@ -53,7 +53,7 @@ public class NshException extends NExecutionException {
     }
 
     public NshException(Throwable cause, int exitCode) {
-        super(NMsg.ofPlain("error"), cause, exitCode);
+        super(NMsg.ofP("error"), cause, exitCode);
     }
 
     public NshException(NMsg message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, int exitCode) {

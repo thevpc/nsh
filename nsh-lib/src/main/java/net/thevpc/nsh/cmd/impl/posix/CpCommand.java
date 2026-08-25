@@ -89,7 +89,7 @@ public class CpCommand extends NshBuiltinDefault {
             )));
         }
         if (options.xfiles.size() < 2) {
-            throw new NExecutionException(NMsg.ofPlain("missing parameters"), NExecutionException.ERROR_2);
+            throw new NExecutionException(NMsg.ofP("missing parameters"), NExecutionException.ERROR_2);
         }
 
 //        options.sshlistener = new ShellHelper.WsSshListener(session);

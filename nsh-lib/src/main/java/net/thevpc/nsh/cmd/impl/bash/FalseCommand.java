@@ -61,7 +61,7 @@ public class FalseCommand extends NshBuiltinDefault {
     @Override
     protected void main(NCmdLine cmdLine, NshExecutionContext context) {
         //do nothing, return true
-        throw new NExecutionException(NMsg.ofPlain(""), NExecutionException.ERROR_1);
+        throw new NExecutionException(NMsg.ofP(""), NExecutionException.ERROR_1);
     }
 
     @Override

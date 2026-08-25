@@ -23,11 +23,11 @@ public class NshMain {
     @NAppInstall
     public void onInstallApplication() {
         NLog log = NLog.of(NshMain.class);
-        log.log(NMsg.ofPlain("[nsh] Installation...")
+        log.log(NMsg.ofP("[nsh] Installation...")
                 .withLevel(Level.CONFIG).withIntent(NMsgIntent.START)
         );
         NCmdLine cmdLine = NApplication.of().cmdLine().commandName("nsh --nuts-exec-mode=install");
-        cmdLine.matcher().whenAny().skip().require();
+        cmdLine.matcher().whenAny().skip().requireAll();
         Nsh c = new Nsh(new NshConfig()
                 .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
         );
@@ -37,7 +37,7 @@ public class NshMain {
     @NAppUpdate
     public void onUpdateApplication() {
         NLog log = NLog.of(NshMain.class);
-        log.log(NMsg.ofPlain("[nsh] update...")
+        log.log(NMsg.ofP("[nsh] update...")
                 .withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE));
         onInstallApplication();
     }

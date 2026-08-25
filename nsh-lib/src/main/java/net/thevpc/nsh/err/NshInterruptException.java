@@ -40,6 +40,6 @@ import net.thevpc.nuts.text.NMsg;
  */
 public class NshInterruptException extends NshException {
     public NshInterruptException() {
-        super(NMsg.ofPlain("user interruption"),100);
+        super(NMsg.ofP("user interruption"),100);
     }
 }

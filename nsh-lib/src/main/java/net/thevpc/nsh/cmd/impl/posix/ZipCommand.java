@@ -75,10 +75,10 @@ public class ZipCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         NSession session = context.getSession();
         if (options.files.isEmpty()) {
-            cmdLine.throwError(NMsg.ofPlain("missing input-files"));
+            cmdLine.throwError(NMsg.ofP("missing input-files"));
         }
         if (options.outZip == null) {
-            cmdLine.throwError(NMsg.ofPlain("missing out-zip"));
+            cmdLine.throwError(NMsg.ofP("missing out-zip"));
         }
         NCompress aa = NCompress.of()
                 .target(options.outZip);

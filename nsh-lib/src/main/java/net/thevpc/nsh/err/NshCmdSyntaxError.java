@@ -68,6 +68,6 @@ public class NshCmdSyntaxError extends NshException {
             s.append("\n");
             s.append(desc);
         }
-        return NMsg.ofPlain(s.toString());
+        return NMsg.ofP(s.toString());
     }
 }

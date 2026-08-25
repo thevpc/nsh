@@ -16,7 +16,7 @@ public class NshUniformException extends NshException {
     private boolean quit;
 
     public NshUniformException(int code, boolean quit, Throwable cause) {
-        super(NMsg.ofPlain("error"),cause,code);
+        super(NMsg.ofP("error"),cause,code);
         this.quit = quit;
     }
 

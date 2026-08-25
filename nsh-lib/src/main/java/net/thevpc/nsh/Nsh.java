@@ -259,7 +259,7 @@ public class Nsh {
 
     public static void uninstallFromNuts() {
         NLog log = NLog.of(Nsh.class);
-        log.log(NMsg.ofPlain("[nsh] uninstallation...").withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE));
+        log.log(NMsg.ofP("[nsh] uninstallation...").withLevel(Level.CONFIG).withIntent(NMsgIntent.NOTICE));
         try {
             try {
                 NWorkspace.of().removeCommandFactory("nsh");
@@ -916,7 +916,7 @@ public class Nsh {
             prompt = prompt + getRootContext().getServiceName();
         }
         prompt += "> ";
-        return NMsg.ofPlain(prompt);
+        return NMsg.ofP(prompt);
     }
 
     protected String getPromptString0(NshContext context) {

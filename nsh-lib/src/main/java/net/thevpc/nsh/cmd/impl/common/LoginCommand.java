@@ -77,7 +77,7 @@ public class LoginCommand extends NshBuiltinDefault {
                 && (options.password == null
                 || NBlankable.isBlank(new String(options.password)))) {
             options.password = NIn.ask()
-                    .forPassword(NMsg.ofPlain("Password:")).value();
+                    .forPassword(NMsg.ofP("Password:")).value();
         }
         try (NSecureString ss = NSecureString.ofSecure(options.password)) {
             NSecurityManager.of().login(options.login, ss);

@@ -114,7 +114,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
         context.getShellContext().setAutoComplete(autoComplete);
         try {
             if (autoComplete == null) {
-                throw new NIllegalArgumentException(NMsg.ofPlain("missing auto-complete"));
+                throw new NIllegalArgumentException(NMsg.ofP("missing auto-complete"));
             }
             NCommandAutoCompleteComponent best = NServiceLoader.of(NCommandAutoCompleteComponent.class, NshBuiltin.class, NCommandAutoCompleteComponent.class.getClassLoader())
                     .loadBest(NshBuiltinBase.this).orNull();

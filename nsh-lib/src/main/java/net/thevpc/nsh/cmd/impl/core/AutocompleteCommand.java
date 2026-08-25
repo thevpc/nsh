@@ -87,7 +87,7 @@ public class AutocompleteCommand extends NshBuiltinDefault {
         Options options = context.getOptions();
         NSession session = context.getSession();
         if (options.cmd == null) {
-            throw new NExecutionException(NMsg.ofPlain("missing NshCommandNode"), NExecutionException.ERROR_1);
+            throw new NExecutionException(NMsg.ofP("missing NshCommandNode"), NExecutionException.ERROR_1);
         }
         if (options.index < 0) {
             options.index = options.items.size();

@@ -90,7 +90,7 @@ public class TouchCommand extends NshBuiltinDefault {
 
         if (options.files.isEmpty()) {
             context.err().println(NMsg.ofC("touch: missing file operand"));
-            throw new net.thevpc.nuts.command.NExecutionException(NMsg.ofPlain("touch: missing file operand"), 1);
+            throw new net.thevpc.nuts.command.NExecutionException(NMsg.ofP("touch: missing file operand"), 1);
         }
 
         for (String filePath : options.files) {

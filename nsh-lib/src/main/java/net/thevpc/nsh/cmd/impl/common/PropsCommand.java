@@ -189,13 +189,13 @@ public class PropsCommand extends NshBuiltinDefault {
         Options o = context.getOptions();
         cmdLine.commandName(getName());
         if (o.sourceType != SourceType.FILE && o.sourceFile != null) {
-            throw new NExecutionException(NMsg.ofPlain("props: Should not use file with --system flag"), NExecutionException.ERROR_2);
+            throw new NExecutionException(NMsg.ofP("props: Should not use file with --system flag"), NExecutionException.ERROR_2);
         }
         if (o.sourceType == SourceType.FILE && o.sourceFile == null) {
-            throw new NExecutionException(NMsg.ofPlain("props: Missing file"), NExecutionException.ERROR_3);
+            throw new NExecutionException(NMsg.ofP("props: Missing file"), NExecutionException.ERROR_3);
         }
         if (o.action == null) {
-            throw new NExecutionException(NMsg.ofPlain("props: Missing action"), NExecutionException.ERROR_4);
+            throw new NExecutionException(NMsg.ofP("props: Missing action"), NExecutionException.ERROR_4);
         }
         switch (o.action) {
             case "get": {
