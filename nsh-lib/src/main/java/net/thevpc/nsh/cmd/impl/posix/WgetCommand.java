@@ -92,7 +92,7 @@ public class WgetCommand extends NshBuiltinDefault {
         NPath file = NPath.of(context.getAbsolutePath(NBlankable.isBlank(output2) ? urlName : output2));
         NCp.of()
                 .from(NPath.of(path)).to(file)
-                .addOptions(NPathOption.LOG, NPathOption.TRACE).run();
+                .options(NPathOption.LOG, NPathOption.TRACE).run();
     }
 
     private static class Options {
