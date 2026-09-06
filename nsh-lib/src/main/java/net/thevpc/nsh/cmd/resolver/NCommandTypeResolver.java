@@ -48,8 +48,7 @@ public class NCommandTypeResolver implements NshCommandTypeResolver {
         if (!item.startsWith("/")) {
             path = context.getDirectory() + "/" + item;
         }
-        NSession session = context.getSession();
-        try(NExecutableInformation w = NExec.of().command(item).which()) {
+        try(NExecutableInformation w = NExec.of().command(item).which().get()) {
             if (w != null) {
                 return new NshCommandResolution(item, "nuts " + w.type().toString().toLowerCase(), w.value(), w.description());
             }
