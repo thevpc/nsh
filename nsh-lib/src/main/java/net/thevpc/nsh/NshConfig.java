@@ -31,6 +31,7 @@ import net.thevpc.nsh.cmd.NshBuiltin;
 import net.thevpc.nsh.err.NshErrorHandler;
 import net.thevpc.nsh.eval.NshEvaluator;
 import net.thevpc.nsh.history.NshHistory;
+import net.thevpc.nsh.options.NshOptions;
 import net.thevpc.nsh.options.NshOptionsParser;
 import net.thevpc.nsh.sys.NshExternalExecutor;
 
@@ -38,13 +39,39 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
+ * Shell engine construction and dependency-injection configuration.
+ * <p>
+ * {@code NshConfig} is used at shell initialization time (passed to {@link Nsh#Nsh(NshConfig)})
+ * to wire the shell engine's architecture and subsystems:
+ * <ul>
+ *   <li>Pluggable components: {@link NshEvaluator}, {@link NshCommandTypeResolver},
+ *       {@link NshErrorHandler}, {@link NshExternalExecutor}, {@link NshHistory}</li>
+ *   <li>Builtin registry configuration: core builtins, default builtins, and custom filters</li>
+ *   <li>Application identity: {@link NId appId} and {@code serviceName} (used for history files and properties)</li>
+ *   <li>Command-line options: raw {@code args}, a custom {@link NshOptionsParser}, or pre-configured {@link NshOptions}</li>
+ * </ul>
+ *
+ * <h3>Difference between {@code NshConfig} and {@code NshOptions}</h3>
+ * <ul>
+ *   <li><strong>{@code NshConfig}</strong> = <em>Engine Wiring & Setup Configuration</em>.
+ *       Configures how the NSH engine itself is built, which components are injected, and which
+ *       features are enabled. It is configured programmatically prior to shell startup.</li>
+ *   <li><strong>{@link NshOptions}</strong> = <em>Session Runtime Flags & POSIX/Bash Options</em>.
+ *       Represents the command-line flags and runtime session state (such as {@code -c}, {@code -i},
+ *       {@code --bash}, {@code --posix}, {@code -x}, {@code -e}, startup scripts, and positional arguments).
+ *       Can be modified dynamically at runtime (e.g. via {@code set -x}).</li>
+ * </ul>
+ *
  * @author vpc
+ * @see Nsh
+ * @see NshOptions
  */
 public class NshConfig implements Cloneable {
 
     private NId appId;
     private String[] args;
     private String serviceName;
+    private NshOptions options;
     private NshOptionsParser shellOptionsParser;
     private NshEvaluator evaluator;
     private NshCommandTypeResolver commandTypeResolver;
@@ -82,13 +109,67 @@ public class NshConfig implements Cloneable {
         return this;
     }
 
+    /**
+     * Pre-configured shell invocation and runtime options.
+     * If not provided, options will be parsed from {@link #getArgs()}
+     * using {@link #getOptionsParser()}.
+     *
+     * @return pre-configured options, or null if unconfigured
+     */
+    public NshOptions getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets pre-configured shell invocation and runtime options.
+     *
+     * @param options pre-configured options
+     * @return this instance
+     */
+    public NshConfig setOptions(NshOptions options) {
+        this.options = options;
+        return this;
+    }
+
+    /**
+     * The application or service identity name (e.g. {@code "nsh"}).
+     * Used for the history filename ({@code <serviceName>.history}) and
+     * default shell prompt title. Defaults to {@code appId.artifactId()}.
+     *
+     * @return service/application name
+     */
     public String getServiceName() {
         return serviceName;
     }
 
+    /**
+     * Sets the application or service identity name.
+     *
+     * @param serviceName service/application name
+     * @return this instance
+     */
     public NshConfig setServiceName(String serviceName) {
         this.serviceName = serviceName;
         return this;
+    }
+
+    /**
+     * Alias for {@link #getServiceName()}, representing the application/shell name.
+     *
+     * @return application name
+     */
+    public String getAppName() {
+        return getServiceName();
+    }
+
+    /**
+     * Alias for {@link #setServiceName(String)}, representing the application/shell name.
+     *
+     * @param appName application name
+     * @return this instance
+     */
+    public NshConfig setAppName(String appName) {
+        return setServiceName(appName);
     }
 
     public NshOptionsParser getOptionsParser() {
@@ -215,7 +296,14 @@ public class NshConfig implements Cloneable {
     @Override
     protected NshConfig clone() {
         try {
-            return (NshConfig) super.clone();
+            NshConfig other = (NshConfig) super.clone();
+            if (this.options != null) {
+                other.options = this.options.copy();
+            }
+            if (this.args != null) {
+                other.args = this.args.clone();
+            }
+            return other;
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }

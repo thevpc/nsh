@@ -186,7 +186,17 @@ public class Nsh {
         if (nshOptionsParser == null) {
             nshOptionsParser = new DefaultNshOptionsParser();
         }
-        this.options = nshOptionsParser.parse(NCmdLine.of(args));
+        NshOptions initialOptions = configuration.getOptions();
+        NshOptions resolvedOptions;
+        if (initialOptions != null) {
+            resolvedOptions = initialOptions.copy();
+            if (args.length > 0) {
+                resolvedOptions = nshOptionsParser.parse(NCmdLine.of(args), resolvedOptions);
+            }
+        } else {
+            resolvedOptions = nshOptionsParser.parse(NCmdLine.of(args));
+        }
+        this.options = resolvedOptions;
         if (externalExecutor == null) {
             boolean includeExternalExecutor = configuration.getIncludeExternalExecutor() != null && configuration.getIncludeExternalExecutor();
             if (includeExternalExecutor) {
@@ -244,7 +254,18 @@ public class Nsh {
         if (args != null) {
             return args;
         }
-        return NApplication.of().arguments().toArray(new String[0]);
+        try {
+            NApplication app = NApplication.of();
+            if (app != null) {
+                List<String> a = app.arguments();
+                if (a != null) {
+                    return a.toArray(new String[0]);
+                }
+            }
+        } catch (Exception ex) {
+            // ignore
+        }
+        return new String[0];
     }
 
     private static String resolveServiceName(String serviceName, NId appId) {
@@ -607,19 +628,45 @@ public class Nsh {
             }
             String[] commandArgs = getOptions().getCommandArgs().toArray(new String[0]);
             if (getOptions().isCommand()) {
-                if (commandArgs.length == 0) {
-                    //
-                } else if (commandArgs.length == 1) {
-                    executeServiceStream(rootContext, "command", new ByteArrayInputStream(commandArgs[0].getBytes()));
-                } else {
-                    executeServiceStream(rootContext, "command", new ByteArrayInputStream(
-                            NCmdLine.of(commandArgs).toString().getBytes()
-                    ));
+                rootContext.setArgs(new String[0]);
+                int r = 0;
+                try {
+                    if (commandArgs.length == 0) {
+                        //
+                    } else if (commandArgs.length == 1) {
+                        r = executeServiceStream(rootContext, getOptions().getServiceName(), new ByteArrayInputStream(commandArgs[0].getBytes()));
+                    } else {
+                        boolean bashMode = getOptions().isBash() || getOptions().isPosix();
+                        String firstArg = commandArgs[0];
+                        if (!bashMode && !firstArg.contains(" ") && !firstArg.contains("\t") && !firstArg.contains("\n") && !firstArg.contains(";")) {
+                            r = executeServiceStream(rootContext, getOptions().getServiceName(), new ByteArrayInputStream(
+                                    NCmdLine.of(commandArgs).toString().getBytes()
+                            ));
+                        } else {
+                            String script = firstArg;
+                            String script0 = commandArgs[1];
+                            String[] scriptArgs = Arrays.copyOfRange(commandArgs, 2, commandArgs.length);
+                            rootContext.setServiceName(script0);
+                            rootContext.setArgs(scriptArgs);
+                            r = executeServiceStream(rootContext, script0, new ByteArrayInputStream(script.getBytes()));
+                        }
+                    }
+                } catch (NshQuitException q) {
+                    r = q.exitCode();
                 }
-                //executeCommand(commandArgs, rootContext);
+                if (r == NExecutionException.SUCCESS) {
+                    return;
+                }
+                onQuit(new NshQuitException(r));
+                return;
             }
             if (getOptions().isReadCommandsFromStdIn()) {
-                int r = executeServiceStream(rootContext, "in", rootContext.in());
+                int r = 0;
+                try {
+                    r = executeServiceStream(rootContext, "in", rootContext.in());
+                } catch (NshQuitException q) {
+                    r = q.exitCode();
+                }
                 if (r == NExecutionException.SUCCESS) {
                     return;
                 }
@@ -628,11 +675,24 @@ public class Nsh {
             }
 
             if (!getOptions().getFiles().isEmpty()) {
+                int r = 0;
                 for (String file : getOptions().getFiles()) {
-                    executeServiceFile(createNewContext(rootContext, file, commandArgs), false);
+                    try {
+                        r = executeServiceFile(createNewContext(rootContext, file, commandArgs), false);
+                    } catch (NshQuitException q) {
+                        r = q.exitCode();
+                    }
+                    if (r != 0) {
+                        break;
+                    }
                 }
+                if (r == NExecutionException.SUCCESS) {
+                    return;
+                }
+                onQuit(new NshQuitException(r));
+                return;
             }
-            if (getOptions().isInteractive() || (commandArgs.length == 0 && getOptions().getFiles().isEmpty())) {
+            if (getOptions().isEffectiveInteractive()) {
                 executeInteractive(rootContext);
             }
         } catch (NExecutionException ex) {
@@ -1210,6 +1270,22 @@ public class Nsh {
         }
     }
 
+    /**
+     * Returns a copy of the engine configuration used to instantiate this shell.
+     *
+     * @return shell engine configuration copy
+     * @see NshConfig
+     */
+    public NshConfig getConfig() {
+        return configuration.copy();
+    }
+
+    /**
+     * Returns the runtime invocation options and flags for this shell session.
+     *
+     * @return shell options and flags
+     * @see NshOptions
+     */
     public NshOptions getOptions() {
         return options;
     }

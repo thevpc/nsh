@@ -206,7 +206,7 @@ public abstract class NshBuiltinBase implements NshBuiltin {
                 int maxLoops = 1000;
                 boolean robustMode = false;
                 NCmdLine cmdLine = NCmdLine.of(args).commandName(getName())
-                        .completePosition(context.getShellContext().complete().currentPos());
+                        .completePosition(context.getShellContext().complete()==null?null:context.getShellContext().complete().currentPos());
                 context.setOptions(optionsSupplier==null?null:optionsSupplier.get());
                 init(cmdLine, context);
                 while (cmdLine.hasNext()) {

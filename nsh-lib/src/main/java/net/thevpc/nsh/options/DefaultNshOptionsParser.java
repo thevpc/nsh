@@ -14,7 +14,14 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
 
     @Override
     public NshOptions parse(NCmdLine args) {
-        NshOptions options = createOptions();
+        return parse(args, createOptions());
+    }
+
+    @Override
+    public NshOptions parse(NCmdLine args, NshOptions options) {
+        if (options == null) {
+            options = createOptions();
+        }
         createMatcher(args, options)
                 .requireAll();
         postParse(options);
@@ -40,7 +47,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
         m.when("-i").asFlag(a -> options.setInteractive(a.booleanValue()));
         m.when("-s").asFlag(a -> options.setReadCommandsFromStdIn(a.booleanValue()));
         m.when("-r", "--restricted").asFlag(a -> options.setRestricted(a.booleanValue()));
-        m.when("-l").asFlag(a -> options.setLogin(a.booleanValue()));
+        m.when("-l", "--login").asFlag(a -> options.setLogin(a.booleanValue()));
         m.when("-D", "--dump-strings").asFlag(a -> options.setDumpStrings(a.booleanValue()));
         m.when("--dump-po-strings").asFlag(a -> options.setDumpPoStrings(a.booleanValue()));
         m.when("--noediting").asFlag(a -> options.setNoEditing(a.booleanValue()));
@@ -49,11 +56,8 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
         m.when("--posix").asFlag(a -> options.setPosix(a.booleanValue()));
         m.when("--bash").asFlag(a -> options.setBash(a.booleanValue()));
         m.when("-c").asRaw(a -> {
-            options.setBash(a.nextFlag().get().booleanValue());
+            a.next().get();
             options.setCommand(true);
-            if (!a.isEmpty()) {
-                options.setServiceName(a.next().get().image());
-            }
             options.setCommandArgs(a.toStringList());
             a.skipAll();
         });
@@ -71,7 +75,7 @@ public class DefaultNshOptionsParser implements NshOptionsParser {
             a.skipAll();
         });
 
-        m.when("--").asRaw(a -> {
+        m.when("-").asRaw(a -> {
             a.next().get();
             options.setLogin(true);
             if (options.isReadCommandsFromStdIn()) {

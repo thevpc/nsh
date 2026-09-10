@@ -3,7 +3,27 @@ package net.thevpc.nsh.options;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NshOptions {
+/**
+ * Shell invocation flags and runtime execution state.
+ * <p>
+ * {@code NshOptions} holds the POSIX and Bash compatible command-line flags and
+ * runtime execution options for an NSH shell session. These options determine
+ * <em>how</em> the shell runs (e.g. interactive vs batch, bash dialect vs posix,
+ * debugging flags like xtrace or verbose, startup script files, etc.).
+ * <p>
+ * Unlike {@link net.thevpc.nsh.NshConfig}, which handles <strong>engine construction
+ * and dependency injection</strong> (evaluator, executors, builtins, error handler),
+ * {@code NshOptions} represents the <strong>runtime session state</strong>. It is
+ * initialized from parsed command-line arguments (or configured programmatically via
+ * {@link net.thevpc.nsh.NshConfig#setOptions(NshOptions)}), and can be dynamically
+ * modified during execution (for example via shell builtins like {@code set -x} or
+ * {@code set -e}).
+ *
+ * @author vpc
+ * @see net.thevpc.nsh.NshConfig
+ * @see DefaultNshOptionsParser
+ */
+public class NshOptions implements Cloneable {
     public boolean verbose = false;
     public boolean xtrace = false;
     public boolean errExit = false;
@@ -209,13 +229,45 @@ public class NshOptions {
         return this;
     }
 
+    /**
+     * The script name or command invocation name (positional parameter $0).
+     * If not explicitly set, defaults to the shell application's service name
+     * defined in {@link net.thevpc.nsh.NshConfig#getServiceName()}.
+     *
+     * @return script or invocation name ($0)
+     */
     public String getServiceName() {
         return serviceName;
     }
 
+    /**
+     * Sets the script name or command invocation name (positional parameter $0).
+     *
+     * @param serviceName script or invocation name
+     * @return this instance
+     */
     public NshOptions setServiceName(String serviceName) {
         this.serviceName = serviceName;
         return this;
+    }
+
+    /**
+     * Alias for {@link #getServiceName()}, representing the script or command name ($0).
+     *
+     * @return script name ($0)
+     */
+    public String getScriptName() {
+        return getServiceName();
+    }
+
+    /**
+     * Alias for {@link #setServiceName(String)}, representing the script or command name ($0).
+     *
+     * @param scriptName script name ($0)
+     * @return this instance
+     */
+    public NshOptions setScriptName(String scriptName) {
+        return setServiceName(scriptName);
     }
 
     public String getStartupScript() {
@@ -273,5 +325,26 @@ public class NshOptions {
     }
     public boolean isNsh() {
         return !bash && !posix;
+    }
+
+    /**
+     * Creates a deep copy of this options instance.
+     *
+     * @return a copy of this options
+     */
+    public NshOptions copy() {
+        return clone();
+    }
+
+    @Override
+    public NshOptions clone() {
+        try {
+            NshOptions other = (NshOptions) super.clone();
+            other.commandArgs = new ArrayList<>(this.commandArgs);
+            other.files = new ArrayList<>(this.files);
+            return other;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

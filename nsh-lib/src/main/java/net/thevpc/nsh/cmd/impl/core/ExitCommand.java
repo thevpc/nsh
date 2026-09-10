@@ -57,9 +57,9 @@ public class ExitCommand extends NshBuiltinCore {
     @Override
     protected boolean nextNonOption(NArg arg, NCmdLine cmdLine, NshExecutionContext context) {
         Options options = context.getOptions();
-        if (arg.isInt() && arg.intValue() > 0) {
-            arg = cmdLine.next().get();
-            options.code = arg.intValue();
+        if (arg.asInt().isPresent()) {
+            cmdLine.next().get();
+            options.code = arg.asInt().get();
             return true;
         }
         return false;

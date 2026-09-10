@@ -198,7 +198,7 @@ public class EchoCommand extends NshBuiltinDefault {
             ns = c.highlight();
         }
         if (options.newLine) {
-            NOut.println(ns);
+            context.getSession().out().println(ns);
         } else {
             context.getSession().out().print(ns);
         }

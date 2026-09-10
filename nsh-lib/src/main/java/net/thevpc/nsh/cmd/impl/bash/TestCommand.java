@@ -63,7 +63,7 @@ public class TestCommand extends NshBuiltinDefault {
 
     private static int evalInt(Eval a, NshExecutionContext context) {
         if (a instanceof EvalArg) {
-            return ((EvalArg) a).arg.intValue();
+            return ((EvalArg) a).arg.asInt().get();
         }
         return a.eval(context);
     }

@@ -49,13 +49,11 @@ public class NshMain {
 
     @NAppRun
     public void run() {
-
-        //before loading Nsh check if we need to activate rich term
-        DefaultNshOptionsParser options = new DefaultNshOptionsParser();
-        NCmdLine cmdLine = NApplication.of().cmdLine();
-        NshOptions o = options.parse(cmdLine);
+        // Forward command line arguments to NshConfig; Nsh will parse them into NshOptions
         new Nsh(new NshConfig()
-                .setIncludeDefaultBuiltins(true).setIncludeExternalExecutor(true)
+                .setArgs(NApplication.of().cmdLine().toStringArray())
+                .setIncludeDefaultBuiltins(true)
+                .setIncludeExternalExecutor(true)
         ).run();
     }
 
