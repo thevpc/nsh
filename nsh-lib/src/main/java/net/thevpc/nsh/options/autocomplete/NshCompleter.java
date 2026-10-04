@@ -43,6 +43,6 @@ public class NshCompleter implements NArgCompleteResolver {
                 }
             }
         }
-        return NArgCompleteResult.of(candidates,null);
+        return NArgCompleteResult.ofCandidates(candidates);
     }
 }
